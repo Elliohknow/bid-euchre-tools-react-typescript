@@ -1,36 +1,41 @@
+import CSS from "csstype";
 import React, { SyntheticEvent, useEffect, useState } from "react";
+import { getDateTime } from "./utils";
 
-type TableProps = {
+const suits = {
+  SPADES: "♠",
+  HEARTS: "♥",
+  DIAMONDS: "♦",
+  CLUBS: "♣",
+};
+
+type RubberProps = {
   date: string;
   numPlayers: number;
+  dealer?: string;
+  highestBidder?: object;
   players?: object;
 };
 
-const getDateTime = () => {
-  const date = new Date(Date.now());
-  // const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-  let day = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(date.getDay());
-  let hours = date.getHours();
-  let minutes = date.getMinutes();
-  return `
-      ${day}, ${hours > 12 ? hours - 12 : hours < 1 ? 12 : hours}:${("0" + minutes).slice(-2)} ${hours >= 12 ? "PM" : "AM"}
-    `;
-};
-
-const Table = ({ date, numPlayers, players }: TableProps) => {
+const Rubber = ({ date, numPlayers, players }: RubberProps) => {
   return (
-    <div className="table">
-      this is gonna be a table, folks. {"\n"}
-      Probably.
+    <div className="">
+      <div>This is gonna be a Rubber, folks.</div>
+      <div>Probably.</div>
       <div className="date">{date}</div>
-      <div className="num-players">{numPlayers}</div>
+      <div className="num-players">number of players: {numPlayers}</div>
+      <div className="num-dummies">number of dummy players: {numPlayers <= 4 ? 4 - numPlayers : 0}</div>
     </div>
   );
 };
 
+const LoadGame = () => {};
+
+const NewGame = () => {};
+
 export default function App() {
-  const [numPlayers, setNumPlayers] = useState(1);
-  const [date, setDate]: any = useState();
+  const [numPlayers, setNumPlayers] = useState(2);
+  const [date, setDate]: any = useState(null);
 
   useEffect(() => setDate(getDateTime()));
 
@@ -44,20 +49,24 @@ export default function App() {
   };
 
   return (
-    <div className="App">
-      <div style={{ display: "flex" }}>
-        eyyyyyy
-        <button onClick={incrementPlayers}>increment</button>
-        <button onClick={decrementPlayers}>decrement</button>
-        <Table date={date} numPlayers={numPlayers} />
+    <div style={appStyles}>
+      eyyyyyy
+      <div className="button-wrapper">
+        <button onClick={incrementPlayers} style={{ fontWeight: "bold", backgroundColor: "royalblue", color: "white" }}>
+          + Player
+        </button>
+        <button onClick={decrementPlayers} style={{ fontWeight: "bold", backgroundColor: "royalblue", color: "white" }}>
+          - Player
+        </button>
       </div>
+      <Rubber date={date} numPlayers={numPlayers} />
     </div>
   );
 }
 
-// const styles = {
-//   container: {
-//     display: "grid",
-//     gridTemplateColumns: `${}`,
-//   },
-// };
+const appStyles: CSS.Properties = {
+  display: "block",
+  width: "100%",
+  justifyContent: "space-between",
+  textAlign: "center",
+};
