@@ -29,9 +29,6 @@ const dummy: Player = {
 const Rubber = ({ numPlayers, date, players = [dummy] }: GameProps) => {
   const numDummies = numPlayers <= 4 ? 4 - numPlayers : 0;
 
-const Rubber = ({ numPlayers, date, players = [dummy] }: GameProps) => {
-  const numDummies = numPlayers <= 4 ? 4 - numPlayers : 0;
-
   return (
     <div style={rubberStyles}>
       <div>This is gonna be a Rubber, folks.</div>
