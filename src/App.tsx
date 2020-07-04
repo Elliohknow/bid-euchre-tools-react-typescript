@@ -67,7 +67,7 @@ const NewGame = () => {
   const incrementPlayers = (e: SyntheticEvent) => {
     e.preventDefault();
     let tempArray = players;
-    let newPlayer: Player = dummy;
+    let newPlayer = dummy;
     newPlayer.name = "???";
     tempArray.push(newPlayer);
     setPlayers(tempArray);
@@ -96,7 +96,9 @@ const NewGame = () => {
   ) : (
     <div style={{ gridTemplateColumns: `repeat(${numPlayers}, 1fr)`, width: "100%" }}>
       {players.map((player: Player) => (
-        <Card key={`card_${player.name}`} player={player} />
+        <div key={`card_${player.name}`}>
+          <Card player={player} />
+        </div>
       ))}
     </div>
   );
