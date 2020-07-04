@@ -1,4 +1,10 @@
-export const getDateTime = () => {
+export type Game = {
+  id: string;
+  dateTime: string;
+  numPlayers: number;
+  players: object;
+};
+const getDateTime = () => {
   const rightNow = new Date(Date.now());
   return rightNow.toLocaleString([], {
     weekday: "short",
@@ -10,11 +16,54 @@ export const getDateTime = () => {
     minute: "2-digit",
   });
 };
-function getPromise() {
-  return new Promise((resolve) => setTimeout(resolve, 0));
+// let getPromise = () => {
+//   return new Promise((resolve) => setTimeout(resolve, 0));
+// }
+function getTotalGamesPlayed() {
+  let total = localStorage.getItem("total_games_played") ?? "0";
+  return parseInt(total);
 }
-export const newGame = () => {};
-export const loadGame = () => {};
+function setTotalGamesPlayed(total: number) {
+  try {
+    localStorage.setItem("total_games_played", total.toString());
+  } catch {
+    throw new Error('Could not set item "total_games_played" to localStorage!');
+  }
+}
+function incrementTotalGamesPlayed() {
+  let total = getTotalGamesPlayed();
+  setTotalGamesPlayed(total + 1);
+  return total + 1;
+}
+export const saveNewGame = (numPlayers: number, players: object) => {
+  const gameId = incrementTotalGamesPlayed();
+  const dateTime = getDateTime();
+  const newGame: Game = {
+    id: `rubber_${gameId}`,
+    dateTime: dateTime,
+    numPlayers: numPlayers,
+    players: players,
+  };
+  try {
+    localStorage.setItem(`rubber_${gameId}`, JSON.stringify(newGame));
+  } catch {
+    throw new Error(`Could not set new item "rubber_${gameId}" to localStorage!`);
+  }
+  return true;
+};
+export const saveCurrentGame = (game: Game) => {
+  try {
+    localStorage.setItem(`rubber_${game.id}`, JSON.stringify(game));
+  } catch {
+    throw new Error(`Could not set item "rubber_${game.id}" to localStorage!`);
+  }
+  return true;
+};
+export const loadSavedGame = (id: string) => {
+  let game = localStorage.getItem(id) ?? "$#!%";
+  if (game === "$#!%") throw new Error(game);
+  else return JSON.parse(game);
+};
 
 // .catch (err => { throw new Error('High level error' + err.message) })
 // .catch (err => console.log(err));
