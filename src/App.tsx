@@ -1,43 +1,38 @@
-import CSS from "csstype";
 import React, { SyntheticEvent, useState } from "react";
+import { Game, Player, PlayerList } from "./interfaces";
 
 type GameProps = {
   numPlayers: number;
   date?: string;
   dealer?: string;
   highestBidder?: object;
-  players?: any;
+  players?: PlayerList;
 };
 type CardProps = {
   player: Player;
 };
-type Player = {
-  name: string;
-  gamesPlayed: number;
-  wins: number;
-  longestWinStreak: number;
-  onWinstreakNow: boolean;
-};
+
 const dummy: Player = {
-  name: "Harry",
+  id: "dummy",
+  nickname: "Harry",
   gamesPlayed: 0,
-  wins: 0,
-  longestWinStreak: 0,
-  onWinstreakNow: false,
 };
 
-const Rubber = ({ numPlayers, date, players = [dummy] }: GameProps) => {
+const Game = ({ numPlayers, date, players = [dummy] }: GameProps) => {
   const numDummies = numPlayers <= 4 ? 4 - numPlayers : 0;
 
   return (
-    <div style={rubberStyles}>
-      <div>This is gonna be a Rubber, folks.</div>
+    <div className="game">
+      <div>This is gonna be a Game, folks.</div>
       <div>Probably.</div>
       <div className="date">{date ? date : "the date string goes here"}</div>
       <div className="numPlayers">number of players: {numPlayers}</div>
       <div className="numDummies">number of dummy players: {numDummies}</div>
       {players.map((player: Player) => (
-        <div key={`player_${player.name}`}>{player.name}</div>
+        <div key={`player_${player.id}`}>
+          {" "}
+          <h3>{player.nickname}</h3> <h4>{player.id}</h4>
+        </div>
       ))}
     </div>
   );
@@ -45,141 +40,146 @@ const Rubber = ({ numPlayers, date, players = [dummy] }: GameProps) => {
 
 const Card = ({ player }: CardProps) => {
   return (
-    <div className="float-button" style={cardStyles}>
-      <div>{player.name}</div>
-      <div>{player.gamesPlayed}</div>
-      <div>{player.wins}</div>
-      <div>{player.longestWinStreak}</div>
-      <div>{player.onWinstreakNow}</div>
+    <div className="rising card">
+      <div>{player.id}</div>
+      <div>{player.nickname}</div>
+      <div>{player?.gamesPlayed}</div>
+      <div>{player?.wins}</div>
+      <div>{player?.bidsTaken}</div>
+      <div>{player?.upRiverCount}</div>
+      <div>{player?.callCount}</div>
+      <div>{player?.luckySuit}</div>
     </div>
   );
 };
 
-const NewGame = () => {
-  const [players, setPlayers]: any = useState([]);
-  const [ready, setReady] = useState(false);
-  const numPlayers = 2 || players.length;
+// const NewGame = () => {
+//   const [players, setPlayers]: any[] = useState([]);
+//   const [ready, setReady] = useState(false);
+//   let numPlayers = players.length > 1 ? players.length : 2;
 
-  const startGame = (e: SyntheticEvent) => {
-    e.preventDefault();
-    setReady(true);
-  };
-  const incrementPlayers = (e: SyntheticEvent) => {
-    e.preventDefault();
-    let tempArray = players;
-    let newPlayer = dummy;
-    newPlayer.name = "???";
-    tempArray.push(newPlayer);
-    setPlayers(tempArray);
-  };
-  const decrementPlayers = (e: SyntheticEvent) => {
-    e.preventDefault();
-    let tempArray = players;
-    tempArray.pop();
-    setPlayers(tempArray);
-  };
-  return !ready ? (
-    <React.Fragment>
-      <div className="button-wrapper">
-        <button className="double-button" onClick={incrementPlayers} style={buttonStyles}>
-          + Player
-        </button>
-        <button className="double-button" onClick={decrementPlayers} style={buttonStyles}>
-          - Player
-        </button>
-      </div>
-      <button className="float-button" onClick={startGame} style={startButtonStyles}>
-        Start
-      </button>
-      <Rubber players={players} numPlayers={numPlayers} />
-    </React.Fragment>
-  ) : (
-    <div style={{ gridTemplateColumns: `repeat(${numPlayers}, 1fr)`, width: "100%" }}>
-      {players.map((player: Player) => (
-        <div key={`card_${player.name}`}>
-          <Card player={player} />
-        </div>
-      ))}
-    </div>
-  );
-};
+//   const startGame = (e: SyntheticEvent) => {
+//     e.preventDefault();
+//     if (players.length > 0) {
+//       setReady(true);
+//     } else alert("Not enough players, buck-o.");
+//   };
+//   const incrementPlayers = (e: SyntheticEvent) => {
+//     e.preventDefault();
+//     let tempArray = players;
+//     let newPlayer: Player = {
+//       id: `player${players.length + 1}`,
+//       nickname: `Player ${players.length + 1}`,
+//       gamesPlayed: 0,
+//       wins: 0,
+//       bidsTaken: 0,
+//     };
+//     tempArray.push(newPlayer);
+//     setPlayers(tempArray);
+//   };
+//   const decrementPlayers = (e: SyntheticEvent) => {
+//     e.preventDefault();
+//     let tempArray = players;
+//     if (tempArray.length < 1) {
+//       alert("Can't remove players that don't exist, pal.");
+//       return;
+//     }
+//     tempArray.pop();
+//     setPlayers(tempArray);
+//   };
+//   return !ready ? (
+//     <React.Fragment>
+//       <div className="button-wrapper">
+//         <button className="btn double-btn" onClick={incrementPlayers}>
+//           + Player
+//         </button>
+//         <button className="btn double-btn" onClick={decrementPlayers}>
+//           - Player
+//         </button>
+//       </div>
+//       <button className="start-btn rising" onClick={startGame}>
+//         Start
+//       </button>
+//       <Game players={players} numPlayers={numPlayers} />
+//     </React.Fragment>
+//   ) : (
+//     <div style={{ gridTemplateColumns: `repeat(${numPlayers}, 1fr)`, width: "100%" }}>
+//       {players.map((player: Player) => (
+//         <div key={`card_${player.id}`}>
+//           <Card player={player} />
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
 
 const LoadGame = () => {
   return <div></div>;
 };
 
 export default function App() {
-  const [game, setGame] = useState("");
+  const [gameSelected, setGameSelected] = useState("");
 
   const handleNewGame = (e: SyntheticEvent) => {
     e.preventDefault();
-    setGame("NEW");
+    setGameSelected("NEW");
   };
   const handleLoadGame = (e: SyntheticEvent) => {
     e.preventDefault();
-    setGame("LOAD");
+    setGameSelected("LOAD");
   };
 
   return (
-    <div style={appStyles}>
-      {!game && (
+    <div className="app">
+      {!gameSelected && (
         <React.Fragment>
-          <h1 style={h1Styles}>bid euchre tools</h1>
+          <h1 className="app-header">bid euchre tools</h1>
           <div className="button-wrapper">
-            <button className="double-button" onClick={handleNewGame} style={buttonStyles}>
+            <button className="btn double-btn" onClick={handleNewGame}>
               new game
             </button>
-            <button className="double-button" onClick={handleLoadGame} style={buttonStyles}>
+            <button className="btn double-btn" onClick={handleLoadGame}>
               load game
             </button>
           </div>
         </React.Fragment>
       )}
-      {game === "NEW" && <NewGame />}
-      {game === "LOAD" && <LoadGame />}
+      {
+        gameSelected === "NEW" && <LoadGame />
+        // <NewGame />
+      }
+      {gameSelected === "LOAD" && <LoadGame />}
     </div>
   );
 }
 
-const appStyles: CSS.Properties = {
-  backgroundColor: "#EEEEEE",
-  display: "block",
-  height: "100vh",
-  width: "100%",
-  justifyContent: "space-between",
-  textAlign: "center",
-  fontSize: "16px",
-};
-const h1Styles: CSS.Properties = {
-  textTransform: "capitalize",
-  marginTop: "0",
-};
-const buttonStyles: CSS.Properties = {
-  fontWeight: "bold",
-  textTransform: "uppercase",
-  color: "white",
-  backgroundColor: "cornflowerblue",
-  cursor: "pointer",
-};
-const startButtonStyles: CSS.Properties = {
-  fontWeight: "bold",
-  fontSize: "2em",
-  textTransform: "uppercase",
-  color: "royalblue",
-  backgroundColor: "white",
-  cursor: "pointer",
-};
-const rubberStyles: CSS.Properties = {
-  width: "100%",
-};
-const cardStyles: CSS.Properties = {
-  gridColumn: "span 1",
-};
-
-// const suits = {
-//   SPADES: "♠",
-//   HEARTS: "♥",
-//   DIAMONDS: "♦",
-//   CLUBS: "♣",
+// const appStyles: CSS.Properties = {
+//   backgroundColor: "#EEEEEE",
+//   display: "block",
+//   height: "100vh",
+//   width: "100%",
+//   justifyContent: "space-between",
+//   textAlign: "center",
+//   fontSize: "16px",
 // };
+// const h1Styles: CSS.Properties = {
+//   textTransform: "capitalize",
+//   marginTop: "0",
+// };
+// const buttonStyles: CSS.Properties = {
+//   fontWeight: "bold",
+//   textTransform: "uppercase",
+//   color: "white",
+//   backgroundColor: "cornflowerblue",
+//   cursor: "pointer",
+// };
+// const startButtonStyles: CSS.Properties = {
+//   fontWeight: "bold",
+//   fontSize: "2em",
+//   textTransform: "uppercase",
+//   color: "royalblue",
+//   backgroundColor: "white",
+//   cursor: "pointer",
+// };
+
 /* const deckSize = 32; (4*4) * 2 */
