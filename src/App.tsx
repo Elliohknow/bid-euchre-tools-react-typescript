@@ -1,16 +1,17 @@
 import React, { SyntheticEvent, useState } from "react";
 import { Game, Player, PlayerList } from "./interfaces";
 
-type GameProps = {
-  numPlayers: number;
+interface GameLayoutProps {
+  game: Game;
+  players: PlayerList;
   date?: string;
   dealer?: string;
   highestBidder?: object;
-  players?: PlayerList;
-};
-type CardProps = {
+  numPlayers?: number;
+}
+interface PlayerCardProps {
   player: Player;
-};
+}
 
 const dummy: Player = {
   id: "dummy",
@@ -18,7 +19,7 @@ const dummy: Player = {
   gamesPlayed: 0,
 };
 
-const Game = ({ numPlayers, date, players = [dummy] }: GameProps) => {
+const GameLayout = ({ numPlayers = 4, date, players = [dummy] }: GameLayoutProps) => {
   const numDummies = numPlayers <= 4 ? 4 - numPlayers : 0;
 
   return (
@@ -38,7 +39,7 @@ const Game = ({ numPlayers, date, players = [dummy] }: GameProps) => {
   );
 };
 
-const Card = ({ player }: CardProps) => {
+const PlayerCard = ({ player }: PlayerCardProps) => {
   return (
     <div className="rising card">
       <div>{player.id}</div>
