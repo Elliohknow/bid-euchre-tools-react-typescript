@@ -1,14 +1,35 @@
-import * as React from "react";
-import { useCookie, useLocalStorage } from "./hooks";
-import { PlayerList } from "./interfaces";
+import React, { createContext, useState } from "react";
+import { useLocalStorage } from "./useLocalStorage";
+import { formatDateTime, UUID } from "./utils";
 
-export interface StoreProps {
+export interface Props {
   children: React.ReactNode;
 }
+export interface Player {
+  id: string;
+  nickname: string;
+  gamesPlayed?: number;
+  wins?: number;
+  losses?: number;
+  bidsTaken?: number;
+  callCount?: number;
+  upRiverCount?: number;
+  luckySuit?: Suit;
+}
+export interface Game {
+  id: string;
+  dateTime: string | Date;
+  complete: boolean;
+  numPlayers?: number;
+  players?: Player[];
+  winner?: Player;
+}
+export interface Suit {
+  name?: string;
+  symbol?: string;
+}
 
-export const CTX = React.createContext({});
-
-const defaultPlayers: PlayerList = [
+const defaultPlayers: Player[] = [
   {
     id: "player_1",
     nickname: "Player 1",
@@ -26,13 +47,30 @@ const defaultPlayers: PlayerList = [
     nickname: "Player 4",
   },
 ];
+const defaultGames: Game[] = [
+  {
+    id: UUID(),
+    dateTime: formatDateTime(),
+    complete: false,
+    players: defaultPlayers,
+  },
+];
+interface ContextProps {
+  players: Player[];
+  updatePlayers: (v: any) => void;
+  games: Game[];
+  updateGames: (v: any) => void;
+  activeGames?: Game[] | any[];
+}
 
-const Store: React.FC<StoreProps> = (props) => {
+export const CTX = createContext<ContextProps>(undefined!);
+
+const ContextStore: React.FC<Props> = (props) => {
   const [players, updatePlayers] = useLocalStorage("players", JSON.stringify(defaultPlayers));
-  const [games, updateGames] = useCookie("games", "");
-
-  // React.useEffect(() => createPlayers(), [])
-
+  const [games, updateGames] = useLocalStorage("games", JSON.stringify(defaultGames));
+  const [activeGames, setActiveGames] = useState(() => getActiveGames());
+  const getActiveGames = () => games.filter((game: Game) => game.complete === false);
+  // useEffect(()=> setActiveGames)
   return (
     <CTX.Provider
       value={{
@@ -40,13 +78,14 @@ const Store: React.FC<StoreProps> = (props) => {
         updatePlayers,
         games,
         updateGames,
+        activeGames,
       }}
     >
       {props.children}
     </CTX.Provider>
   );
 };
-export default Store;
+export default ContextStore;
 
 // function calcExpirationDate() {
 //   const now = new Date();
