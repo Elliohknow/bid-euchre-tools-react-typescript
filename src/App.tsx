@@ -1,5 +1,8 @@
-import React, { FC, SyntheticEvent, useContext, useState } from "react";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { CTX, Game, Player } from "./ContextStore";
+import { formatDateTime, UUID } from "./utils";
+
 interface ActiveGameProps {
   game: Game;
   players: Player[];
@@ -10,17 +13,8 @@ interface ActiveGameProps {
   highestBidder?: string | Player;
   numPlayers?: number;
 }
-interface PlayerCardProps {
-  player: Player;
-}
 
-const dummy: Player = {
-  id: "dummy",
-  nickname: "Harry",
-  gamesPlayed: 0,
-};
-
-const ActiveGame: FC<ActiveGameProps> = ({ game, numPlayers = 4, date, players }) => {
+const ActiveGame: React.FC<ActiveGameProps> = ({ game, numPlayers = 4, date, players }) => {
   const numDummies = numPlayers <= 4 ? 4 - numPlayers : 0;
 
   return (
@@ -38,74 +32,91 @@ const ActiveGame: FC<ActiveGameProps> = ({ game, numPlayers = 4, date, players }
     </div>
   );
 };
-
-const PlayerCard: FC<PlayerCardProps> = ({ player }) => {
+interface PlayerCardProps {
+  player: Player;
+}
+const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
   return (
-    <div className="rising card">
-      <div>{player.id}</div>
-      <div>{player.nickname}</div>
-      <div>{player?.gamesPlayed}</div>
-      <div>{player?.wins}</div>
-      <div>{player?.bidsTaken}</div>
-      <div>{player?.upRiverCount}</div>
-      <div>{player?.callCount}</div>
-      <div>{player?.luckySuit}</div>
+    <div className="player-card rising">
+      <div className="player-card-items">
+        <div className="player-card-item player-nickname">{player.nickname}</div>
+        <div className="player-card-item player-id">{player.id}</div>
+        <div className="player-card-item">{player?.gamesPlayed}</div>
+        <div className="player-card-item">{player?.wins}</div>
+        <div className="player-card-item">{player?.bidsTaken}</div>
+        <div className="player-card-item">{player?.upRiverCount}</div>
+        <div className="player-card-item">{player?.callCount}</div>
+        <div className="player-card-item">{player?.luckySuit}</div>
+      </div>
     </div>
   );
 };
-// interface NewGameProps {
-//   players: Player[];
-// }
-const NewGameSetup: FC = () => {
-  const [ready, setReady] = useState(false);
-  const { players, updatePlayers } = useContext(CTX);
+const minPlayers = 1;
+const maxPlayers = 8;
 
-  const startGame = (e: SyntheticEvent) => {
-    e.preventDefault();
-    if (players.length > 0) {
-      setReady(true);
-    } else alert("Not enough players, buck-o.");
+const NewGameSetup: React.FC = () => {
+  const { activeGames, setActiveGames, players, setPlayers } = React.useContext(CTX);
+  const [ready, setReady] = React.useState(false);
+  const [newGameState, setNewGameState] = React.useState({
+    id: UUID(),
+    dateTime: formatDateTime(),
+    players: players,
+    winner: null,
+  });
+
+  const handleStartGame = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    setReady(true);
   };
-  // const incrementPlayers = (e: SyntheticEvent) => {
-  //   e.preventDefault();
-  //   let tempArray = players;
-  //   let newPlayer: Player = {
-  //     id: `player${players.length + 1}`,
-  //     nickname: `Player ${players.length + 1}`,
-  //     gamesPlayed: 0,
-  //     wins: 0,
-  //     bidsTaken: 0,
-  //   };
-  //   tempArray.push(newPlayer);
-  //   setPlayers(tempArray);
-  // };
-  // const decrementPlayers = (e: SyntheticEvent) => {
-  //   e.preventDefault();
-  //   let tempArray = players;
-  //   if (tempArray.length < 1) {
-  //     alert("Can't remove players that don't exist, pal.");
-  //     return;
-  //   }
-  //   tempArray.pop();
-  //   setPlayers(tempArray);
-  // };
+
+  const handleIncrementPlayers = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    if (newGameState.players.length >= maxPlayers) {
+      alert(`Cannot add another player. Maximum player limit reached (${maxPlayers}).`);
+      return;
+    }
+    const playersInNewGame = newGameState.players;
+
+    if (players.length > playersInNewGame.length) {
+      let difference = players.length - playersInNewGame.length;
+      // add a player that already exists in players
+      const newPlayer: Player = players[players.length - difference];
+      playersInNewGame.push(newPlayer); //
+    } else {
+      const newPlayer: Player = {
+        id: `player_${playersInNewGame.length + 1}`,
+        nickname: `Player ${playersInNewGame.length + 1}`,
+      };
+
+      playersInNewGame.push(newPlayer); //
+
+      setPlayers([...players, newPlayer]); // update the base player list if new list is larger
+    }
+
+    setNewGameState({ ...newGameState, players: playersInNewGame });
+  };
+  const handleDecrementPlayers = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    if (newGameState.players.length <= minPlayers) {
+      alert(`Cannot remove ${players[0].nickname}. Minimum player limit reached (${minPlayers}).`);
+      return;
+    }
+    const playersInNewGame = newGameState.players;
+
+    playersInNewGame.pop();
+    setNewGameState({ ...newGameState, players: playersInNewGame });
+  };
   return !ready ? (
     <React.Fragment>
       <div className="button-wrapper">
-        <button
-          className="btn double-btn"
-          // onClick={incrementPlayers}
-        >
+        <button className="btn double-btn" onClick={handleIncrementPlayers}>
           + Player
         </button>
-        <button
-          className="btn double-btn"
-          // onClick={decrementPlayers}
-        >
+        <button className="btn double-btn" onClick={handleDecrementPlayers}>
           - Player
         </button>
       </div>
-      <button className="start-btn rising" onClick={startGame}>
+      <button className="start-btn rising" onClick={handleStartGame}>
         Start
       </button>
     </React.Fragment>
@@ -122,27 +133,27 @@ const NewGameSetup: FC = () => {
 // interface LoadGameProps {
 //   activegames: Game[];
 // }
-const LoadGameSetup: FC = () => {
-  const { activeGames } = useContext(CTX);
-  let show;
+const LoadGameSetup: React.FC = () => {
+  const { activeGames } = React.useContext(CTX);
+  // let show;
   return <div>{activeGames}</div>;
 };
 
-export default function App() {
-  const [gameSelected, setGameSelected] = useState("");
-  // const { players, updatePlayers, games, updateGames } = useContext(CTX);
-  const handleNewGame = (e: SyntheticEvent) => {
-    e.preventDefault();
-    setGameSelected("NEW");
+const Home: React.FC = () => {
+  const [gameType, setGameType] = React.useState("");
+  // const { players, setPlayers, games, updateGames } = React.useContext(CTX);
+  const handleNewGame = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    setGameType("NEW");
   };
-  const handleLoadGame = (e: SyntheticEvent) => {
-    e.preventDefault();
-    setGameSelected("LOAD");
+  const handleLoadGame = (event: React.SyntheticEvent) => {
+    event.preventDefault();
+    setGameType("LOAD");
   };
 
   return (
     <div className="app">
-      {!gameSelected && (
+      {!gameType && (
         <React.Fragment>
           <h1 className="app-header">bid euchre tools</h1>
           <div className="button-wrapper">
@@ -155,9 +166,22 @@ export default function App() {
           </div>
         </React.Fragment>
       )}
-      {gameSelected === "NEW" && <NewGameSetup />}
-      {gameSelected === "LOAD" && <LoadGameSetup />}
+      {gameType === "NEW" && <NewGameSetup />}
+      {gameType === "LOAD" && <LoadGameSetup />}
     </div>
   );
-}
+};
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/" component={Home} />
+        <Route path="/" component={Home} />
+      </Switch>
+    </Router>
+  );
+};
+export default App;
 /* const deckSize = 32; (4*4) * 2 */

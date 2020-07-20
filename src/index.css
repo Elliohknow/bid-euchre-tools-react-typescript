@@ -31,7 +31,7 @@ body {
 }
 .rising,
 .btn.rising,
-.card.rising {
+.player-card.rising {
   margin: 4px;
   padding: 4px;
   border: none;
@@ -60,6 +60,6 @@ body {
   text-transform: uppercase;
 }
 
-.card {
+.player-card {
   grid-column: span 1;
 }

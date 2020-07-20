@@ -1,9 +1,16 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect } from "react";
 import { useLocalStorage } from "./useLocalStorage";
 import { formatDateTime, UUID } from "./utils";
 
 export interface Props {
   children: React.ReactNode;
+}
+export interface Game {
+  id: string;
+  dateTime: Date | string;
+  players: Player[];
+  winner: Player | null;
+  // numPlayers: number;
 }
 export interface Player {
   id: string;
@@ -16,14 +23,6 @@ export interface Player {
   upRiverCount?: number;
   luckySuit?: Suit;
 }
-export interface Game {
-  id: string;
-  dateTime: string | Date;
-  complete: boolean;
-  numPlayers?: number;
-  players?: Player[];
-  winner?: Player;
-}
 export interface Suit {
   name?: string;
   symbol?: string;
@@ -32,53 +31,54 @@ export interface Suit {
 const defaultPlayers: Player[] = [
   {
     id: "player_1",
-    nickname: "Player 1",
+    nickname: "Pat",
   },
   {
     id: "player_2",
-    nickname: "Player 2",
+    nickname: "Elliott",
   },
   {
     id: "player_3",
-    nickname: "Player 3",
-  },
-  {
-    id: "player_4",
-    nickname: "Player 4",
+    nickname: "Liz",
   },
 ];
 const defaultGames: Game[] = [
   {
     id: UUID(),
     dateTime: formatDateTime(),
-    complete: false,
     players: defaultPlayers,
+    winner: null,
   },
 ];
 interface ContextProps {
   players: Player[];
-  updatePlayers: (v: any) => void;
+  setPlayers: (v: any) => void;
   games: Game[];
-  updateGames: (v: any) => void;
-  activeGames?: Game[] | any[];
+  setGames: (v: any) => void;
+  activeGames: Game[] | any[];
+  setActiveGames: (v: any) => void; //| React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 export const CTX = createContext<ContextProps>(undefined!);
 
 const ContextStore: React.FC<Props> = (props) => {
-  const [players, updatePlayers] = useLocalStorage("players", JSON.stringify(defaultPlayers));
-  const [games, updateGames] = useLocalStorage("games", JSON.stringify(defaultGames));
-  const [activeGames, setActiveGames] = useState(() => getActiveGames());
-  const getActiveGames = () => games.filter((game: Game) => game.complete === false);
-  // useEffect(()=> setActiveGames)
+  const [players, setPlayers] = useLocalStorage("players", JSON.stringify(defaultPlayers));
+  const [games, setGames] = useLocalStorage("games", JSON.stringify(defaultGames));
+  const [activeGames, setActiveGames] = useLocalStorage("active_games", JSON.stringify(defaultGames));
+
+  const getActiveGames = (): any[] => games.filter((game: Game) => game.winner === null);
+
+  useEffect((): void => setActiveGames(getActiveGames), [activeGames]);
+
   return (
     <CTX.Provider
       value={{
         players,
-        updatePlayers,
+        setPlayers,
         games,
-        updateGames,
+        setGames,
         activeGames,
+        setActiveGames,
       }}
     >
       {props.children}
