@@ -176,8 +176,10 @@ const App: React.FC = () => {
   return (
     <Router>
       <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/" component={Home} />
+        <Route path="/" exact component={Home} />
+        <Route path="/newgame" exact component={NewGameSetup} />
+        <Route path="/loadgame" exact component={LoadGameSetup} />
+        <Route path="/active/:id" exact component={ActiveGame} />
         <Route path="/" component={Home} />
       </Switch>
     </Router>
