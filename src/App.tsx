@@ -55,6 +55,7 @@ const minPlayers = 1;
 const maxPlayers = 8;
 
 const NewGameSetup = () => {
+  // const { savedGames, setSavedGames, players, setPlayers } = React.useContext(CTX);
   const { savedGames, setSavedGames, players, setPlayers } = React.useContext(CTX);
   const [newGameState, setNewGameState] = React.useState({
     id: UUID(),

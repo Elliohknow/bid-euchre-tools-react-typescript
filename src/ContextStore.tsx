@@ -1,5 +1,4 @@
 import React from "react";
-import { useLocalStorage } from "./useLocalStorage";
 import { formatDateTime, UUID } from "./utils";
 
 export interface Props {
@@ -28,7 +27,7 @@ export interface Suit {
   symbol?: string;
 }
 
-const defaultPlayers = [
+const defaultPlayers: Player[] = [
   {
     id: "player_1",
     nickname: "Pat",
@@ -42,7 +41,7 @@ const defaultPlayers = [
     nickname: "Liz",
   },
 ];
-const defaultGames = [
+const defaultGames: Game[] = [
   {
     id: UUID(),
     dateTime: formatDateTime(),
@@ -53,19 +52,30 @@ const defaultGames = [
 interface ContextProps {
   players: Player[];
   setPlayers: (v: any) => void;
-  completedGames: Game[];
-  setCompletedGames: (v: any) => void;
+  oldGames: Game[];
+  setOldGames: (v: any) => void;
   savedGames: Game[] | any[];
   setSavedGames: (v: any) => void; //| React.Dispatch<React.SetStateAction<any[]>>;
 }
+//   interface ContextProps {
+//     data: DataProps;
+//     setData: (v: any) => void;
+//   }
+//   interface DataProps {
+//   players: Player[];
+//   savedGames?: Game[];
+//   oldGames?: Game[];
+// }
 
 export const CTX = React.createContext<ContextProps>(undefined!);
 
 const ContextStore: React.FC<Props> = (props) => {
-  const [players, setPlayers] = useLocalStorage("players", JSON.stringify(defaultPlayers));
-  const [completedGames, setCompletedGames] = useLocalStorage("completed_games", JSON.stringify(defaultGames));
-  const [savedGames, setSavedGames] = useLocalStorage("saved_games", JSON.stringify(defaultGames));
-  const [data, setData] = React.useState({ players: defaultPlayers, savedGames: defaultGames });
+  // const [players, setPlayers] = useLocalStorage("players", JSON.stringify(defaultPlayers));
+  // const [savedGames, setSavedGames] = useLocalStorage("saved-games", JSON.stringify(defaultGames));
+  // const [oldGames, setOldGames] = useLocalStorage("old-games", JSON.stringify(defaultGames));
+  const [players, setPlayers] = React.useState(defaultPlayers);
+  const [savedGames, setSavedGames] = React.useState(defaultGames);
+  const [oldGames, setOldGames] = React.useState(defaultGames);
   // const [players, setPlayers] = React.useState(()=> {
   //   const pArray = localStorage.getItem("players");
   //   if (pArray===null) {
@@ -74,23 +84,36 @@ const ContextStore: React.FC<Props> = (props) => {
   // });
   // const [current, ]
   // function getSavedGames() {
-  //   return completedGames.filter((game: Game) => game.winner === null);
+  //   return oldGames.filter((game: Game) => game.winner === null);
   // }
   React.useEffect(() => {
-    const data = localStorage.getItem("players");
+    const pData = localStorage.getItem("players");
+    const sgData = localStorage.getItem("saved-games");
+    const ogData = localStorage.getItem("old-games");
+    try {
+      if (pData) setPlayers(JSON.parse(pData));
+      if (sgData) setSavedGames(JSON.parse(sgData));
+      if (ogData) setOldGames(JSON.parse(ogData));
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   React.useEffect(() => {
     localStorage.setItem("players", JSON.stringify(players));
+    localStorage.setItem("saved-games", JSON.stringify(savedGames));
+    localStorage.setItem("old-games", JSON.stringify(oldGames));
   });
 
   return (
     <CTX.Provider
       value={{
+        // data,
+        // setData,
         players,
         setPlayers,
-        completedGames,
-        setCompletedGames,
+        oldGames,
+        setOldGames,
         savedGames,
         setSavedGames,
       }}
