@@ -1,11 +1,11 @@
+import Button from "@material-ui/core/Button";
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import { CTX, Game, Player } from "./ContextStore";
 import { formatDateTime, UUID } from "./utils";
 
 interface ActiveGameProps {
   game: Game;
-  players: Player[];
   date: string | Date;
   currentDealer?: string | Player;
   currentHand?: number;
@@ -14,16 +14,16 @@ interface ActiveGameProps {
   numPlayers?: number;
 }
 
-const ActiveGame: React.FC<ActiveGameProps> = ({ game, numPlayers = 4, date, players }) => {
-  const numDummies = numPlayers <= 4 ? 4 - numPlayers : 0;
+const ActiveGame: React.FC<ActiveGameProps> = ({ game, date }) => {
+  const numDummies = game.players.length <= 4 ? 4 - game.players.length : 0;
 
   return (
     <div className="game">
       <div>{game}</div>
       <div className="date">{date ? date : "the date string goes here"}</div>
-      <div className="numPlayers">number of players: {numPlayers}</div>
+      <div className="numPlayers">number of players: {game.players.length}</div>
       <div className="numDummies">number of dummy players: {numDummies}</div>
-      {players.map((player: Player) => (
+      {game.players.map((player: Player) => (
         <div key={`player_${player.id}`}>
           {" "}
           <h3>{player.nickname}</h3> <h4>{player.id}</h4>
@@ -54,9 +54,8 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
 const minPlayers = 1;
 const maxPlayers = 8;
 
-const NewGameSetup: React.FC = () => {
-  const { activeGames, setActiveGames, players, setPlayers } = React.useContext(CTX);
-  const [ready, setReady] = React.useState(false);
+const NewGameSetup = () => {
+  const { savedGames, setSavedGames, players, setPlayers } = React.useContext(CTX);
   const [newGameState, setNewGameState] = React.useState({
     id: UUID(),
     dateTime: formatDateTime(),
@@ -64,13 +63,13 @@ const NewGameSetup: React.FC = () => {
     winner: null,
   });
 
-  const handleStartGame = (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    setReady(true);
+  const handleStart = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setSavedGames(() => [...savedGames, newGameState]);
   };
 
-  const handleIncrementPlayers = (event: React.SyntheticEvent) => {
-    event.preventDefault();
+  const incrementPlayers = (e: React.SyntheticEvent) => {
+    e.preventDefault();
     if (newGameState.players.length >= maxPlayers) {
       alert(`Cannot add another player. Maximum player limit reached (${maxPlayers}).`);
       return;
@@ -87,16 +86,13 @@ const NewGameSetup: React.FC = () => {
         id: `player_${playersInNewGame.length + 1}`,
         nickname: `Player ${playersInNewGame.length + 1}`,
       };
-
-      playersInNewGame.push(newPlayer); //
-
+      playersInNewGame.push(newPlayer); // add new player to game's player array
       setPlayers([...players, newPlayer]); // update the base player list if new list is larger
     }
-
     setNewGameState({ ...newGameState, players: playersInNewGame });
   };
-  const handleDecrementPlayers = (event: React.SyntheticEvent) => {
-    event.preventDefault();
+  const decrementPlayers = (e: React.SyntheticEvent) => {
+    e.preventDefault();
     if (newGameState.players.length <= minPlayers) {
       alert(`Cannot remove ${players[0].nickname}. Minimum player limit reached (${minPlayers}).`);
       return;
@@ -106,83 +102,88 @@ const NewGameSetup: React.FC = () => {
     playersInNewGame.pop();
     setNewGameState({ ...newGameState, players: playersInNewGame });
   };
-  return !ready ? (
+  // const cards = () => {
+  //   let arr = [];
+  //   for (let i = 0; i > players.length-1; i++) {
+  //   arr.push(<div key={`card_${players[i].id}`}>
+  //     <PlayerCard player={players[i]} />
+  //   </div>);
+  //   }
+  //   return arr;
+  // };
+
+  return (
     <React.Fragment>
       <div className="button-wrapper">
-        <button className="btn double-btn" onClick={handleIncrementPlayers}>
+        <Button className="btn double-btn" onClick={incrementPlayers} variant="contained">
           + Player
-        </button>
-        <button className="btn double-btn" onClick={handleDecrementPlayers}>
+        </Button>
+        <Button className="btn double-btn" onClick={decrementPlayers} variant="contained">
           - Player
-        </button>
+        </Button>
       </div>
-      <button className="start-btn rising" onClick={handleStartGame}>
+      <Button component={Link} onClick={handleStart} to={`/active/${newGameState.players.length}/${newGameState.id}`} variant="contained">
         Start
-      </button>
+      </Button>
+      <div style={{ gridTemplateColumns: `repeat(${players.length}, 1fr)`, width: "100%" }}>
+        {newGameState.players.map((value: Player, index: number) => {
+          return (
+            <div key={`card_${value.id}`}>
+              <PlayerCard player={value} />
+            </div>
+          );
+        })}
+      </div>
     </React.Fragment>
-  ) : (
-    <div style={{ gridTemplateColumns: `repeat(${players.length}, 1fr)`, width: "100%" }}>
-      {players.map((player: Player) => (
-        <div key={`card_${player.id}`}>
-          <PlayerCard player={player} />
-        </div>
-      ))}
-    </div>
   );
 };
 // interface LoadGameProps {
-//   activegames: Game[];
+//   savedGames: Game[];
 // }
 const LoadGameSetup: React.FC = () => {
-  const { activeGames } = React.useContext(CTX);
+  const { savedGames } = React.useContext(CTX);
   // let show;
-  return <div>{activeGames}</div>;
+  return <div>{savedGames}</div>;
 };
 
 const Home: React.FC = () => {
-  const [gameType, setGameType] = React.useState("");
+  // const [gameType, setGameType] = React.useState("");
   // const { players, setPlayers, games, updateGames } = React.useContext(CTX);
-  const handleNewGame = (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    setGameType("NEW");
+  const handleNewGame = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    // setGameType("NEW");
   };
-  const handleLoadGame = (event: React.SyntheticEvent) => {
-    event.preventDefault();
-    setGameType("LOAD");
+  const handleLoadGame = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    // setGameType("LOAD");
   };
 
   return (
-    <div className="app">
-      {!gameType && (
-        <React.Fragment>
-          <h1 className="app-header">bid euchre tools</h1>
-          <div className="button-wrapper">
-            <button className="btn double-btn" onClick={handleNewGame}>
-              new game
-            </button>
-            <button className="btn double-btn" onClick={handleLoadGame}>
-              load game
-            </button>
-          </div>
-        </React.Fragment>
-      )}
-      {gameType === "NEW" && <NewGameSetup />}
-      {gameType === "LOAD" && <LoadGameSetup />}
+    <div className="button-wrapper">
+      <Button component={Link} className="btn double-btn" to="/newgame" color="primary" variant="contained">
+        new game
+      </Button>
+      <Button component={Link} className="btn double-btn" to="/loadgame" color="primary" variant="contained">
+        load game
+      </Button>
     </div>
   );
 };
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/newgame" exact component={NewGameSetup} />
-        <Route path="/loadgame" exact component={LoadGameSetup} />
-        <Route path="/active/:id" exact component={ActiveGame} />
-        <Route path="/" component={Home} />
-      </Switch>
-    </Router>
+    <div className="app">
+      <h1 className="app-header">bid euchre tools</h1>
+      <Router>
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/newgame" exact component={NewGameSetup} />
+          <Route path="/loadgame" exact component={LoadGameSetup} />
+          <Route path="/active" component={ActiveGame} />
+          <Route path="/" render={() => <div>404</div>} />
+        </Switch>
+      </Router>
+    </div>
   );
 };
 export default App;

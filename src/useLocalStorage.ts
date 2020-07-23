@@ -1,35 +1,38 @@
 import { useState } from "react";
 
-export const useLocalStorage = (key: string, initialValue: string): any[] => {
-  // State to store our value
-  // Pass initial state function to useState so logic is only executed once
+export const useLocalStorage = (key: string, initialValue: string) => {
+  // pass initial state function to useState so logic is only executed once
+  // const [storedValue, setStoredValue] = useState(() => {
+  //   try {
+  //     // fish for the value by key
+  //     const item = window.localStorage.getItem(key);
+  //     // return object from json (if it exists) or return initialValue
+  //     return item ? JSON.parse(item) : initialValue;
+  //   } catch (error) {
+  //     // if error, return initialValue
+  //     console.log(error);
+  //     return initialValue;
+  //   }
   const [storedValue, setStoredValue] = useState(() => {
-    try {
-      // Get from local storage by key
-      const item = window.localStorage.getItem(key);
-      // Parse stored json or if none return initialValue
-      return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      // If error also return initialValue
-      console.log(error);
+    const arr = localStorage.getItem(key);
+    if (arr === null) {
       return initialValue;
-    }
+    } else return JSON.parse(arr);
   });
-
-  // Return wrapped useState setter function that persists the new value to localStorage.
+  // });
+  // wrapped useState setter function, let param be a function to mimic useState API
   const setValue = (value: any) => {
     try {
-      // Allow value to be a function so we have same API as useState
       const valueToStore = value instanceof Function ? value(storedValue) : value;
-      // Save state
+      // set state
       setStoredValue(valueToStore);
-      // Save to local storage
+      // save it
       window.localStorage.setItem(key, JSON.stringify(valueToStore));
     } catch (error) {
-      // A more advanced implementation would handle the error case
+      // throw new Error(`Unable to save item to localStorage: ${error}`);
       console.log(error);
     }
   };
-
+  // useEffect(() => setValue(storedValue), [storedValue, setValue]);
   return [storedValue, setValue];
 };
