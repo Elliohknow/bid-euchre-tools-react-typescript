@@ -71,22 +71,10 @@ interface ContextProps {
 export const CTX = React.createContext<ContextProps>(undefined!);
 
 const ContextStore: React.FC<Props> = (props) => {
-  // const [players, setPlayers] = useLocalStorage("players", JSON.stringify(defaultPlayers));
-  // const [savedGames, setSavedGames] = useLocalStorage("saved-games", JSON.stringify(defaultGames));
-  // const [oldGames, setOldGames] = useLocalStorage("old-games", JSON.stringify(defaultGames));
   const [players, setPlayers] = React.useState(defaultPlayers);
   const [savedGames, setSavedGames] = React.useState(defaultGames);
   const [oldGames, setOldGames] = React.useState(defaultGames);
-  // const [players, setPlayers] = React.useState(()=> {
-  //   const pArray = localStorage.getItem("players");
-  //   if (pArray===null) {
-  //     return defaultPlayers;
-  //   } else return JSON.parse(pArray);
-  // });
-  // const [current, ]
-  // function getSavedGames() {
-  //   return oldGames.filter((game: Game) => game.winner === null);
-  // }
+
   React.useEffect(() => {
     const pData = localStorage.getItem("players");
     const sgData = localStorage.getItem("saved-games");
@@ -98,25 +86,25 @@ const ContextStore: React.FC<Props> = (props) => {
     } catch (error) {
       console.log(error);
     }
-    console.table(players);
-    console.table(savedGames);
-    console.table(oldGames);
+    // console.table(players);
+    // console.table(savedGames);
+    // console.table(oldGames);
   }, []);
 
   React.useEffect(() => {
     localStorage.setItem("players", JSON.stringify(players));
     localStorage.setItem("saved-games", JSON.stringify(savedGames));
     localStorage.setItem("old-games", JSON.stringify(oldGames));
-
-    console.table(savedGames);
-    console.table(players);
+    // mic check, localStorage, mic check
+    // let p = localStorage.getItem("players");
+    // let g = localStorage.getItem("saved-games");
+    // if (p) console.table(JSON.parse(p));
+    // if (g) console.table(JSON.parse(g));
   });
 
   return (
     <CTX.Provider
       value={{
-        // data,
-        // setData,
         players,
         setPlayers,
         oldGames,
@@ -130,61 +118,3 @@ const ContextStore: React.FC<Props> = (props) => {
   );
 };
 export default ContextStore;
-
-// function calcExpirationDate() {
-//   const now = new Date();
-//   // set the time to be now + 30 days
-//   now.setTime(now.getTime() + 30 * 60 * 60 * 24 * 1000);
-//   return now;
-// }
-
-// export function getItem(key: string) {
-//   return document.cookie.split("; ").reduce((total, currentCookie) => {
-//     const item = currentCookie.split("=");
-//     const storedKey = item[0];
-//     const storedValue = item[1];
-//     return key === storedKey ? decodeURIComponent(storedValue) : total;
-//   }, "");
-// }
-
-// export function setItem(key: string, value: string) {
-//   const now = calcExpirationDate();
-//   document.cookie = `${key}=${value}; expires=${now.toUTCString()}; path=/`;
-// }
-
-// // let getPromise = () => {
-// //   return new Promise((resolve) => setTimeout(resolve, 0));
-// // }
-// function getTotalGamesPlayed() {
-//   let total = getItem("total_games_played") ?? "0";
-//   return parseInt(total);
-// }
-// function setTotalGamesPlayed(total: number) {
-//   setItem("total_games_played", total.toString());
-// }
-// function incrementTotalGamesPlayed() {
-//   let total = getTotalGamesPlayed();
-//   let newTotal = total + 1;
-//   setTotalGamesPlayed(newTotal);
-//   return newTotal;
-// }
-// export const saveNewGame = (numPlayers: number, players: Player[]) => {
-//   const gameId = incrementTotalGamesPlayed();
-//   const dateTime = formatDateTime();
-//   const newGame: Game = {
-//     id: `game_${gameId}`,
-//     dateTime: dateTime,
-//     numPlayers: numPlayers,
-//     players: players,
-//     complete: false,
-//   };
-//   setItem(`game_${gameId}`, JSON.stringify(newGame));
-// };
-// export const saveCurrentGame = (currentGame: Game) => {
-//   setItem(`game_${currentGame.id}`, JSON.stringify(currentGame));
-// };
-// export const loadSavedGame = (key: string) => {
-//   let game = getItem(key) ?? "$#!%";
-//   if (game === "$#!%") throw new Error(game);
-//   else return JSON.parse(game);
-// };

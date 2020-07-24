@@ -1,27 +1,29 @@
 import Button from "@material-ui/core/Button";
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
-import { CTX, Game, Player } from "./ContextStore";
+import { CTX, Player } from "./ContextStore";
 import { formatDateTime, UUID } from "./utils";
 
-interface ActiveGameProps {
-  game: Game;
-  date: string | Date;
-  currentDealer?: string | Player;
-  currentHand?: number;
-  currentLeader?: string | Player;
-  highestBidder?: string | Player;
-  numPlayers?: number;
-}
+// interface ActiveGameProps {
+//   game: Game;
+//   date: string | Date;
+//   currentDealer?: string | Player;
+//   currentHand?: number;
+//   currentLeader?: string | Player;
+//   highestBidder?: string | Player;
+//   numPlayers?: number;
+// }
 
-const ActiveGame: React.FC<ActiveGameProps> = ({ game, date }) => {
-  const numDummies = game.players.length <= 4 ? 4 - game.players.length : 0;
-
+const ActiveGame: React.FC = () => {
+  const { savedGames } = React.useContext(CTX);
+  const [game, setGame] = React.useState(savedGames[savedGames.length - 1]);
+  const numDummies = game?.players.length <= 4 ? 4 - game?.players.length : 0;
+  React.useEffect(() => setGame(savedGames[savedGames.length - 1]), []);
   return (
     <div className="game">
-      <div>{game}</div>
-      <div className="date">{date ? date : "the date string goes here"}</div>
-      <div className="numPlayers">number of players: {game.players.length}</div>
+      {/* <div>{game}</div> */}
+      <div className="date">the date string goes here</div>
+      <div className="numPlayers">number of players: {game?.players.length}</div>
       <div className="numDummies">number of dummy players: {numDummies}</div>
       {game.players.map((player: Player) => (
         <div key={`player_${player.id}`}>
@@ -37,17 +39,15 @@ interface PlayerCardProps {
 }
 const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
   return (
-    <div className="player-card rising">
-      <div className="player-card-items">
-        <div className="player-card-item player-nickname">{player.nickname}</div>
-        <div className="player-card-item player-id">{player.id}</div>
-        <div className="player-card-item">{player?.gamesPlayed}</div>
-        <div className="player-card-item">{player?.wins}</div>
-        <div className="player-card-item">{player?.bidsTaken}</div>
-        <div className="player-card-item">{player?.upRiverCount}</div>
-        <div className="player-card-item">{player?.callCount}</div>
-        <div className="player-card-item">{player?.luckySuit}</div>
-      </div>
+    <div className="player-card-items">
+      <h3 className="player-card-item player-nickname">{player.nickname}</h3>
+      <p className="player-card-item player-id">id: {player.id}</p>
+      <p className="player-card-item">Games Played: {player?.gamesPlayed || "¯\\_(ツ)_/¯"}</p>
+      <p className="player-card-item">Wins: {player?.wins || "¯\\_(ツ)_/¯"}</p>
+      <p className="player-card-item">Bids Taken: {player?.bidsTaken || "¯\\_(ツ)_/¯"}</p>
+      <p className="player-card-item">Up-The-River Count: {player?.upRiverCount || "¯\\_(ツ)_/¯"}</p>
+      <p className="player-card-item">Call Count: {player?.callCount || "¯\\_(ツ)_/¯"}</p>
+      <p className="player-card-item">Lucky Suit: {player?.luckySuit || "¯\\_(ツ)_/¯"}</p>
     </div>
   );
 };
@@ -55,7 +55,6 @@ const minPlayers = 1;
 const maxPlayers = 8;
 
 const NewGameSetup = () => {
-  // const { savedGames, setSavedGames, players, setPlayers } = React.useContext(CTX);
   const { savedGames, setSavedGames, players, setPlayers } = React.useContext(CTX);
   const [newGameState, setNewGameState] = React.useState({
     id: UUID(),
@@ -67,10 +66,8 @@ const NewGameSetup = () => {
     console.table(savedGames);
     console.table(players);
     console.table(newGameState);
-  });
+  }, []);
   const handleStart = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    console.table(newGameState);
     setSavedGames([...savedGames, newGameState]);
   };
 
@@ -108,15 +105,6 @@ const NewGameSetup = () => {
     playersInNewGame.pop();
     setNewGameState({ ...newGameState, players: playersInNewGame });
   };
-  // const cards = () => {
-  //   let arr = [];
-  //   for (let i = 0; i > players.length-1; i++) {
-  //   arr.push(<div key={`card_${players[i].id}`}>
-  //     <PlayerCard player={players[i]} />
-  //   </div>);
-  //   }
-  //   return arr;
-  // };
 
   return (
     <React.Fragment>
@@ -131,13 +119,9 @@ const NewGameSetup = () => {
       <Button component={Link} onClick={handleStart} to={`/active/${newGameState.players.length}/${newGameState.id}`} variant="contained">
         Start
       </Button>
-      <div style={{ gridTemplateColumns: `repeat(${players.length}, 1fr)`, width: "100%" }}>
+      <div className="card-wrapper" style={{ display: "grid", gridTemplateColumns: `repeat(${newGameState.players.length}, 1fr)` }}>
         {Object.keys(newGameState.players).map((value: any, index: number) => {
-          return (
-            <div key={`card_${newGameState.players[index].id}`}>
-              <PlayerCard player={newGameState.players[index]} />
-            </div>
-          );
+          return <PlayerCard player={newGameState.players[index]} key={`card_${newGameState.players[index].id}`} />;
         })}
       </div>
     </React.Fragment>
