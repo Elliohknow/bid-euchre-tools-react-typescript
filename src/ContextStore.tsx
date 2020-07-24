@@ -7,7 +7,7 @@ export interface Props {
 export interface Game {
   id: string;
   dateTime: Date | string;
-  players: Player[];
+  players: Array<Player>;
   winner: Player | null;
   // numPlayers: number;
 }
@@ -27,7 +27,7 @@ export interface Suit {
   symbol?: string;
 }
 
-const defaultPlayers: Player[] = [
+const defaultPlayers: Array<Player> = [
   {
     id: "player_1",
     nickname: "Pat",
@@ -41,7 +41,7 @@ const defaultPlayers: Player[] = [
     nickname: "Liz",
   },
 ];
-const defaultGames: Game[] = [
+const defaultGames: Array<Game> = [
   {
     id: UUID(),
     dateTime: formatDateTime(),
@@ -49,6 +49,7 @@ const defaultGames: Game[] = [
     winner: null,
   },
 ];
+// const defaultobj = {};
 interface ContextProps {
   players: Player[];
   setPlayers: (v: any) => void;
@@ -97,12 +98,18 @@ const ContextStore: React.FC<Props> = (props) => {
     } catch (error) {
       console.log(error);
     }
+    console.table(players);
+    console.table(savedGames);
+    console.table(oldGames);
   }, []);
 
   React.useEffect(() => {
     localStorage.setItem("players", JSON.stringify(players));
     localStorage.setItem("saved-games", JSON.stringify(savedGames));
     localStorage.setItem("old-games", JSON.stringify(oldGames));
+
+    console.table(savedGames);
+    console.table(players);
   });
 
   return (

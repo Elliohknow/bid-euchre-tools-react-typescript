@@ -18,3 +18,12 @@ export function UUID(): string {
   }
   return result;
 }
+
+function keyByNicknameReducer(acc: object, player: any) {
+  return { ...acc, [player.nickname]: player };
+}
+
+export function getkeyedObjectFromArray(array: Array<any>) {
+  let keyedObject: object = array.reduce(keyByNicknameReducer, {});
+  return keyedObject;
+}

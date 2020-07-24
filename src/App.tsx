@@ -63,10 +63,15 @@ const NewGameSetup = () => {
     players: players,
     winner: null,
   });
-
+  React.useEffect(() => {
+    console.table(savedGames);
+    console.table(players);
+    console.table(newGameState);
+  });
   const handleStart = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    setSavedGames(() => [...savedGames, newGameState]);
+    console.table(newGameState);
+    setSavedGames([...savedGames, newGameState]);
   };
 
   const incrementPlayers = (e: React.SyntheticEvent) => {
@@ -127,10 +132,10 @@ const NewGameSetup = () => {
         Start
       </Button>
       <div style={{ gridTemplateColumns: `repeat(${players.length}, 1fr)`, width: "100%" }}>
-        {newGameState.players.map((value: Player, index: number) => {
+        {Object.keys(newGameState.players).map((value: any, index: number) => {
           return (
-            <div key={`card_${value.id}`}>
-              <PlayerCard player={value} />
+            <div key={`card_${newGameState.players[index].id}`}>
+              <PlayerCard player={newGameState.players[index]} />
             </div>
           );
         })}
@@ -148,17 +153,6 @@ const LoadGameSetup: React.FC = () => {
 };
 
 const Home: React.FC = () => {
-  // const [gameType, setGameType] = React.useState("");
-  // const { players, setPlayers, games, updateGames } = React.useContext(CTX);
-  const handleNewGame = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    // setGameType("NEW");
-  };
-  const handleLoadGame = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    // setGameType("LOAD");
-  };
-
   return (
     <div className="button-wrapper">
       <Button component={Link} className="btn double-btn" to="/newgame" color="primary" variant="contained">
