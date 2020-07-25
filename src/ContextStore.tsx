@@ -9,7 +9,6 @@ export interface Game {
   dateTime: Date | string;
   players: Array<Player>;
   winner: Player | null;
-  // numPlayers: number;
 }
 export interface Player {
   id: string;
@@ -58,15 +57,6 @@ interface ContextProps {
   savedGames: Game[] | any[];
   setSavedGames: (v: any) => void; //| React.Dispatch<React.SetStateAction<any[]>>;
 }
-//   interface ContextProps {
-//     data: DataProps;
-//     setData: (v: any) => void;
-//   }
-//   interface DataProps {
-//   players: Player[];
-//   savedGames?: Game[];
-//   oldGames?: Game[];
-// }
 
 export const CTX = React.createContext<ContextProps>(undefined!);
 
@@ -95,11 +85,6 @@ const ContextStore: React.FC<Props> = (props) => {
     localStorage.setItem("players", JSON.stringify(players));
     localStorage.setItem("saved-games", JSON.stringify(savedGames));
     localStorage.setItem("old-games", JSON.stringify(oldGames));
-    // mic check, localStorage, mic check
-    // let p = localStorage.getItem("players");
-    // let g = localStorage.getItem("saved-games");
-    // if (p) console.table(JSON.parse(p));
-    // if (g) console.table(JSON.parse(g));
   });
 
   return (

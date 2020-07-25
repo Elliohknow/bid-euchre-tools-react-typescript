@@ -1,7 +1,8 @@
 import Button from "@material-ui/core/Button";
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
-import { CTX, Player } from "./ContextStore";
+import SimpleCard from "./components/SimpleCard";
+import { CTX, Game, Player } from "./ContextStore";
 import { formatDateTime, UUID } from "./utils";
 
 // interface ActiveGameProps {
@@ -116,7 +117,7 @@ const NewGameSetup = () => {
           - Player
         </Button>
       </div>
-      <Button component={Link} onClick={handleStart} to={`/active/${newGameState.players.length}/${newGameState.id}`} variant="contained">
+      <Button component={Link} onClick={handleStart} to={`/active/${newGameState.id}`} variant="contained">
         Start
       </Button>
       <div className="card-wrapper" style={{ display: "grid", gridTemplateColumns: `repeat(${newGameState.players.length}, 1fr)` }}>
@@ -127,24 +128,39 @@ const NewGameSetup = () => {
     </React.Fragment>
   );
 };
-// interface LoadGameProps {
-//   savedGames: Game[];
-// }
-const LoadGameSetup: React.FC = () => {
-  const { savedGames } = React.useContext(CTX);
-  // let show;
-  return <div>{savedGames}</div>;
-};
 
-const Home: React.FC = () => {
+// const SavedGamesList = () => {
+//   const { savedGames } = React.useContext(CTX);
+//   // let show;
+//   return (
+//     <div>
+//       {Object.keys(savedGames).map((value: any, index: number) => {
+//         return <div key={`game_${savedGames[index].id}`}></div>;
+//       })}
+//     </div>
+//   );
+// };
+interface SavedGameListProps {
+  savedGames: Array<Game>;
+}
+
+const SavedGamesList = ({ savedGames }: SavedGameListProps) => {
+  return (
+    <div>
+      {savedGames.map((value: Game, index: number) => {
+        return <SimpleCard key={`game_${value.id}`} game={savedGames[index]} />;
+      })}
+    </div>
+  );
+};
+const Home = () => {
+  const { savedGames } = React.useContext(CTX);
   return (
     <div className="button-wrapper">
       <Button component={Link} className="btn double-btn" to="/newgame" color="primary" variant="contained">
         new game
       </Button>
-      <Button component={Link} className="btn double-btn" to="/loadgame" color="primary" variant="contained">
-        load game
-      </Button>
+      <SavedGamesList savedGames={savedGames} />
     </div>
   );
 };
@@ -157,7 +173,6 @@ const App: React.FC = () => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/newgame" exact component={NewGameSetup} />
-          <Route path="/loadgame" exact component={LoadGameSetup} />
           <Route path="/active" component={ActiveGame} />
           <Route path="/" render={() => <div>404</div>} />
         </Switch>
