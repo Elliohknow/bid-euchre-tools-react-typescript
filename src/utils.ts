@@ -19,11 +19,18 @@ export function UUID(): string {
   return result;
 }
 
-function keyByNicknameReducer(acc: object, player: any) {
+function keyByNicknameReducer(acc: object, player: any): object {
   return { ...acc, [player.nickname]: player };
 }
 
-export function getkeyedObjectFromArray(array: Array<any>) {
-  let keyedObject: object = array.reduce(keyByNicknameReducer, {});
-  return keyedObject;
+export function getkeyedPlayersObjectFromArray(array: Array<any>): object {
+  return array.reduce(keyByNicknameReducer, {});
+}
+
+function sumReducer(acc: number, current: number): number {
+  return acc + current;
+}
+
+export function sumScoresFromArray(array: Array<number>): number {
+  return array.reduce(sumReducer, 0);
 }

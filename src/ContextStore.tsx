@@ -8,7 +8,11 @@ export interface Game {
   id: string;
   dateTime: Date | string;
   players: Array<Player>;
-  winner: Player | null;
+  winner: Player | string | null;
+  currentDealer?: string;
+  currentHand?: number;
+  currentLeader?: any;
+  scores?: Array<any>;
 }
 export interface Player {
   id: string;

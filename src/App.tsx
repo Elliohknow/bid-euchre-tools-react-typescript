@@ -5,16 +5,6 @@ import SimpleCard from "./components/SimpleCard";
 import { CTX, Game, Player } from "./ContextStore";
 import { formatDateTime, UUID } from "./utils";
 
-// interface ActiveGameProps {
-//   game: Game;
-//   date: string | Date;
-//   currentDealer?: string | Player;
-//   currentHand?: number;
-//   currentLeader?: string | Player;
-//   highestBidder?: string | Player;
-//   numPlayers?: number;
-// }
-
 const ActiveGame: React.FC = () => {
   const { savedGames } = React.useContext(CTX);
   const [game, setGame] = React.useState(savedGames[savedGames.length - 1]);
