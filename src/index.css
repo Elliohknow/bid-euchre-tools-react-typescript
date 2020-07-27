@@ -16,10 +16,6 @@ body {
   font-size: 16px;
   overflow-x: hidden;
 }
-.app-header {
-  text-transform: capitalize;
-  margin-top: 0;
-}
 .game {
   width: 100%;
 }
@@ -59,7 +55,6 @@ body {
 
 .button-wrapper {
   font-size: 3rem;
-  text-transform: uppercase;
 }
 
 .card-wrapper {
@@ -67,4 +62,13 @@ body {
   gap: 15px;
   width: 100%;
   justify-content: space-evenly;
+}
+.saved-game-list {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.load-game-wrapper {
+  margin: 15px;
+  justify-content: space-around;
 }

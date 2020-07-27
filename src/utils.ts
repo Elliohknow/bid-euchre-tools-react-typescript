@@ -23,8 +23,16 @@ function keyByNicknameReducer(acc: object, player: any): object {
   return { ...acc, [player.nickname]: player };
 }
 
-export function getkeyedPlayersObjectFromArray(array: Array<any>): object {
+export function getKeyedPlayersObjectFromArray(array: Array<any>): object {
   return array.reduce(keyByNicknameReducer, {});
+}
+
+function keyByIdReducer(acc: object, game: any): object {
+  return { ...acc, [game.id]: game };
+}
+
+export function getKeyedGamesObjectFromArray(array: Array<any>): object {
+  return array.reduce(keyByIdReducer, {});
 }
 
 function sumReducer(acc: number, current: number): number {

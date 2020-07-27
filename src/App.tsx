@@ -1,30 +1,37 @@
 import Button from "@material-ui/core/Button";
+import queryString from "query-string";
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
+import ButtonAppBar from "./components/ButtonAppBar";
+import GameTable from "./components/GameTable";
 import SimpleCard from "./components/SimpleCard";
 import { CTX, Game, Player } from "./ContextStore";
-import { formatDateTime, UUID } from "./utils";
+import { formatDateTime, getKeyedGamesObjectFromArray, UUID } from "./utils";
 
 const ActiveGame: React.FC = () => {
   const { savedGames } = React.useContext(CTX);
-  const [game, setGame] = React.useState(savedGames[savedGames.length - 1]);
-  const numDummies = game?.players.length <= 4 ? 4 - game?.players.length : 0;
-  React.useEffect(() => setGame(savedGames[savedGames.length - 1]), []);
+  const [gameId, setGameId] = React.useState("");
+  // const numDummies = game?.players.length <= 4 ? 4 - game?.players.length : 0;
+  React.useEffect(() => {
+    const { id } = queryString.parse(location.search);
+    const games = getKeyedGamesObjectFromArray(savedGames);
+    // setGameId(games.id);
+  }, []);
   return (
     <div className="game">
-      {/* <div>{game}</div> */}
       <div className="date">the date string goes here</div>
-      <div className="numPlayers">number of players: {game?.players.length}</div>
-      <div className="numDummies">number of dummy players: {numDummies}</div>
-      {game.players.map((player: Player) => (
-        <div key={`player_${player.id}`}>
-          {" "}
-          <h3>{player.nickname}</h3> <h4>{player.id}</h4>
-        </div>
-      ))}
+      <div className="numPlayers">number of players: {}</div>
+      <div className="numDummies">number of dummy players: {}</div>
+      <GameTable />
     </div>
   );
 };
+// {game.players.map((player: Player) => (
+//   <div key={`player_${player.id}`}>
+//     {" "}
+//     <h3>{player.nickname}</h3> <h4>{player.id}</h4>
+//   </div>
+// ))}
 interface PlayerCardProps {
   player: Player;
 }
@@ -42,8 +49,6 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
     </div>
   );
 };
-const minPlayers = 1;
-const maxPlayers = 8;
 
 const NewGameSetup = () => {
   const { savedGames, setSavedGames, players, setPlayers } = React.useContext(CTX);
@@ -58,7 +63,10 @@ const NewGameSetup = () => {
     console.table(players);
     console.table(newGameState);
   }, []);
-  const handleStart = (e: React.SyntheticEvent) => {
+  const minPlayers = 1;
+  const maxPlayers = 8;
+
+  const handleStart = () => {
     setSavedGames([...savedGames, newGameState]);
   };
 
@@ -101,14 +109,14 @@ const NewGameSetup = () => {
     <React.Fragment>
       <div className="button-wrapper">
         <Button className="btn double-btn" onClick={incrementPlayers} variant="contained">
-          + Player
+          + PLAYER
         </Button>
         <Button className="btn double-btn" onClick={decrementPlayers} variant="contained">
-          - Player
+          - PLAYER
         </Button>
       </div>
-      <Button component={Link} onClick={handleStart} to={`/active/${newGameState.id}`} variant="contained">
-        Start
+      <Button component={Link} onClick={handleStart} to={`/active/id?=${newGameState.id}`} variant="contained">
+        START
       </Button>
       <div className="card-wrapper" style={{ display: "grid", gridTemplateColumns: `repeat(${newGameState.players.length}, 1fr)` }}>
         {Object.keys(newGameState.players).map((value: any, index: number) => {
@@ -119,52 +127,50 @@ const NewGameSetup = () => {
   );
 };
 
-// const SavedGamesList = () => {
-//   const { savedGames } = React.useContext(CTX);
-//   // let show;
-//   return (
-//     <div>
-//       {Object.keys(savedGames).map((value: any, index: number) => {
-//         return <div key={`game_${savedGames[index].id}`}></div>;
-//       })}
-//     </div>
-//   );
-// };
-interface SavedGameListProps {
-  savedGames: Array<Game>;
-}
-
-const SavedGamesList = ({ savedGames }: SavedGameListProps) => {
+const SavedGamesList = () => {
+  const { savedGames } = React.useContext(CTX);
   return (
-    <div>
+    <div className="saved-game-list" style={{ justifyContent: "center", textAlign: "center" }}>
       {savedGames.map((value: Game, index: number) => {
-        return <SimpleCard key={`game_${value.id}`} game={savedGames[index]} />;
+        return (
+          <div className="load-game-wrapper" key={`game_${value.id}`}>
+            <SimpleCard game={savedGames[index]} />
+          </div>
+        );
       })}
     </div>
   );
 };
 const Home = () => {
-  const { savedGames } = React.useContext(CTX);
   return (
-    <div className="button-wrapper">
-      <Button component={Link} className="btn double-btn" to="/newgame" color="primary" variant="contained">
-        new game
-      </Button>
-      <SavedGamesList savedGames={savedGames} />
-    </div>
+    <React.Fragment>
+      <div className="button-wrapper">
+        <Button component={Link} className="btn double-btn" to="/newgame" color="primary" variant="contained">
+          NEW GAME
+        </Button>
+      </div>
+      <SavedGamesList />
+    </React.Fragment>
   );
 };
 
 const App: React.FC = () => {
   return (
     <div className="app">
-      <h1 className="app-header">bid euchre tools</h1>
+      <ButtonAppBar />
       <Router>
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/newgame" exact component={NewGameSetup} />
           <Route path="/active" component={ActiveGame} />
-          <Route path="/" render={() => <div>404</div>} />
+          <Route
+            path="/"
+            render={() => (
+              <div style={{ textAlign: "center" }}>
+                <h1>404</h1>
+              </div>
+            )}
+          />
         </Switch>
       </Router>
     </div>

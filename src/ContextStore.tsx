@@ -58,7 +58,7 @@ interface ContextProps {
   setPlayers: (v: any) => void;
   oldGames: Game[];
   setOldGames: (v: any) => void;
-  savedGames: Game[] | any[];
+  savedGames: Game[];
   setSavedGames: (v: any) => void; //| React.Dispatch<React.SetStateAction<any[]>>;
 }
 
