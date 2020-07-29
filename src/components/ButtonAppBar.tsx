@@ -12,11 +12,11 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       flexGrow: 1,
-      textTransform: "capitalize",
       textAlign: "center",
     },
   })
 );
+
 const StyledAppBar = withStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -33,7 +33,7 @@ export default function ButtonAppBar() {
       <StyledAppBar position="static">
         <Toolbar>
           <Typography variant="h5" className={classes.title}>
-            bid euchre tools
+            Bid Euchre Tools
           </Typography>
         </Toolbar>
       </StyledAppBar>

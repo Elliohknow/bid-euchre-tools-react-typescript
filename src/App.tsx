@@ -1,5 +1,4 @@
 import Button from "@material-ui/core/Button";
-import queryString from "query-string";
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import ButtonAppBar from "./components/ButtonAppBar";
@@ -9,46 +8,23 @@ import { CTX, Game, Player } from "./ContextStore";
 import { formatDateTime, getDateTimeElements, UUID } from "./utils";
 
 const ActiveGame = () => {
-  const { savedGames } = React.useContext(CTX);
-  const [game, setGame] = React.useState(() => {
-    const { id } = queryString.parse(window.location.search);
-    const activeGame = savedGames.filter((game: Game, index: number) => {
-      if (savedGames[index].id === id) {
-        return savedGames[index];
-      }
-    });
-    return activeGame[0];
-  });
-  const numDummies = game?.players.length <= 4 ? 4 - game?.players.length : 0;
-  const { day, date, time } = getDateTimeElements(game?.dateTime);
-  React.useEffect(() => {
-    const { id } = queryString.parse(window.location.search);
-    const activeGame = savedGames.filter((game: Game, index: number) => {
-      if (savedGames[index].id === id) {
-        return savedGames[index];
-      }
-    });
-    setGame(activeGame[0]);
-  });
+  const { activeGame } = React.useContext(CTX);
+  const numDummies = activeGame?.players.length <= 4 ? 4 - activeGame?.players.length : 0;
+  const { day, date, time } = getDateTimeElements(activeGame?.dateTime);
 
   return (
     <div className="game">
-      <p> game.id :{game?.id}</p>
+      <p> game.id :{activeGame?.id}</p>
       <div className="date">
         Started on {day}, {date} at {time}
       </div>
-      <div className="numPlayers">number of players: {game?.players.length}</div>
+      <div className="numPlayers">number of players: {activeGame?.players.length}</div>
       <div className="numDummies">number of dummy players: {numDummies}</div>
       <GameTable />
     </div>
   );
 };
-// {game.players.map((player: Player) => (
-//   <div key={`player_${player.id}`}>
-//     {" "}
-//     <h3>{player.nickname}</h3> <h4>{player.id}</h4>
-//   </div>
-// ))}
+
 interface PlayerCardProps {
   player: Player;
 }
