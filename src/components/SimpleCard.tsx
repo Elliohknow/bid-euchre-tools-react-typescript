@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { Link } from "react-router-dom";
-import { Game } from "../ContextStore";
+import { CTX, Game } from "../ContextStore";
 
 const useStyles = makeStyles({
   root: {
@@ -30,6 +30,12 @@ interface SimpleCardProps {
 export default function SimpleCard({ game }: SimpleCardProps) {
   const classes = useStyles();
 
+  const { setActiveGame } = React.useContext(CTX);
+
+  const handleClick = () => {
+    setActiveGame(game);
+  };
+
   return (
     <Card className={classes.root}>
       <CardContent>
@@ -49,7 +55,7 @@ export default function SimpleCard({ game }: SimpleCardProps) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="large" component={Link} to={`/active/${game.id}`} variant="contained">
+        <Button onClick={handleClick} size="large" component={Link} to={`/active/?id=${game.id}`} variant="contained">
           Load Game
         </Button>
       </CardActions>

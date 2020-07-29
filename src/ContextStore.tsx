@@ -6,7 +6,7 @@ export interface Props {
 }
 export interface Game {
   id: string;
-  dateTime: Date | string;
+  dateTime: string;
   players: Array<Player>;
   winner: Player | string | null;
   currentDealer?: string;
@@ -52,7 +52,13 @@ const defaultGames: Array<Game> = [
     winner: null,
   },
 ];
-// const defaultobj = {};
+
+const defaultActiveGame = {
+  id: UUID(),
+  dateTime: formatDateTime(),
+  players: defaultPlayers,
+  winner: null,
+};
 interface ContextProps {
   players: Player[];
   setPlayers: (v: any) => void;
@@ -60,6 +66,8 @@ interface ContextProps {
   setOldGames: (v: any) => void;
   savedGames: Game[];
   setSavedGames: (v: any) => void; //| React.Dispatch<React.SetStateAction<any[]>>;
+  activeGame: Game;
+  setActiveGame: (v: any) => void;
 }
 
 export const CTX = React.createContext<ContextProps>(undefined!);
@@ -68,15 +76,17 @@ const ContextStore: React.FC<Props> = (props) => {
   const [players, setPlayers] = React.useState(defaultPlayers);
   const [savedGames, setSavedGames] = React.useState(defaultGames);
   const [oldGames, setOldGames] = React.useState(defaultGames);
-
+  const [activeGame, setActiveGame] = React.useState(defaultActiveGame);
   React.useEffect(() => {
     const pData = localStorage.getItem("players");
     const sgData = localStorage.getItem("saved-games");
     const ogData = localStorage.getItem("old-games");
+    const agData = localStorage.getItem("active-game");
     try {
       if (pData) setPlayers(JSON.parse(pData));
       if (sgData) setSavedGames(JSON.parse(sgData));
       if (ogData) setOldGames(JSON.parse(ogData));
+      if (agData) setActiveGame(JSON.parse(agData));
     } catch (error) {
       console.log(error);
     }
@@ -89,6 +99,7 @@ const ContextStore: React.FC<Props> = (props) => {
     localStorage.setItem("players", JSON.stringify(players));
     localStorage.setItem("saved-games", JSON.stringify(savedGames));
     localStorage.setItem("old-games", JSON.stringify(oldGames));
+    localStorage.setItem("active-game", JSON.stringify(activeGame));
   });
 
   return (
@@ -100,6 +111,8 @@ const ContextStore: React.FC<Props> = (props) => {
         setOldGames,
         savedGames,
         setSavedGames,
+        activeGame,
+        setActiveGame,
       }}
     >
       {props.children}

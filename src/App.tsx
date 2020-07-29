@@ -6,22 +6,39 @@ import ButtonAppBar from "./components/ButtonAppBar";
 import GameTable from "./components/GameTable";
 import SimpleCard from "./components/SimpleCard";
 import { CTX, Game, Player } from "./ContextStore";
-import { formatDateTime, getKeyedGamesObjectFromArray, UUID } from "./utils";
+import { formatDateTime, getDateTimeElements, UUID } from "./utils";
 
-const ActiveGame: React.FC = () => {
+const ActiveGame = () => {
   const { savedGames } = React.useContext(CTX);
-  const [gameId, setGameId] = React.useState("");
-  // const numDummies = game?.players.length <= 4 ? 4 - game?.players.length : 0;
+  const [game, setGame] = React.useState(() => {
+    const { id } = queryString.parse(window.location.search);
+    const activeGame = savedGames.filter((game: Game, index: number) => {
+      if (savedGames[index].id === id) {
+        return savedGames[index];
+      }
+    });
+    return activeGame[0];
+  });
+  const numDummies = game?.players.length <= 4 ? 4 - game?.players.length : 0;
+  const { day, date, time } = getDateTimeElements(game?.dateTime);
   React.useEffect(() => {
-    const { id } = queryString.parse(location.search);
-    const games = getKeyedGamesObjectFromArray(savedGames);
-    // setGameId(games.id);
-  }, []);
+    const { id } = queryString.parse(window.location.search);
+    const activeGame = savedGames.filter((game: Game, index: number) => {
+      if (savedGames[index].id === id) {
+        return savedGames[index];
+      }
+    });
+    setGame(activeGame[0]);
+  });
+
   return (
     <div className="game">
-      <div className="date">the date string goes here</div>
-      <div className="numPlayers">number of players: {}</div>
-      <div className="numDummies">number of dummy players: {}</div>
+      <p> game.id :{game?.id}</p>
+      <div className="date">
+        Started on {day}, {date} at {time}
+      </div>
+      <div className="numPlayers">number of players: {game?.players.length}</div>
+      <div className="numDummies">number of dummy players: {numDummies}</div>
       <GameTable />
     </div>
   );
@@ -50,7 +67,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
   );
 };
 
-const NewGameSetup = () => {
+const NewGameSetup: React.FC = () => {
   const { savedGames, setSavedGames, players, setPlayers } = React.useContext(CTX);
   const [newGameState, setNewGameState] = React.useState({
     id: UUID(),
@@ -115,7 +132,7 @@ const NewGameSetup = () => {
           - PLAYER
         </Button>
       </div>
-      <Button component={Link} onClick={handleStart} to={`/active/id?=${newGameState.id}`} variant="contained">
+      <Button component={Link} onClick={handleStart} to={`/active/?id=${newGameState.id}`} variant="contained">
         START
       </Button>
       <div className="card-wrapper" style={{ display: "grid", gridTemplateColumns: `repeat(${newGameState.players.length}, 1fr)` }}>

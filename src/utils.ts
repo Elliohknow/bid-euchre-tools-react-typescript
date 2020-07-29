@@ -10,6 +10,10 @@ export function formatDateTime(date?: Date): string {
     minute: "2-digit",
   });
 }
+export function getDateTimeElements(date: string) {
+  let strArr = date.slice().split(",");
+  return { day: strArr[0], date: strArr[1], time: strArr[2] };
+}
 export function UUID(): string {
   let result = "";
   const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
