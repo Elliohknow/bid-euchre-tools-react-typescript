@@ -20,7 +20,7 @@ const ActiveGame = () => {
       </div>
       <div className="numPlayers">number of players: {activeGame?.players.length}</div>
       <div className="numDummies">number of dummy players: {numDummies}</div>
-      <GameTable />
+      <GameTable game={activeGame} />
     </div>
   );
 };

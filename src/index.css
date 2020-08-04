@@ -69,6 +69,8 @@ body {
   justify-content: center;
 }
 .load-game-wrapper {
-  margin: 15px;
-  justify-content: space-around;
+  margin: auto;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }

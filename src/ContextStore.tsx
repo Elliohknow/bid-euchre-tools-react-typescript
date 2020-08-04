@@ -24,6 +24,7 @@ export interface Player {
   callCount?: number;
   upRiverCount?: number;
   luckySuit?: Suit;
+  currentScore?: number;
 }
 export interface Suit {
   name?: string;

@@ -7,6 +7,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import React from "react";
+import { Game, Player } from "../ContextStore";
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -30,54 +31,65 @@ const StyledTableRow = withStyles((theme: Theme) =>
   })
 )(TableRow);
 
-function createData(name: string, calories: number, fat: number) {
-  return { name, calories, fat };
+function createData(score1 = 0, score2 = 0, score3?: number) {
+  return { score1, score2, score3 };
 }
 
-const rows = [
-  createData("Hand #1", 159, 6.0),
-  createData("Hand #2", 237, 9.0),
-  createData("Hand #3", 262, 16.0),
-  createData("Hand #4", 305, 3.7),
-  createData("Hand #5", 356, 16.0),
-  createData("Hand #6", 356, 16.0),
-  createData("Hand #7", 356, 16.0),
-  createData("Hand #8", 356, 16.0),
-];
+function createRows(players: Player[]) {
+  return [
+    createData(players[0]?.currentScore, players[1]?.currentScore), //, players[2]?.currentScore),
+    createData(players[0]?.currentScore, players[1]?.currentScore), //, players[2]?.currentScore),
+    createData(players[0]?.currentScore, players[1]?.currentScore), //, players[2]?.currentScore),
+    createData(players[0]?.currentScore, players[1]?.currentScore), //, players[2]?.currentScore),
+    createData(players[0]?.currentScore, players[1]?.currentScore), //, players[2]?.currentScore),
+    createData(players[0]?.currentScore, players[1]?.currentScore), //, players[2]?.currentScore),
+    createData(players[0]?.currentScore, players[1]?.currentScore), //, players[2]?.currentScore),
+    createData(players[0]?.currentScore, players[1]?.currentScore), //, players[2]?.currentScore),
+  ];
+}
 
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
   },
 });
-
-export default function GameTable() {
+interface Props {
+  game: Game;
+}
+// &nbsp; -> whitespace
+const GameTable: React.FC<Props> = ({ game }) => {
   const classes = useStyles();
+  const rows = createRows(game.players);
 
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+            <StyledTableCell>Hand</StyledTableCell>
+            {game.players.map((value: Player, index: number) => {
+              return (
+                <StyledTableCell key={`head_cell_${value.nickname}`} align="right">
+                  {game.players[index].nickname}
+                </StyledTableCell>
+              );
+            })}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
+          {rows.map((row, index) => (
+            <StyledTableRow key={`body_row_${index}`}>
               <StyledTableCell component="th" scope="row">
-                {row.name}
+                #{index + 1}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
+              <StyledTableCell align="right">{row.score1}</StyledTableCell>
+              <StyledTableCell align="right">{row.score2}</StyledTableCell>
+              <StyledTableCell align="right">{row?.score3}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
-}
+};
+export default GameTable;
