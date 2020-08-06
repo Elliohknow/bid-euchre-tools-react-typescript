@@ -57,11 +57,11 @@ body {
   font-size: 3rem;
 }
 
-.card-wrapper {
+.select-player-wrapper {
   display: grid;
   gap: 15px;
   width: 100%;
-  justify-content: space-evenly;
+  place-items: center;
 }
 .saved-game-list {
   text-align: center;

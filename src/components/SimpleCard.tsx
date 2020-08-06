@@ -27,11 +27,11 @@ const useStyles = makeStyles({
   },
 });
 
-interface SimpleCardProps {
+interface Props {
   game: Game;
 }
 
-export default function SimpleCard({ game }: SimpleCardProps) {
+export default function SimpleCard({ game }: Props) {
   const classes = useStyles();
 
   const { setActiveGame, setSavedGames, savedGames } = React.useContext(CTX);

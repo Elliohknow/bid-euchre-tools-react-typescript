@@ -1,7 +1,9 @@
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
-import ButtonAppBar from "./components/ButtonAppBar";
+import BasicAppBar from "./components/BasicAppBar";
 import GameTable from "./components/GameTable";
 import SimpleCard from "./components/SimpleCard";
 import { CTX, Game, Player } from "./ContextStore";
@@ -43,6 +45,17 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player }) => {
   );
 };
 
+const AddPlayerCard: React.FC = () => {
+  return (
+    <div className="player-card-items">
+      <IconButton>
+        <PersonAddIcon />
+      </IconButton>
+      <h3 className="player-card-item">Add Player</h3>
+    </div>
+  );
+};
+
 const NewGameSetup: React.FC = () => {
   const { savedGames, setSavedGames, players, setPlayers } = React.useContext(CTX);
   const [newGameState, setNewGameState] = React.useState({
@@ -52,21 +65,21 @@ const NewGameSetup: React.FC = () => {
     winner: null,
   });
   React.useEffect(() => {
-    console.table(savedGames);
-    console.table(players);
-    console.table(newGameState);
+    console.log(`%c SAVED GAMES: ${savedGames}`, "color:slategray");
+    console.log(`%c PLAYERS: ${players}`, "color:orangered");
+    console.log(`%c NEW GAME STATE: ${newGameState}`, "color:royalblue");
+    // console.table(players);
+    // console.table(newGameState);
   }, []);
-  const minPlayers = 1;
-  const maxPlayers = 8;
 
   const handleStart = () => {
     setSavedGames([...savedGames, newGameState]);
   };
 
-  const incrementPlayers = (e: React.SyntheticEvent) => {
+  const addPlayer = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (newGameState.players.length >= maxPlayers) {
-      alert(`Cannot add another player. Maximum player limit reached (${maxPlayers}).`);
+    if (newGameState.players.length >= 5) {
+      alert(`Cannot add another player. Maximum player limit reached (5).`);
       return;
     }
     const playersInNewGame = newGameState.players;
@@ -86,10 +99,10 @@ const NewGameSetup: React.FC = () => {
     }
     setNewGameState({ ...newGameState, players: playersInNewGame });
   };
-  const decrementPlayers = (e: React.SyntheticEvent) => {
+  const removePlayer = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    if (newGameState.players.length <= minPlayers) {
-      alert(`Cannot remove ${players[0].nickname}. Minimum player limit reached (${minPlayers}).`);
+    if (newGameState.players.length < 2) {
+      alert(`Cannot remove ${players[0].nickname}. Minimum player limit reached (2).`);
       return;
     }
     const playersInNewGame = newGameState.players;
@@ -100,18 +113,18 @@ const NewGameSetup: React.FC = () => {
 
   return (
     <React.Fragment>
-      <div className="button-wrapper">
-        <Button className="btn double-btn" onClick={incrementPlayers} variant="contained">
+      {/* <div className="button-wrapper">
+        <Button className="btn double-btn" onClick={addPlayer} variant="contained">
           + PLAYER
         </Button>
-        <Button className="btn double-btn" onClick={decrementPlayers} variant="contained">
+        <Button className="btn double-btn" onClick={removePlayer} variant="contained">
           - PLAYER
         </Button>
-      </div>
+      </div> */}
       <Button component={Link} onClick={handleStart} to={`/active/?id=${newGameState.id}`} variant="contained">
         START
       </Button>
-      <div className="card-wrapper" style={{ display: "grid", gridTemplateColumns: `repeat(${newGameState.players.length}, 1fr)` }}>
+      <div className="select-player-wrapper" style={{ display: "grid", gridTemplateColumns: `repeat(${newGameState.players.length}, 1fr)` }}>
         {Object.keys(newGameState.players).map((value: any, index: number) => {
           return <PlayerCard player={newGameState.players[index]} key={`card_${newGameState.players[index].id}`} />;
         })}
@@ -150,7 +163,7 @@ const Home = () => {
 const App: React.FC = () => {
   return (
     <div className="app">
-      <ButtonAppBar />
+      <BasicAppBar />
       <Router>
         <Switch>
           <Route path="/" exact component={Home} />
