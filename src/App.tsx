@@ -1,11 +1,13 @@
+import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import { purple } from "@material-ui/core/colors";
 import IconButton from "@material-ui/core/IconButton";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import BasicAppBar from "./components/BasicAppBar";
+import GameCard from "./components/GameCard";
 import GameTable from "./components/GameTable";
-import SimpleCard from "./components/SimpleCard";
 import { CTX, Game, Player } from "./ContextStore";
 import { formatDateTime, getDateTimeElements, UUID } from "./utils";
 
@@ -128,6 +130,7 @@ const NewGameSetup: React.FC = () => {
         {Object.keys(newGameState.players).map((value: any, index: number) => {
           return <PlayerCard player={newGameState.players[index]} key={`card_${newGameState.players[index].id}`} />;
         })}
+        <AddPlayerCard />
       </div>
     </React.Fragment>
   );
@@ -136,22 +139,36 @@ const NewGameSetup: React.FC = () => {
 const SavedGamesList = () => {
   const { savedGames } = React.useContext(CTX);
   return (
-    <div className="saved-game-list" style={{ justifyContent: "center", textAlign: "center" }}>
+    <ul className="saved-game-list">
       {savedGames.map((value: Game, index: number) => {
         return (
-          <div className="load-game-wrapper" key={`game_${value.id}`}>
-            <SimpleCard game={savedGames[index]} />
-          </div>
+          <li className="game-card-wrapper" key={`game_${value.id}`}>
+            <GameCard game={savedGames[index]} />
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 };
+
+const useButtonStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      color: theme.palette.getContrastText(purple[400]),
+      backgroundColor: purple[400],
+      "&:hover": {
+        backgroundColor: purple[600],
+      },
+    },
+  })
+);
+
 const Home = () => {
+  const classes = useButtonStyles();
   return (
     <React.Fragment>
       <div className="button-wrapper">
-        <Button component={Link} className="btn double-btn" to="/newgame" color="primary" variant="contained">
+        <Button component={Link} size="large" className={classes.root} to="/newgame" color="primary" variant="contained">
           NEW GAME
         </Button>
       </div>

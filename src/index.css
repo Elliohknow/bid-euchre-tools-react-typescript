@@ -1,3 +1,6 @@
+:root {
+  --radgrad: "radial-gradient(circle at center, rgb(115, 55, 140), darkmagenta)";
+}
 body {
   font-size: 16px;
   margin: 0;
@@ -7,11 +10,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 .app {
-  background-color: #eeeeee;
+  background-color: #e9e4e4;
   display: block;
   height: 100vh;
   width: 100%;
-  justify-content: space-between;
   text-align: center;
   font-size: 16px;
   overflow-x: hidden;
@@ -22,8 +24,6 @@ body {
 .btn {
   font-weight: bold;
   text-transform: uppercase;
-  color: white;
-  background-color: cornflowerblue;
   cursor: pointer;
 }
 .rising,
@@ -41,7 +41,7 @@ body {
   font-weight: bold;
   font-size: 2rem;
   text-transform: uppercase;
-  color: royalblue;
+  color: darkmagenta;
   background-color: white;
   cursor: pointer;
 }
@@ -54,7 +54,8 @@ body {
 }
 
 .button-wrapper {
-  font-size: 3rem;
+  font-size: 4rem;
+  margin: 1rem 0 2rem 0;
 }
 
 .select-player-wrapper {
@@ -63,14 +64,18 @@ body {
   width: 100%;
   place-items: center;
 }
-.saved-game-list {
+ul.saved-game-list {
+  width: 100%;
+  display: grid;
+  list-style: none;
+  gap: 25px;
+  /* margin: 0; */
+  padding: 0;
+  grid-template-columns: max-content;
   text-align: center;
-  align-items: center;
-  justify-content: center;
+  place-content: center;
+  place-items: center;
 }
-.load-game-wrapper {
-  margin: auto;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
+li.game-card-wrapper {
+  width: 100%;
 }
