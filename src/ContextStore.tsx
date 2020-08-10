@@ -1,5 +1,23 @@
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import React from "react";
 import { formatDateTime, UUID } from "./utils";
+
+const appTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#ad1457",
+      // dark: "#790e3c",
+      // light: "#bd4378",
+      // contrastText: "#fff",
+    },
+    secondary: {
+      main: "#006064",
+      // dark: "#004346",
+      // light: "#337f83",
+      // contrastText: "#fff",
+    },
+  },
+});
 
 export interface Props {
   children: React.ReactNode;
@@ -25,6 +43,9 @@ export interface Player {
   upRiverCount?: number;
   luckySuit?: Suit;
   currentScore?: number;
+  lastWin?: string;
+  dealtLast?: boolean;
+  isDealer?: boolean;
 }
 export interface Suit {
   name?: string;
@@ -104,20 +125,22 @@ const ContextStore: React.FC<Props> = (props) => {
   });
 
   return (
-    <CTX.Provider
-      value={{
-        players,
-        setPlayers,
-        oldGames,
-        setOldGames,
-        savedGames,
-        setSavedGames,
-        activeGame,
-        setActiveGame,
-      }}
-    >
-      {props.children}
-    </CTX.Provider>
+    <ThemeProvider theme={appTheme}>
+      <CTX.Provider
+        value={{
+          players,
+          setPlayers,
+          oldGames,
+          setOldGames,
+          savedGames,
+          setSavedGames,
+          activeGame,
+          setActiveGame,
+        }}
+      >
+        {props.children}
+      </CTX.Provider>
+    </ThemeProvider>
   );
 };
 export default ContextStore;

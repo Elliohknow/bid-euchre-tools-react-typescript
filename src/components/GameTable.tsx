@@ -12,7 +12,7 @@ import { Game, Player } from "../ContextStore";
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
     head: {
-      backgroundColor: theme.palette.common.black,
+      backgroundColor: "var(--radgrad)",
       color: theme.palette.common.white,
     },
     body: {
