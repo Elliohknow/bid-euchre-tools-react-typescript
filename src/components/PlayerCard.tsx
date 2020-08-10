@@ -1,3 +1,4 @@
+import { Avatar } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -84,11 +85,10 @@ export default function PlayerCard({ player, onToggle }: Props) {
   return (
     <Card className={classes.root} raised onClick={handleToggle}>
       <CardHeader
-        title={`${player.nickname}`}
-        subheader={`Last Win: ${player.lastWin}`}
+        avatar={<Avatar aria-label=""></Avatar>}
         actions={
           !checkedState ? (
-            <IconButton>
+            <IconButton aria-label="unchecked">
               <CheckBoxOutlineBlankIcon />
             </IconButton>
           ) : (
@@ -97,6 +97,8 @@ export default function PlayerCard({ player, onToggle }: Props) {
             </IconButton>
           )
         }
+        title={`${player.nickname}`}
+        subheader={`Last Win: ${player.lastWin}`}
       />
       <CardContent>
         <Typography color="textSecondary" className="player-card-item">

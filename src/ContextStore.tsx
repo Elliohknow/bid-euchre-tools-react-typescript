@@ -5,16 +5,16 @@ import { formatDateTime, UUID } from "./utils";
 const appTheme = createMuiTheme({
   palette: {
     primary: {
-      main: "#ad1457",
-      // dark: "#790e3c",
-      // light: "#bd4378",
-      // contrastText: "#fff",
+      main: "#006064",
+      dark: "#004346",
+      light: "#337f83",
+      contrastText: "#fff",
     },
     secondary: {
-      main: "#006064",
-      // dark: "#004346",
-      // light: "#337f83",
-      // contrastText: "#fff",
+      main: "#ad1457",
+      dark: "#790e3c",
+      light: "#bd4378",
+      contrastText: "#fff",
     },
   },
 });
