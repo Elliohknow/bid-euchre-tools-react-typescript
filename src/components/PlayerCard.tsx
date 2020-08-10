@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
   player: Player;
-  onToggle: any;
+  onToggle: (v: any) => void;
   // addNewPlayer: (v: any) => void;
 }
 
@@ -85,14 +85,14 @@ export default function PlayerCard({ player, onToggle }: Props) {
   return (
     <Card className={classes.root} raised onClick={handleToggle}>
       <CardHeader
-        avatar={<Avatar aria-label=""></Avatar>}
+        avatar={<Avatar alt={`${player.nickname}`}></Avatar>}
         actions={
           !checkedState ? (
             <IconButton aria-label="unchecked">
               <CheckBoxOutlineBlankIcon />
             </IconButton>
           ) : (
-            <IconButton>
+            <IconButton aria-label="checked">
               <CheckBoxIcon />
             </IconButton>
           )

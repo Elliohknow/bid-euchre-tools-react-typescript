@@ -57,10 +57,15 @@ const NewGameSetup: React.FC = () => {
 
   const onToggle = (newPlayer: Player) => {
     let currentPlayers = newGameState.players;
-    console.log(`%c CURRENTPLAYERS.length: ${currentPlayers?.length}`, "color:green");
-    if (!currentPlayers.includes(newPlayer)) {
+    //console.log(`%c CURRENTPLAYERS.length: ${currentPlayers?.length}`, "color:green");
+    const index = currentPlayers.findIndex((element: Player) => element === newPlayer);
+    //if it exists, delete it. if it doesn't add it
+    if (index > -1) {
+      currentPlayers.splice(index, 1);
+    } else {
       currentPlayers.push(newPlayer);
     }
+
     setNewPlayers(currentPlayers);
   };
 
@@ -88,7 +93,7 @@ const NewGameSetup: React.FC = () => {
 const AddPlayerCard: React.FC = () => {
   return (
     <div className="player-card-items">
-      <IconButton size="medium">
+      <IconButton size="medium" aria-label="add new player">
         <PersonAddIcon fontSize="large" />
       </IconButton>
       <h3 className="player-card-item">Add Player</h3>
