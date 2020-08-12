@@ -17,6 +17,7 @@ import { formatDateTime, getDateTimeElements, UUID } from "./utils";
 
 const ActiveGame: React.FC = () => {
   const { activeGame } = React.useContext(CTX);
+  // const [turnCount, setTurnVout]
   const numDummies = activeGame?.players.length <= 4 ? 4 - activeGame?.players.length : 0;
   const { day, date, time } = getDateTimeElements(activeGame?.dateTime);
 
@@ -58,8 +59,8 @@ const NewGameSetup: React.FC = () => {
   const onToggle = (newPlayer: Player) => {
     let currentPlayers = newGameState.players;
     //console.log(`%c CURRENTPLAYERS.length: ${currentPlayers?.length}`, "color:green");
-    const index = currentPlayers.findIndex((element: Player) => element === newPlayer);
-    //if it exists, delete it. if it doesn't add it
+    const index = currentPlayers.findIndex((value: Player) => value === newPlayer);
+    //if it exists, delete it. if it doesn't, add it
     if (index > -1) {
       currentPlayers.splice(index, 1);
     } else {

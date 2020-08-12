@@ -6,15 +6,15 @@ const appTheme = createMuiTheme({
   palette: {
     primary: {
       main: "#006064",
-      dark: "#004346",
-      light: "#337f83",
-      contrastText: "#fff",
+      // dark: "#004346",
+      // light: "#337f83",
+      // contrastText: "#fff",
     },
     secondary: {
       main: "#ad1457",
-      dark: "#790e3c",
-      light: "#bd4378",
-      contrastText: "#fff",
+      // dark: "#790e3c",
+      // light: "#bd4378",
+      // contrastText: "#fff",
     },
   },
 });
@@ -35,17 +35,18 @@ export interface Game {
 export interface Player {
   id: string;
   nickname: string;
+  currentScore?: number;
+  stats?: PlayerStats;
+}
+export interface PlayerStats {
   gamesPlayed?: number;
   wins?: number;
   losses?: number;
-  bidsTaken?: number;
+  totalBidsTaken?: number;
+  luckySuit?: Suit;
+  lastWin?: string;
   callCount?: number;
   upRiverCount?: number;
-  luckySuit?: Suit;
-  currentScore?: number;
-  lastWin?: string;
-  dealtLast?: boolean;
-  isDealer?: boolean;
 }
 export interface Suit {
   name?: string;

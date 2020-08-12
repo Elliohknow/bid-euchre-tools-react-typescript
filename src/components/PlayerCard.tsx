@@ -98,26 +98,26 @@ export default function PlayerCard({ player, onToggle }: Props) {
           )
         }
         title={`${player.nickname}`}
-        subheader={`Last Win: ${player.lastWin}`}
+        subheader={`Last Win: ${player?.stats?.lastWin}`}
       />
       <CardContent>
         <Typography color="textSecondary" className="player-card-item">
-          Games Played: {player?.gamesPlayed || "¯\\_(ツ)_/¯"}
+          Games Played: {player?.stats?.gamesPlayed || "¯\\_(ツ)_/¯"}
         </Typography>
         <Typography variant="body2" component="p" className="player-card-item">
-          Wins: {player?.wins || "¯\\_(ツ)_/¯"}
+          Wins: {player?.stats?.wins || "¯\\_(ツ)_/¯"}
         </Typography>
         <Typography variant="body2" component="p" className="player-card-item">
-          Bids Taken: {player?.bidsTaken || "¯\\_(ツ)_/¯"}
+          Bids Taken: {player?.stats?.totalBidsTaken || "¯\\_(ツ)_/¯"}
         </Typography>
         <Typography variant="body2" component="p" className="player-card-item">
-          Up-The-River Count: {player?.upRiverCount || "¯\\_(ツ)_/¯"}
+          Up-The-River Count: {player?.stats?.upRiverCount || "¯\\_(ツ)_/¯"}
         </Typography>
         <Typography variant="body2" component="p" className="player-card-item">
-          Call Count: {player?.callCount || "¯\\_(ツ)_/¯"}
+          Call Count: {player?.stats?.callCount || "¯\\_(ツ)_/¯"}
         </Typography>
         <Typography variant="body2" component="p" className="player-card-item">
-          Lucky Suit: {player?.luckySuit || "¯\\_(ツ)_/¯"}
+          Lucky Suit: {player?.stats?.luckySuit || "¯\\_(ツ)_/¯"}
         </Typography>
       </CardContent>
       <CardActions className={classes.actions}>
