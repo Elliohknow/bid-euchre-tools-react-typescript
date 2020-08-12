@@ -31,13 +31,13 @@ const StyledTableRow = withStyles((theme: Theme) =>
   })
 )(TableRow);
 
-// function createData(score1 = 0, score2 = 0, score3?: number) {
-//   return { score1, score2, score3 };
-// }
 function createData(score1 = 0, score2 = 0, score3?: number) {
   return { score1, score2, score3 };
 }
-function createColumns() {}
+// function createData(scores: any[]) {
+
+// }
+// function createColumns() {}
 function createRows(players: Player[]) {
   return [
     createData(players[0]?.currentScore, players[1]?.currentScore), //, players[2]?.currentScore),
@@ -102,7 +102,7 @@ const GameTable: React.FC<Props> = ({ game }) => {
                 #{index + 1}
               </TableCell>
               {game.players.map((value: Player, idx: number) => {
-                let v = currentScores[value.nickname];
+                let v = currentScores[`${value.nickname}`];
                 console.log("currentScores[value.nickname]", v);
                 return (
                   <TableCell key={`${value.nickname}_${index}_${idx}`} align="center">
