@@ -117,11 +117,11 @@ export default function PlayerCard({ player, onToggle }: Props) {
           Call Count: {player?.stats?.callCount || "¯\\_(ツ)_/¯"}
         </Typography>
         <Typography variant="body2" component="p" className="player-card-item">
-          Lucky Suit: {player?.stats?.luckySuit || "¯\\_(ツ)_/¯"}
+          Favored Suit: {player?.stats?.favoredSuit || "¯\\_(ツ)_/¯"}
         </Typography>
       </CardContent>
       <CardActions className={classes.actions}>
-        <IconButton size="small">
+        <IconButton size="small" disabled>
           <EditIcon />
         </IconButton>
       </CardActions>

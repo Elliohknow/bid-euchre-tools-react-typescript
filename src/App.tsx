@@ -16,7 +16,7 @@ import { formatDateTime, getDateTimeElements, UUID } from "./utils";
 // import RecentActorsIcon from "@material-ui/icons/RecentActors";
 
 const ActiveGame: React.FC = () => {
-  const { activeGame } = React.useContext(CTX);
+  const { activeGame, setActiveGame } = React.useContext(CTX);
   // const [turnCount, setTurnVout]
   const numDummies = activeGame?.players.length <= 4 ? 4 - activeGame?.players.length : 0;
   const { day, date, time } = getDateTimeElements(activeGame?.dateTime);
@@ -29,7 +29,7 @@ const ActiveGame: React.FC = () => {
       </div>
       <div className="numPlayers">number of players: {activeGame?.players.length}</div>
       <div className="numDummies">number of dummy players: {numDummies}</div>
-      <GameTable game={activeGame} />
+      <GameTable activeGame={activeGame} setActiveGame={setActiveGame} />
     </div>
   );
 };

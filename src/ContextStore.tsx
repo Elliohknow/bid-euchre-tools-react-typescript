@@ -35,6 +35,7 @@ export interface Game {
 export interface Player {
   id: string;
   nickname: string;
+  // position: number;
   currentScore?: number;
   stats?: PlayerStats;
 }
@@ -43,7 +44,7 @@ export interface PlayerStats {
   wins?: number;
   losses?: number;
   totalBidsTaken?: number;
-  luckySuit?: Suit;
+  favoredSuit?: Suit;
   lastWin?: string;
   callCount?: number;
   upRiverCount?: number;
@@ -57,14 +58,17 @@ const defaultPlayers: Array<Player> = [
   {
     id: "player_1",
     nickname: "Pat",
+    currentScore: 0,
   },
   {
     id: "player_2",
     nickname: "Elliott",
+    currentScore: 0,
   },
   {
     id: "player_3",
     nickname: "Liz",
+    currentScore: 0,
   },
 ];
 const defaultGames: Array<Game> = [
