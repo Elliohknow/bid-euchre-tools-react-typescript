@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
       marginTop: 0,
+      marginBottom: 10,
     },
     title: {
       flexGrow: 1,
@@ -33,7 +34,7 @@ export default function BasicAppBar() {
     <div className={classes.root}>
       <StyledAppBar position="static">
         <Toolbar>
-          <Typography variant="h5" className={classes.title}>
+          <Typography variant="h4" className={classes.title}>
             Bid Euchre Tools
           </Typography>
         </Toolbar>

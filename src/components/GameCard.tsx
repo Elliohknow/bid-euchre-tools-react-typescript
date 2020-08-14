@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       padding: 8,
       minWidth: 300,
-      maxWidth: 500,
+      maxWidth: 600,
       justifyContent: "center",
     },
     pos: {
@@ -63,7 +63,7 @@ export default function GameCard({ game }: Props) {
   };
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} raised>
       <CardHeader title={`Recent ${game.players.length}-Player Game`} subheader={`${game.dateTime}`} />
       <CardContent>
         <Typography className={classes.pos} color="textSecondary">

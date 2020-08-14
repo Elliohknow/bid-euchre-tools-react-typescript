@@ -22,6 +22,11 @@ export function UUID(): string {
   }
   return result;
 }
+export function getRandomInitialDealer(max: number): number {
+  let dealer = Math.floor(Math.random() * max);
+  console.log({ dealer });
+  return dealer;
+}
 
 function keyByNicknameReducer(acc: object, player: any): object {
   return { ...acc, [player.nickname]: player };

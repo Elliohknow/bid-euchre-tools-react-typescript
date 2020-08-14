@@ -1,20 +1,20 @@
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import React from "react";
-import { formatDateTime, UUID } from "./utils";
+import { formatDateTime, getRandomInitialDealer, UUID } from "./utils";
 
 const appTheme = createMuiTheme({
   palette: {
     primary: {
       main: "#006064",
-      // dark: "#004346",
-      // light: "#337f83",
-      // contrastText: "#fff",
+      dark: "#004346",
+      light: "#337f83",
+      contrastText: "#fff",
     },
     secondary: {
       main: "#ad1457",
-      // dark: "#790e3c",
-      // light: "#bd4378",
-      // contrastText: "#fff",
+      dark: "#790e3c",
+      light: "#bd4378",
+      contrastText: "#fff",
     },
   },
 });
@@ -26,16 +26,15 @@ export interface Game {
   id: string;
   dateTime: string;
   players: Array<Player>;
-  winner: Player | string | null;
+  winner: any;
+  currentHand: number;
   currentDealer?: string;
-  currentHand?: number;
   currentLeader?: any;
   scores?: Array<any>;
 }
 export interface Player {
   id: string;
   nickname: string;
-  // position: number;
   currentScore?: number;
   stats?: PlayerStats;
 }
@@ -78,6 +77,7 @@ const defaultGames: Array<Game> = [
     players: defaultPlayers,
     winner: null,
     currentHand: 1,
+    currentDealer: defaultPlayers[getRandomInitialDealer(defaultPlayers.length)].nickname,
   },
 ];
 
@@ -87,6 +87,7 @@ const defaultActiveGame = {
   players: defaultPlayers,
   winner: null,
   currentHand: 1,
+  currentDealer: defaultPlayers[getRandomInitialDealer(defaultPlayers.length)].nickname,
 };
 interface ContextProps {
   players: Player[];
@@ -94,7 +95,7 @@ interface ContextProps {
   oldGames: Game[];
   setOldGames: (v: any) => void;
   savedGames: Game[];
-  setSavedGames: (v: any) => void; //| React.Dispatch<React.SetStateAction<any[]>>;
+  setSavedGames: (v: any) => void;
   activeGame: Game;
   setActiveGame: (v: any) => void;
 }
@@ -125,6 +126,7 @@ const ContextStore: React.FC<Props> = (props) => {
   }, []);
 
   React.useEffect(() => {
+    console.log("setting values to localStorage");
     localStorage.setItem("players", JSON.stringify(players));
     localStorage.setItem("saved-games", JSON.stringify(savedGames));
     localStorage.setItem("old-games", JSON.stringify(oldGames));

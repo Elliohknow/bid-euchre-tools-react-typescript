@@ -42,7 +42,6 @@ const useStyles = makeStyles((theme: Theme) =>
       "&:hover": {
         opacity: 1,
         marginTop: 13,
-        // backgroundImage: PersonAddIcon
       },
     },
     btn: {
@@ -66,17 +65,19 @@ interface Props {
 }
 
 export default function PlayerCard({ player, onToggle }: Props) {
-  const [checkedState, setCheckedState] = React.useState(false);
+  const [checkedState, setCheckedState] = React.useState(true);
   // const [count, setCount] = React.useState(0);
   const classes = useStyles();
-  const handleToggle = () => {
+
+  const handleToggle = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     // setCount(count + 1);
+    e.preventDefault();
     setCheckedState(!checkedState);
-    // onToggle(player);
+    onToggle(player);
   };
 
   React.useEffect(() => {
-    if (checkedState) {
+    if (!checkedState) {
       onToggle(player);
       console.log({ player });
     }
@@ -98,7 +99,7 @@ export default function PlayerCard({ player, onToggle }: Props) {
           )
         }
         title={`${player.nickname}`}
-        subheader={`Last Win: ${player?.stats?.lastWin}`}
+        subheader={`Last Win: ${player?.stats?.lastWin || "¯\\_(ツ)_/¯"}`}
       />
       <CardContent>
         <Typography color="textSecondary" className="player-card-item">

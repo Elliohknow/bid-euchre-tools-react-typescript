@@ -1,7 +1,11 @@
 :root {
   --pmain: #006064;
+  --pdark: #004346;
+  --plight: #337f83;
   --smain: #ad1457;
-  --radgrad: radial-gradient(circle at center var(--pmain), #790e3c);
+  --sdark: #790e3c;
+  --slight: #bd4378;
+  --radgrad: radial-gradient(circle at center var(--pmain), var(--slight));
   --offwhite: #e9e4e4;
 }
 
@@ -80,11 +84,12 @@ ul.saved-game-list {
   place-items: center;
 }
 li.game-card-wrapper {
-  background-color: #e9e4e4;
+  background-color: #dbd1d3;
   width: 100%;
 }
-.current-turn {
-  background-color: var(--pmain);
+.current-turn,
+.current-turn > * {
+  background-color: var(--radgrad);
   color: var(--offwhite) !important;
 }
 .dealer-icon {

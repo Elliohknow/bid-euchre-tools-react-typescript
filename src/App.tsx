@@ -1,14 +1,12 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
-import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import BasicAppBar from "./components/BasicAppBar";
 import GameCard from "./components/GameCard";
-import GameTable from "./components/GameTable";
 import PlayerCard from "./components/PlayerCard";
+import GameTable from "./components/Table";
 import { CTX, Game, Player } from "./ContextStore";
 import { formatDateTime, getDateTimeElements, UUID } from "./utils";
 // import HelpOutlinedIcon from "@material-ui/icons/HelpOutlined";
@@ -28,18 +26,17 @@ const ActiveGame: React.FC = () => {
       </div>
       <div className="numPlayers">number of players: {activeGame?.players.length}</div>
       <div className="numDummies">number of dummy players: {numDummies}</div>
-      <GameTable activeGame={activeGame} setActiveGame={setActiveGame} />
+      <GameTable />
     </div>
   );
 };
 
 const NewGameSetup: React.FC = () => {
-  const { savedGames, setSavedGames, players } = React.useContext(CTX);
-  const [newPlayers, setNewPlayers] = React.useState(new Array());
+  const { setActiveGame, savedGames, setSavedGames, players } = React.useContext(CTX);
   const [newGameState, setNewGameState] = React.useState({
     id: UUID(),
     dateTime: formatDateTime(),
-    players: newPlayers,
+    players: players,
     winner: null,
   });
 
@@ -47,34 +44,40 @@ const NewGameSetup: React.FC = () => {
     console.table(savedGames);
     console.table(players);
 
-    setNewGameState({ ...newGameState, players: newPlayers });
+    // setNewGameState({ ...newGameState, players: players });
     console.table(newGameState);
-    console.table(newPlayers);
-  }, [newPlayers, newGameState]);
+    console.table(newGameState.players);
+  }, [newGameState]);
 
   const handleStart = () => {
+    setActiveGame(newGameState);
     setSavedGames([...savedGames, newGameState]);
   };
 
-  const onToggle = (newPlayer: Player) => {
-    let currentPlayers = newGameState.players;
+  const onToggle = (playerToToggle: Player) => {
+    let currentPlayers = newGameState.players.slice();
     //console.log(`%c CURRENTPLAYERS.length: ${currentPlayers?.length}`, "color:green");
-    const index = currentPlayers.findIndex((value: Player) => value === newPlayer);
+    const index = currentPlayers.findIndex((value: Player) => value.id === playerToToggle.id);
     //if it exists, delete it. if it doesn't, add it
     if (index > -1) {
-      currentPlayers.splice(index, 1);
+      let tempPlayers = currentPlayers.slice();
+      currentPlayers = tempPlayers.splice(index, 1);
     } else {
-      currentPlayers.push(newPlayer);
+      currentPlayers.push(playerToToggle);
     }
 
-    setNewPlayers(currentPlayers);
-    console.log();
+    setNewGameState({ ...newGameState, players: currentPlayers });
+    checkContextState();
   };
+  function checkContextState() {
+    console.log({ newGameState }, "...checking state");
+    console.table(newGameState.players);
+  }
 
   return (
     <React.Fragment>
       <Button
-        color="primary"
+        color="secondary"
         component={Link}
         onClick={handleStart}
         to={`/active/?id=${newGameState.id}`}
@@ -83,25 +86,25 @@ const NewGameSetup: React.FC = () => {
       >
         START
       </Button>
-      <div className="select-player-wrapper" style={{ display: "grid", gridTemplateColumns: `repeat(${players.length + 1}, 1fr)` }}>
-        {Object.keys(players).map((value: any, index: number) => {
-          return <PlayerCard onToggle={onToggle} player={players[index]} key={`card_${players[index].id}`} />;
+      <div className="select-player-wrapper" style={{ display: "grid", gridTemplateColumns: `repeat(${players.length}, 1fr)` }}>
+        {players.map((value: Player, index: number) => {
+          return <PlayerCard onToggle={onToggle} player={value} key={`pc_${players[index].id}`} />;
         })}
-        <AddPlayerCard />
+        {/* <AddPlayerCard /> */}
       </div>
     </React.Fragment>
   );
 };
-const AddPlayerCard: React.FC = () => {
-  return (
-    <div className="player-card-items">
-      <IconButton size="medium" aria-label="add new player">
-        <PersonAddIcon fontSize="large" />
-      </IconButton>
-      <h3 className="player-card-item">Add Player</h3>
-    </div>
-  );
-};
+// const AddPlayerCard: React.FC = () => {
+//   return (
+//     <div className="player-card-items">
+//       <IconButton size="medium" aria-label="add new player">
+//         <PersonAddIcon fontSize="large" />
+//       </IconButton>
+//       <h3 className="player-card-item">Add Player</h3>
+//     </div>
+//   );
+// };
 
 const SavedGamesList = () => {
   const { savedGames } = React.useContext(CTX);

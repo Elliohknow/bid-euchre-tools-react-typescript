@@ -56,7 +56,7 @@ const GameTable: React.FC<Props> = ({ activeGame, setActiveGame }) => {
   const [turn, setTurn] = React.useState(1);
   const [bidTaker, setBidTaker] = React.useState();
   const [currentScores, setCurrentScores] = React.useState(() => {
-    let scores = new Array(activeGame.players.length);
+    let scores = new Array(activeGame?.players.length);
 
     activeGame.players.forEach((player: Player, i: number) => {
       if ("currentScore" in player === false) {
