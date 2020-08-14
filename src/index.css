@@ -1,6 +1,6 @@
 :root {
-  --pmain: #ad1457;
-  --smain: #006064;
+  --pmain: #006064;
+  --smain: #ad1457;
   --radgrad: radial-gradient(circle at center var(--pmain), #790e3c);
 }
 
@@ -80,6 +80,12 @@ ul.saved-game-list {
 }
 li.game-card-wrapper {
   width: 100%;
+}
+.current-turn {
+  background-color: var(--pmain);
+}
+.dealer-icon {
+  color: var(--smain);
 }
 #eyes {
   background-color: #dfdbe5;
