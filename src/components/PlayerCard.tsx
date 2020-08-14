@@ -3,7 +3,7 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
-import { green, purple } from "@material-ui/core/colors";
+import { purple } from "@material-ui/core/colors";
 import IconButton from "@material-ui/core/IconButton";
 import { createStyles, makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -18,13 +18,13 @@ import { Player } from "../ContextStore";
 
 const StyledIconButton = withStyles((theme: Theme) => ({
   root: {
-    backgroundColor: theme.palette.getContrastText(green[600]),
-    color: green[500],
+    backgroundColor: theme.palette.getContrastText(theme.palette.primary.main),
+    color: theme.palette.primary.main,
     marginLeft: 20,
     borderRadius: 4,
-    "&:hover": {
-      color: green[700],
-      backgroundColor: green[100],
+    "&:click": {
+      color: theme.palette.getContrastText(theme.palette.primary.light),
+      backgroundColor: theme.palette.primary.light,
     },
   },
 }))(IconButton);
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
       maxWidth: 500,
       justifyContent: "center",
       opacity: 0.8,
-      cursor: "pointer",
+      // cursor: "pointer",
       "&:hover": {
         opacity: 1,
         marginTop: 13,
@@ -69,16 +69,16 @@ export default function PlayerCard({ player, onToggle }: Props) {
   const [checkedState, setCheckedState] = React.useState(false);
   // const [count, setCount] = React.useState(0);
   const classes = useStyles();
-  const handleToggle = (e: React.SyntheticEvent) => {
+  const handleToggle = () => {
     // setCount(count + 1);
-    e.preventDefault();
     setCheckedState(!checkedState);
-    onToggle(player);
+    // onToggle(player);
   };
 
   React.useEffect(() => {
     if (checkedState) {
       onToggle(player);
+      console.log({ player });
     }
   }, [checkedState]);
 
@@ -86,15 +86,15 @@ export default function PlayerCard({ player, onToggle }: Props) {
     <Card className={classes.root} raised onClick={handleToggle}>
       <CardHeader
         avatar={<Avatar alt={`${player.nickname}`}></Avatar>}
-        actions={
+        action={
           !checkedState ? (
-            <IconButton aria-label="unchecked">
+            <StyledIconButton aria-label="unchecked">
               <CheckBoxOutlineBlankIcon />
-            </IconButton>
+            </StyledIconButton>
           ) : (
-            <IconButton aria-label="checked">
+            <StyledIconButton aria-label="checked">
               <CheckBoxIcon />
-            </IconButton>
+            </StyledIconButton>
           )
         }
         title={`${player.nickname}`}
@@ -121,9 +121,9 @@ export default function PlayerCard({ player, onToggle }: Props) {
         </Typography>
       </CardContent>
       <CardActions className={classes.actions}>
-        <IconButton size="small" disabled>
+        <StyledIconButton size="small" disabled>
           <EditIcon />
-        </IconButton>
+        </StyledIconButton>
       </CardActions>
     </Card>
   );

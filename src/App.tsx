@@ -1,6 +1,5 @@
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { purple } from "@material-ui/core/colors";
 import IconButton from "@material-ui/core/IconButton";
 import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
@@ -35,6 +34,7 @@ const ActiveGame: React.FC = () => {
 };
 
 const NewGameSetup: React.FC = () => {
+  const { savedGames, setSavedGames, players } = React.useContext(CTX);
   const [newPlayers, setNewPlayers] = React.useState(new Array());
   const [newGameState, setNewGameState] = React.useState({
     id: UUID(),
@@ -42,15 +42,15 @@ const NewGameSetup: React.FC = () => {
     players: newPlayers,
     winner: null,
   });
-  const { savedGames, setSavedGames, players } = React.useContext(CTX);
 
   React.useEffect(() => {
-    console.log(`%c SAVED GAMES: ${savedGames}`, "color:cornflowerblue");
-    console.log(`%c PLAYERS: ${players}`, "color:skyblue");
-    console.log(`%c NEW GAME STATE: ${newGameState}`, "color:royalblue");
+    console.table(savedGames);
+    console.table(players);
 
     setNewGameState({ ...newGameState, players: newPlayers });
-  }, [newPlayers]);
+    console.table(newGameState);
+    console.table(newPlayers);
+  }, [newPlayers, newGameState]);
 
   const handleStart = () => {
     setSavedGames([...savedGames, newGameState]);
@@ -68,6 +68,7 @@ const NewGameSetup: React.FC = () => {
     }
 
     setNewPlayers(currentPlayers);
+    console.log();
   };
 
   return (
@@ -120,10 +121,10 @@ const SavedGamesList = () => {
 const useButtonStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      color: theme.palette.getContrastText(purple[400]),
-      backgroundColor: purple[400],
+      // color: theme.palette.getContrastText(purple[400]),
+      backgroundColor: theme.palette.secondary.main,
       "&:hover": {
-        backgroundColor: purple[600],
+        backgroundColor: theme.palette.secondary.dark,
       },
     },
   })
@@ -145,7 +146,7 @@ const Home = () => {
 
 const App: React.FC = () => {
   return (
-    <div className="app">
+    <div className="app" id="eyes">
       <BasicAppBar />
       <Router>
         <Switch>

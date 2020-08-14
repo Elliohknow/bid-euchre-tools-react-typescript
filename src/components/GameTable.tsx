@@ -15,7 +15,8 @@ const useStyles = makeStyles({
     justifyContent: "center",
   },
   table: {
-    minWidth: 600,
+    // minWidth: 600,
+    maxWidth: 600,
   },
 });
 // function createData(score1 = 0, score2 = 0, score3?: number) {
@@ -28,7 +29,7 @@ function createData(scores: any[]) {
 }
 // function createColumns() {}
 function createRows(scores: any[]) {
-  let scoreIterator;
+  // let scoreIterator;
   return [
     createData(scores),
     createData(scores),
@@ -69,8 +70,14 @@ const GameTable: React.FC<Props> = ({ activeGame, setActiveGame }) => {
   const classes = useStyles();
   const rows = createRows(currentScores);
 
+  React.useEffect(() => {
+    let hand: number = activeGame?.currentHand || 1;
+
+    setTurn(hand);
+  });
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer className={classes.root} component={Paper}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -93,7 +100,7 @@ const GameTable: React.FC<Props> = ({ activeGame, setActiveGame }) => {
               {activeGame.players.map((value: Player, i: number) => {
                 return (
                   <TableCell key={`${value.nickname}_r${index}_p${i + 1}`} align="center">
-                    {dealer === value && <RecentActorsIcon className="dealer-icon"></RecentActorsIcon>}
+                    {dealer === value && turn === index + 1 && <RecentActorsIcon className="dealer-icon"></RecentActorsIcon>}
                     {turn < index + 1 ? "-" : currentScores[i]}
                   </TableCell>
                 );

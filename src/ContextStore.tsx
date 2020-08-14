@@ -77,6 +77,7 @@ const defaultGames: Array<Game> = [
     dateTime: formatDateTime(),
     players: defaultPlayers,
     winner: null,
+    currentHand: 1,
   },
 ];
 
@@ -85,6 +86,7 @@ const defaultActiveGame = {
   dateTime: formatDateTime(),
   players: defaultPlayers,
   winner: null,
+  currentHand: 1,
 };
 interface ContextProps {
   players: Player[];

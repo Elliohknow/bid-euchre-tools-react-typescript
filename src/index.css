@@ -2,6 +2,7 @@
   --pmain: #006064;
   --smain: #ad1457;
   --radgrad: radial-gradient(circle at center var(--pmain), #790e3c);
+  --offwhite: #e9e4e4;
 }
 
 body {
@@ -13,7 +14,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 .app {
-  background-color: #e9e4e4;
+  /* background-color: #e9e4e4; */
   display: block;
   height: 100vh;
   width: 100%;
@@ -79,10 +80,12 @@ ul.saved-game-list {
   place-items: center;
 }
 li.game-card-wrapper {
+  background-color: #e9e4e4;
   width: 100%;
 }
 .current-turn {
   background-color: var(--pmain);
+  color: var(--offwhite) !important;
 }
 .dealer-icon {
   color: var(--smain);

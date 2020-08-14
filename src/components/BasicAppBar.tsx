@@ -21,7 +21,7 @@ const StyledAppBar = withStyles((theme: Theme) =>
   createStyles({
     root: {
       // background: "linear-gradient(45deg, darkmagenta 50%, royalblue 80%)",
-      background: "radial-gradient(circle at center, rgb(115, 55, 140), darkmagenta)",
+      background: theme.palette.primary.main,
     },
   })
 )(AppBar);
