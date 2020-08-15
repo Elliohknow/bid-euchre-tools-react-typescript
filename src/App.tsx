@@ -8,13 +8,12 @@ import GameCard from "./components/GameCard";
 import PlayerCard from "./components/PlayerCard";
 import GameTable from "./components/Table";
 import { CTX, Game, Player } from "./ContextStore";
-import { formatDateTime, getDateTimeElements, UUID } from "./utils";
+import { formatDateTime, getDateTimeElements, getRandomInitialDealer, UUID } from "./utils";
 // import HelpOutlinedIcon from "@material-ui/icons/HelpOutlined";
 // import RecentActorsIcon from "@material-ui/icons/RecentActors";
 
 const ActiveGame: React.FC = () => {
-  const { activeGame, setActiveGame } = React.useContext(CTX);
-  // const [turnCount, setTurnVout]
+  const { activeGame } = React.useContext(CTX);
   const numDummies = activeGame?.players.length <= 4 ? 4 - activeGame?.players.length : 0;
   const { day, date, time } = getDateTimeElements(activeGame?.dateTime);
 
@@ -38,41 +37,49 @@ const NewGameSetup: React.FC = () => {
     dateTime: formatDateTime(),
     players: players,
     winner: null,
+    numHands: 8,
+    currentHand: 1,
+    currentDealer: players[getRandomInitialDealer(players.length)]?.nickname,
   });
-
-  React.useEffect(() => {
-    console.table(savedGames);
-    console.table(players);
-
-    // setNewGameState({ ...newGameState, players: players });
-    console.table(newGameState);
-    console.table(newGameState.players);
-  }, [newGameState]);
 
   const handleStart = () => {
     setActiveGame(newGameState);
     setSavedGames([...savedGames, newGameState]);
   };
 
+  const checkNewGameState = (state: any) => {
+    console.log({ state }, "...checking NewGameSetup state");
+    // console.table(newGameState.players);
+  };
+
   const onToggle = (playerToToggle: Player) => {
     let currentPlayers = newGameState.players.slice();
-    //console.log(`%c CURRENTPLAYERS.length: ${currentPlayers?.length}`, "color:green");
+
+    console.log("onToggle");
     const index = currentPlayers.findIndex((value: Player) => value.id === playerToToggle.id);
     //if it exists, delete it. if it doesn't, add it
     if (index > -1) {
-      let tempPlayers = currentPlayers.slice();
-      currentPlayers = tempPlayers.splice(index, 1);
-    } else {
+      currentPlayers.splice(index, 1);
+      console.log(`removing player ${playerToToggle.nickname} at [${index}] from currentPlayers: `);
+      console.log({ currentPlayers });
+    }
+    if (index === -1) {
       currentPlayers.push(playerToToggle);
+      console.log(`adding player ${playerToToggle.nickname} to currentPlayers: `);
+      console.log({ currentPlayers });
     }
 
     setNewGameState({ ...newGameState, players: currentPlayers });
-    checkContextState();
   };
-  function checkContextState() {
-    console.log({ newGameState }, "...checking state");
-    console.table(newGameState.players);
-  }
+
+  React.useEffect(() => {
+    checkNewGameState(newGameState);
+    // console.table(savedGames);
+    // console.table(players);
+    // setNewGameState({ ...newGameState, players: players });
+    // console.table(newGameState);
+    // console.table(newGameState.players);
+  }, []);
 
   return (
     <React.Fragment>

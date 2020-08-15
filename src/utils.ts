@@ -24,7 +24,7 @@ export function UUID(): string {
 }
 export function getRandomInitialDealer(max: number): number {
   let dealer = Math.floor(Math.random() * max);
-  console.log({ dealer });
+  // console.log({ dealer });
   return dealer;
 }
 

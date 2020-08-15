@@ -73,7 +73,7 @@ export default function PlayerCard({ player, onToggle }: Props) {
     // setCount(count + 1);
     e.preventDefault();
     setCheckedState(!checkedState);
-    onToggle(player);
+    // onToggle(player);
   };
 
   React.useEffect(() => {

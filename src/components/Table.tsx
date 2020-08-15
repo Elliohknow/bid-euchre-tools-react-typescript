@@ -1,3 +1,4 @@
+import IconButton from "@material-ui/core/IconButton";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -8,7 +9,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
-import { CTX, Player } from "../ContextStore";
+import { CTX, Game, Player } from "../ContextStore";
 
 const useStyles = makeStyles({
   root: {
@@ -44,7 +45,23 @@ function createRows(scores: any[]) {
   ];
 }
 // function getScores() {}
-
+interface RowProps {
+  index: number;
+  row: any;
+  g: Game;
+}
+const Row: React.FC<RowProps> = ({ index, row, g }) => (
+  <TableRow className={`${g.currentHand === index + 1 && "current-turn"}`}>
+    <TableCell component="th" scope="row">
+      #{index + 1}
+    </TableCell>
+    {g.players.map((value: Player, i: number) => (
+      <TableCell key={`tc_${value.nickname}_${row}`} align="center" className={`${g.currentDealer === value.nickname && "dealer-indicator"}`}>
+        {g.currentHand < index + 1 ? "-" : value.currentScore}
+      </TableCell>
+    ))}
+  </TableRow>
+);
 // &nbsp; -> whitespace
 const GameTable: React.FC = () => {
   const { activeGame, setActiveGame } = React.useContext(CTX);
@@ -55,7 +72,7 @@ const GameTable: React.FC = () => {
   //   }
   //   return activeGame.players[getRandomInitialDealer(activeGame.players.length)].nickname;
   // });
-  const [bidTaker, setBidTaker] = React.useState();
+  // const [bidTaker, setBidTaker] = React.useState();
   const [currentScores, setCurrentScores] = React.useState(() => {
     let scores = new Array(activeGame?.players.length);
 
@@ -82,17 +99,18 @@ const GameTable: React.FC = () => {
   const rows = createRows(currentScores);
   const classes = useStyles();
 
+  const checkTableState = (state: any) => {
+    console.log({ state }, "...checking Table state");
+    // console.table(newGameState.players);
+  };
+
   React.useEffect(() => {
     let initialHand: number = activeGame?.currentHand || 1;
 
     setActiveGame({ ...activeGame, currentHand: initialHand });
-    checkContextState();
+
+    checkTableState(activeGame);
   });
-  function checkContextState() {
-    console.log({ activeGame }, "...checking state");
-    console.table(activeGame.players);
-  }
-  const hand = activeGame.currentHand;
 
   return (
     <TableContainer className={classes.root} component={Paper}>
@@ -102,8 +120,17 @@ const GameTable: React.FC = () => {
             <TableCell>Hand</TableCell>
             {activeGame.players.map((value: Player, index: number) => {
               return (
-                <TableCell key={`head_cell_${value.nickname}`} align="center">
-                  {activeGame.players[index].nickname}
+                <TableCell key={`hc_${index}`} align="center">
+                  {activeGame.currentDealer === value.nickname && activeGame.currentHand === index + 1 ? (
+                    <IconButton aria-label="current dealer" disabled color="primary">
+                      <PersonIcon className="dealer-icon"></PersonIcon>
+                    </IconButton>
+                  ) : (
+                    <IconButton aria-label="player" color="default">
+                      <PersonIcon className="dealer-icon"></PersonIcon>
+                    </IconButton>
+                  )}
+                  {value.nickname}
                 </TableCell>
               );
             })}
@@ -111,19 +138,19 @@ const GameTable: React.FC = () => {
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
-            <TableRow key={`body_row_${index}`} className={`${hand === index + 1 && "current-turn"}`}>
-              <TableCell component="th" scope="row">
-                #{index + 1}
-              </TableCell>
-              {activeGame.players.map((value: Player, i: number) => {
-                return (
-                  <TableCell key={`${value.nickname}_r${index}_p${i + 1}`} align="center">
-                    {activeGame.currentDealer === value.nickname && hand === index + 1 && <PersonIcon className="dealer-icon"></PersonIcon>}
-                    {hand < index + 1 ? "-" : currentScores[i]}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
+            <Row index={index} row={row} g={activeGame} key={`tr_${index}`} />
+            // <TableRow key={`body_row_${index}`} className={`${activeGame.currentHand === index + 1 && "current-turn"}`}>
+            //   <TableCell component="th" scope="row">
+            //     #{index + 1}
+            //   </TableCell>
+            //   {activeGame.players.map((value: Player, i: number) => {
+            //     return (
+            //       <TableCell key={`${value.nickname}_r${index}_p${i + 1}`} align="center">
+            //         {activeGame.currentHand < index + 1 ? "-" : value.currentScore}
+            //       </TableCell>
+            //     );
+            //   })}
+            // </TableRow>
           ))}
         </TableBody>
       </Table>
