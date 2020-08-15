@@ -15,7 +15,7 @@ import { Player } from "../ContextStore";
 // import HistoryIcon from "@material-ui/icons/History";
 // import TouchAppIcon from "@material-ui/icons/TouchApp";
 // import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-
+// const BackgroundCheckBox
 const StyledIconButton = withStyles((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.getContrastText(theme.palette.primary.main),
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
       maxWidth: 500,
       justifyContent: "center",
       opacity: 0.8,
-      // cursor: "pointer",
+      cursor: "pointer",
       "&:hover": {
         opacity: 1,
         marginTop: 13,
@@ -60,28 +60,20 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
   player: Player;
-  onToggle: (v: any) => void;
-  // addNewPlayer: (v: any) => void;
+  onToggle: (v: Player) => void;
 }
 
 export default function PlayerCard({ player, onToggle }: Props) {
+  const classes = useStyles();
   const [checkedState, setCheckedState] = React.useState(true);
   // const [count, setCount] = React.useState(0);
-  const classes = useStyles();
 
   const handleToggle = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     // setCount(count + 1);
     e.preventDefault();
-    setCheckedState(!checkedState);
-    // onToggle(player);
+    setCheckedState(() => !checkedState);
+    onToggle(player);
   };
-
-  React.useEffect(() => {
-    if (!checkedState) {
-      onToggle(player);
-      console.log({ player });
-    }
-  }, [checkedState]);
 
   return (
     <Card className={classes.root} raised onClick={handleToggle}>

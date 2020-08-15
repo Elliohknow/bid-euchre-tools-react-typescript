@@ -10,7 +10,8 @@ import TableRow from "@material-ui/core/TableRow";
 import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import { CTX, Game, Player } from "../ContextStore";
-
+// import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+// import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 const useStyles = makeStyles({
   root: {
     justifyContent: "center",

@@ -131,8 +131,9 @@ const SavedGamesList = () => {
 const useButtonStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      // color: theme.palette.getContrastText(purple[400]),
       backgroundColor: theme.palette.secondary.main,
+      margin: "1rem 0 2rem 0",
+      fontSize: "4rem",
       "&:hover": {
         backgroundColor: theme.palette.secondary.dark,
       },
@@ -144,11 +145,11 @@ const Home = () => {
   const classes = useButtonStyles();
   return (
     <React.Fragment>
-      <div className="button-wrapper">
-        <Button component={Link} size="large" className={classes.root} to="/newgame" color="primary" variant="contained">
-          NEW GAME
-        </Button>
-      </div>
+      {/* <div className="button-wrapper"> */}
+      <Button component={Link} size="large" className={classes.root} to="/newgame" color="primary" variant="contained">
+        NEW GAME
+      </Button>
+      {/* </div> */}
       <SavedGamesList />
     </React.Fragment>
   );

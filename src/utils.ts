@@ -1,3 +1,5 @@
+// import { Player } from "./ContextStore";
+
 export function formatDateTime(date?: Date): string {
   const rightNow = date ?? new Date(Date.now());
   return rightNow.toLocaleString([], {
@@ -29,10 +31,10 @@ export function getRandomInitialDealer(max: number): number {
 }
 
 function keyByNicknameReducer(acc: object, player: any): object {
-  return { ...acc, [player.nickname]: player };
+  return { ...acc, [player.nickname]: true };
 }
 
-export function getKeyedPlayersObjectFromArray(array: Array<any>): object {
+export function getKeyedNicknameObjectFromArray(array: Array<any>): object {
   return array.reduce(keyByNicknameReducer, {});
 }
 
@@ -51,3 +53,6 @@ function sumReducer(acc: number, current: number): number {
 export function sumScoresFromArray(array: Array<number>): number {
   return array.reduce(sumReducer, 0);
 }
+// function keyByNicknameReducer(acc: object, player: any): object {
+//   return { ...acc, [player.nickname]: player };
+// }
