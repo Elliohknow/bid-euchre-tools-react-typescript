@@ -77,7 +77,7 @@ export default function PlayerCard({ player, onToggle }: Props) {
   };
 
   return (
-    <Card className={(classes.root, classes.checked)} raised onClick={handleToggle}>
+    <Card className={checkedState ? (classes.root, classes.checked) : classes.root} raised onClick={handleToggle}>
       <CardHeader
         avatar={<Avatar alt={`${player.nickname}`}>{player.nickname[0]}</Avatar>}
         action={
