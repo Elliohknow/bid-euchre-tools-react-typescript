@@ -3,7 +3,6 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
-import { purple } from "@material-ui/core/colors";
 import IconButton from "@material-ui/core/IconButton";
 import { createStyles, makeStyles, Theme, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -36,20 +35,22 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: 15,
       minWidth: 300,
       maxWidth: 500,
+      backgroundColor: theme.palette.background.default,
+      color: theme.palette.primary.dark,
       justifyContent: "center",
       opacity: 0.8,
       cursor: "pointer",
       "&:hover": {
+        backgroundColor: theme.palette.primary.light,
         opacity: 1,
         marginTop: 13,
       },
     },
-    btn: {
-      backgroundColor: theme.palette.getContrastText(purple[400]),
-      color: purple[400],
+    checked: {
+      color: theme.palette.getContrastText(theme.palette.primary.main),
+      backgroundColor: theme.palette.primary.main,
       "&:hover": {
-        color: purple[600],
-        backgroundColor: purple[50],
+        backgroundColor: theme.palette.primary.light,
       },
     },
     actions: {
@@ -64,21 +65,21 @@ interface Props {
 }
 
 export default function PlayerCard({ player, onToggle }: Props) {
-  const classes = useStyles();
   const [checkedState, setCheckedState] = React.useState(true);
+  const classes = useStyles();
   // const [count, setCount] = React.useState(0);
 
   const handleToggle = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     // setCount(count + 1);
     e.preventDefault();
-    setCheckedState(() => !checkedState);
+    setCheckedState((prev) => !prev);
     onToggle(player);
   };
 
   return (
-    <Card className={classes.root} raised onClick={handleToggle}>
+    <Card className={(classes.root, classes.checked)} raised onClick={handleToggle}>
       <CardHeader
-        avatar={<Avatar alt={`${player.nickname}`}></Avatar>}
+        avatar={<Avatar alt={`${player.nickname}`}>{player.nickname[0]}</Avatar>}
         action={
           !checkedState ? (
             <StyledIconButton aria-label="unchecked">

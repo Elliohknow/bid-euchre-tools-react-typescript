@@ -102,16 +102,6 @@ const NewGameSetup: React.FC = () => {
     </React.Fragment>
   );
 };
-// const AddPlayerCard: React.FC = () => {
-//   return (
-//     <div className="player-card-items">
-//       <IconButton size="medium" aria-label="add new player">
-//         <PersonAddIcon fontSize="large" />
-//       </IconButton>
-//       <h3 className="player-card-item">Add Player</h3>
-//     </div>
-//   );
-// };
 
 const SavedGamesList = () => {
   const { savedGames } = React.useContext(CTX);
@@ -132,8 +122,8 @@ const useButtonStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       backgroundColor: theme.palette.secondary.main,
-      margin: "1rem 0 2rem 0",
-      fontSize: "4rem",
+      margin: "2rem 0 2rem 0",
+      fontSize: "2rem",
       "&:hover": {
         backgroundColor: theme.palette.secondary.dark,
       },
@@ -145,11 +135,9 @@ const Home = () => {
   const classes = useButtonStyles();
   return (
     <React.Fragment>
-      {/* <div className="button-wrapper"> */}
       <Button component={Link} size="large" className={classes.root} to="/newgame" color="primary" variant="contained">
         NEW GAME
       </Button>
-      {/* </div> */}
       <SavedGamesList />
     </React.Fragment>
   );
@@ -179,3 +167,13 @@ const App: React.FC = () => {
 };
 export default App;
 /* const deckSize = 32; (4*4) * 2 */
+// const AddPlayerCard: React.FC = () => {
+//   return (
+//     <div className="player-card-items">
+//       <IconButton size="medium" aria-label="add new player">
+//         <PersonAddIcon fontSize="large" />
+//       </IconButton>
+//       <h3 className="player-card-item">Add Player</h3>
+//     </div>
+//   );
+// };

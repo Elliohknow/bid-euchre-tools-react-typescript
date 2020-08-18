@@ -2,7 +2,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import React from "react";
 import { formatDateTime, getRandomInitialDealer, UUID } from "./utils";
 
-const appTheme = createMuiTheme({
+export const appTheme = createMuiTheme({
   palette: {
     primary: {
       main: "#006064",
