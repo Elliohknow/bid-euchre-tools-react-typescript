@@ -1,31 +1,37 @@
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
+import { Player } from "../ContextStore";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    button: {
-      display: "block",
-      marginTop: theme.spacing(2),
+    root: {
+      "& .MuiTextField-root": {
+        margin: theme.spacing(1),
+        width: "25ch",
+      },
     },
     formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
+      display: "none",
     },
   })
 );
 
-export default function ControlledOpenSelect() {
+interface Props {
+  player: Player;
+  handleScore: any;
+}
+
+const ScoreInput: React.FC<Props> = ({ player, handleScore }) => {
   const classes = useStyles();
-  const [age, setAge] = React.useState<string | number>("");
+  const [score, setScore] = React.useState<string | number>("");
   const [open, setOpen] = React.useState(false);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAge(event.target.value as number);
+    setScore(event.target.value as number);
   };
 
   const handleClose = () => {
@@ -37,29 +43,33 @@ export default function ControlledOpenSelect() {
   };
 
   return (
-    <div>
-      <Button className={classes.button} onClick={handleOpen}>
-        Open the select
-      </Button>
+    <div className={classes.root}>
+      <Button onClick={handleOpen}>Open the select</Button>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-controlled-open-select-label">Age</InputLabel>
-        <Select
-          labelId="demo-controlled-open-select-label"
-          id="demo-controlled-open-select"
-          open={open}
-          onClose={handleClose}
-          onOpen={handleOpen}
-          value={age}
-          onChange={handleChange}
-        >
+        <Select open={open} onClose={handleClose} onOpen={handleOpen} value={score} onChange={handleChange}>
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          <MenuItem value={1}>1</MenuItem>
+          <MenuItem value={2}>2</MenuItem>
+          <MenuItem value={3}>3</MenuItem>
+          <MenuItem value={4}>4</MenuItem>
+          <MenuItem value={5}>5</MenuItem>
+          <MenuItem value={6}>6</MenuItem>
+          <MenuItem value={7}>7</MenuItem>
+          <MenuItem value={8}>8</MenuItem>
+          <MenuItem value={12}>
+            <em>Call for 2</em>
+          </MenuItem>
+          <MenuItem value={18}>
+            <em>Call for 1</em>
+          </MenuItem>
+          <MenuItem value={24}>
+            <em>Shoot the Moon</em>
+          </MenuItem>
         </Select>
       </FormControl>
     </div>
   );
-}
+};
+export default ScoreInput;

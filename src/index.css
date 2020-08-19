@@ -5,7 +5,7 @@
   --smain: #ad1457;
   --sdark: #790e3c;
   --slight: #bd4378;
-  /* --radgrad: radial-gradient(circle at center var(--pmain), var(--slight)); */
+  /* --radgrad: 'radial-gradient(circle at center var(--pmain), var(--slight))' */
   --offwhite: #e6dfdf;
 }
 
@@ -45,24 +45,26 @@ body {
   box-shadow: 7px 7px 7px 0px rgba(0, 0, 0, 0.03), -7px -7px 7px 0px rgb(250, 250, 250, 1);
   /* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1); */
 }
-.start-btn {
+/* .start-btn {
   font-weight: bold;
   font-size: 2rem;
   text-transform: uppercase;
   background-color: white;
   cursor: pointer;
-}
-.double-btn {
+} */
+/* .double-btn {
   margin: 8px;
   padding: 8px;
   border: none;
   border-radius: 8px;
   box-shadow: 8px 8px 8px 0 rgba(0, 0, 0, 0.3), -8px -8px 8px 0 rgb(250, 250, 250, 1);
-}
+} */
 
 .select-player-wrapper {
   display: grid;
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  margin: 10px;
+  gap: 2ch;
   width: 100%;
   place-items: center;
 }

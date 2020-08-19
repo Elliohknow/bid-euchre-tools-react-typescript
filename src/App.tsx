@@ -30,7 +30,20 @@ const ActiveGame: React.FC = () => {
   );
 };
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      backgroundColor: theme.palette.secondary.main,
+      margin: "2rem 0 1rem 0",
+      "&:hover": {
+        backgroundColor: theme.palette.secondary.light,
+      },
+    },
+  })
+);
+
 const NewGameSetup: React.FC = () => {
+  const classes = useStyles();
   const { setActiveGame, savedGames, setSavedGames, players } = React.useContext(CTX);
   const [newGameState, setNewGameState] = React.useState<Game>({
     id: UUID(),
@@ -65,16 +78,18 @@ const NewGameSetup: React.FC = () => {
   return (
     <React.Fragment>
       <Button
+        className={classes.root}
         color="secondary"
         component={Link}
         onClick={handleStart}
         to={`/active/?id=${newGameState.id}`}
         variant="contained"
         endIcon={<DoubleArrowIcon fontSize="large" />}
+        style={{ marginTop: "1rem" }}
       >
         START
       </Button>
-      <div className="select-player-wrapper" style={{ display: "grid", gridTemplateColumns: `repeat(${players.length}, 1fr)` }}>
+      <div className="select-player-wrapper">
         {players.map((value: Player, index: number) => {
           return <PlayerCard onToggle={onToggle} player={value} key={`pc_${players[index].id}`} />;
         })}
