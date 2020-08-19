@@ -31,7 +31,7 @@ export interface Game {
   currentHand: number;
   currentDealer: number;
   currentLeader?: any;
-  currentBid?: any;
+  currentBid?: Bid;
   bids?: any;
   // scores?: Array<any>;
 }
@@ -55,6 +55,13 @@ export interface PlayerStats {
 export interface Suit {
   name?: string;
   symbol?: string;
+}
+interface Bid {
+  player: Player;
+  amount: number;
+  suit: Suit;
+  call?: boolean;
+  callAmount?: number;
 }
 
 const defaultPlayers: Array<Player> = [

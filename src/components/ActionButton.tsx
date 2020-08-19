@@ -1,10 +1,10 @@
 import Fab from "@material-ui/core/Fab";
-import { createStyles, makeStyles, Theme, useTheme } from "@material-ui/core/styles";
-// import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import React from "react";
+// import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
     fabBid: {
       position: "absolute",
       bottom: theme.spacing(2),
+      marginRight: theme.spacing(1),
     },
     fabNext: {
       position: "absolute",
@@ -31,45 +32,64 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function FloatingActionButtonZoom() {
+interface Props {
+  props: any;
+}
+
+export default function FloatingActionButtonZoom<Props>({ props }: any) {
   const classes = useStyles();
-  const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: unknown, newValue: number) => {
-    setValue(newValue);
+  const handleGoToPreviousHand = (event: unknown) => {
+    setValue(value - 1);
+  };
+  const handleGoToNextHand = (event: unknown) => {
+    setValue(value + 1);
   };
 
-  const handleChangeIndex = (index: number) => {
-    setValue(index);
+  const handleBid = () => {
+    // setValue(index);
   };
 
   const fabs = [
     {
-      color: "secondary" as "secondary",
+      color: "primary" as "primary",
       className: classes.fabPrev,
       icon: <KeyboardArrowLeftIcon />,
       label: "Previous Turn",
-    },
-    {
-      color: "primary" as "primary",
-      className: classes.fabBid,
-      icon: <EmojiPeopleIcon />,
-      label: "Make Bid",
+      variant: "round",
+      onClick: handleGoToPreviousHand,
     },
     {
       color: "secondary" as "secondary",
+      className: classes.fabBid,
+      icon: <EmojiPeopleIcon />,
+      label: "Make Bid",
+      variant: "extended",
+      onClick: handleBid,
+    },
+    {
+      color: "primary" as "primary",
       className: classes.fabNext,
       icon: <KeyboardArrowRightIcon />,
       label: "Next Turn",
+      variant: "round",
+      onClick: handleGoToNextHand,
     },
   ];
 
   return (
     <div className={classes.root}>
       {fabs.map((fab, index) => (
-        <Fab aria-label={fab.label} className={fab.className} color={fab.color} key={`fab_${fab.color}_${index}`}>
-          {fab.icon}
+        <Fab
+          aria-label={fab.label}
+          className={fab.className}
+          color={fab.color}
+          variant={fab.variant === "round" ? "round" : "extended"}
+          onClick={fab.onClick}
+          key={`fab_${fab.color}_${index}`}
+        >
+          {fab.icon} {fab.variant === "extended" && "Set Bid"}
         </Fab>
       ))}
     </div>

@@ -14,7 +14,7 @@ import { formatDateTime, getDateTimeElements, getRandomInitialDealer, UUID } fro
 
 const ActiveGame: React.FC = () => {
   const { activeGame } = React.useContext(CTX);
-  const numDummies = activeGame?.players.length <= 4 ? 4 - activeGame?.players.length : 0;
+  const numDummies = activeGame?.players.length <= 3 ? 4 - activeGame?.players.length : 0;
   const { day, date, time } = getDateTimeElements(activeGame?.dateTime);
 
   return (
@@ -32,14 +32,14 @@ const ActiveGame: React.FC = () => {
 
 const NewGameSetup: React.FC = () => {
   const { setActiveGame, savedGames, setSavedGames, players } = React.useContext(CTX);
-  const [newGameState, setNewGameState] = React.useState({
+  const [newGameState, setNewGameState] = React.useState<Game>({
     id: UUID(),
     dateTime: formatDateTime(),
     players: players,
     winner: null,
     numHands: 8,
     currentHand: 1,
-    currentDealer: players[getRandomInitialDealer(players.length)]?.nickname,
+    currentDealer: getRandomInitialDealer(players.length),
   });
 
   const handleStart = () => {
@@ -47,39 +47,20 @@ const NewGameSetup: React.FC = () => {
     setSavedGames([...savedGames, newGameState]);
   };
 
-  const checkNewGameState = (state: any) => {
-    console.log({ state }, "...checking NewGameSetup state");
-    // console.table(newGameState.players);
-  };
-
   const onToggle = (playerToToggle: Player) => {
     let currentPlayers = newGameState.players.slice();
-
-    console.log("onToggle");
+    // check for the player in the new game's players list
     const index = currentPlayers.findIndex((value: Player) => value.id === playerToToggle.id);
-    //if it exists, delete it. if it doesn't, add it
+    // if it exists there, delete it
     if (index > -1) {
       currentPlayers.splice(index, 1);
-      console.log(`removing player ${playerToToggle.nickname} at [${index}] from currentPlayers: `);
-      console.log({ currentPlayers });
     }
+    // if it doesn't exist there, add it
     if (index === -1) {
       currentPlayers.push(playerToToggle);
-      console.log(`adding player ${playerToToggle.nickname} to currentPlayers: `);
-      console.log({ currentPlayers });
     }
-
     setNewGameState({ ...newGameState, players: currentPlayers });
   };
-
-  React.useEffect(() => {
-    checkNewGameState(newGameState);
-    // console.table(savedGames);
-    // console.table(players);
-    // setNewGameState({ ...newGameState, players: players });
-    // console.table(newGameState);
-    // console.table(newGameState.players);
-  }, [newGameState]);
 
   return (
     <React.Fragment>

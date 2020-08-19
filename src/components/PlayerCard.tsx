@@ -1,6 +1,5 @@
 import { Avatar } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import IconButton from "@material-ui/core/IconButton";
@@ -8,20 +7,19 @@ import { createStyles, makeStyles, Theme, withStyles } from "@material-ui/core/s
 import Typography from "@material-ui/core/Typography";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-import EditIcon from "@material-ui/icons/Edit";
 import React from "react";
 import { Player } from "../ContextStore";
+// import EditIcon from "@material-ui/icons/Edit";
 // import HistoryIcon from "@material-ui/icons/History";
 // import TouchAppIcon from "@material-ui/icons/TouchApp";
 // import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-// const BackgroundCheckBox
 const StyledIconButton = withStyles((theme: Theme) => ({
   root: {
     backgroundColor: theme.palette.getContrastText(theme.palette.primary.main),
     color: theme.palette.primary.main,
     marginLeft: 20,
     borderRadius: 4,
-    "&:click": {
+    "&:hover": {
       color: theme.palette.getContrastText(theme.palette.primary.light),
       backgroundColor: theme.palette.primary.light,
     },
@@ -45,16 +43,6 @@ const useStyles = makeStyles((theme: Theme) =>
         opacity: 1,
         marginTop: 13,
       },
-    },
-    // checked: {
-    //   color: theme.palette.getContrastText(theme.palette.primary.main),
-    //   backgroundColor: theme.palette.primary.main,
-    //   "&:hover": {
-    //     backgroundColor: theme.palette.primary.light,
-    //   },
-    // },
-    actions: {
-      justifyContent: "space-between",
     },
   })
 );
@@ -114,11 +102,11 @@ export default function PlayerCard({ player, onToggle }: Props) {
           Favored Suit: {player?.stats?.favoredSuit || "¯\\_(ツ)_/¯"}
         </Typography>
       </CardContent>
-      <CardActions className={classes.actions}>
-        <StyledIconButton size="small" disabled>
-          <EditIcon />
-        </StyledIconButton>
-      </CardActions>
     </Card>
   );
 }
+// <CardActions className={classes.actions}>
+//   <StyledIconButton size="small" disabled>
+//     <EditIcon />
+//   </StyledIconButton>
+// </CardActions>
