@@ -79,7 +79,7 @@ const NewGameSetup: React.FC = () => {
     // setNewGameState({ ...newGameState, players: players });
     // console.table(newGameState);
     // console.table(newGameState.players);
-  }, []);
+  }, [newGameState]);
 
   return (
     <React.Fragment>

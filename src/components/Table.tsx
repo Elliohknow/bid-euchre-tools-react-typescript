@@ -7,7 +7,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import { CTX, Game, Player } from "../ContextStore";
@@ -23,16 +22,7 @@ const useStyles = makeStyles({
   // table: {
   // },
 });
-// function createData(score1 = 0, score2 = 0, score3?: number) {
 
-//   return { score1, score2, score3 };
-// }
-// function createCols(players: Player[]) {
-//   players.forEach((value: Player, index: number) => {
-//     cols.push({ title: value.nickname, field: `score${index + 1}`, type: "numeric" });
-//   });
-//   return cols;
-// }
 function createData(numPlayers: number) {
   if (numPlayers <= 2) {
     return { score1: 0, score2: 0 };
@@ -40,28 +30,7 @@ function createData(numPlayers: number) {
     return { score1: 0, score2: 0, score3: 0 };
   }
 }
-// function createData(scores: any[]) {
-//   let cScores = {};
-//   if (!scores) return;
-//   if (scores?.length === 2) {
-//     cScores = { scoreOne: scores[0], scoreTwo: scores[1] };
-//     console.log({ cScores });
-//     console.table(cScores);
-//     return cScores;
-//   } else if (scores?.length === 3) {
-//     cScores = { scoreOne: scores[0], scoreTwo: scores[1], scoreThree: scores[2] };
-//     console.log({ cScores });
-//     console.table(cScores);
-//     return cScores;
-//   } else {
-//     cScores = scores.reduce((acc: object, current: number, index: number) => {
-//       return { ...acc, [index]: current };
-//     }, {});
-//   }
-//   console.log({ cScores });
-//   console.table(cScores);
-//   return cScores;
-// }
+
 function createRows(numPlayers: number) {
   // let scoreIterator;
   return [
@@ -155,14 +124,9 @@ const GameTable: React.FC = () => {
           ))}
           <TableRow>
             <TableCell>TOTALS</TableCell>
-            {activeGame.players.map((value: Player, index: number) => {
-              <TableCell>{value.currentScore}</TableCell>;
-            })}
-            <TableCell>
-              <IconButton aria-label="go to next hand" onClick={incrementHand}>
-                <ArrowDownwardIcon />
-              </IconButton>
-            </TableCell>
+            {activeGame.players.map((value: Player, index: number) => (
+              <TableCell key={`totals_${index}`}>{value?.currentScore}</TableCell>
+            ))}
           </TableRow>
         </TableBody>
       </Table>
@@ -170,7 +134,9 @@ const GameTable: React.FC = () => {
   );
 };
 export default GameTable;
-
+//  <IconButton aria-label="go to next hand" onClick={incrementHand}>
+//    <ArrowDownwardIcon />
+//  </IconButton>
 // function reducer(state: Game, action: { type: any }) {
 //   switch (action.type) {
 //     case "next-hand":
@@ -212,3 +178,36 @@ export default GameTable;
 //   return scores;
 // });
 // const [rows] = React.useState(createRows(currentScores));
+
+// function createData(score1 = 0, score2 = 0, score3?: number) {
+
+//   return { score1, score2, score3 };
+// }
+// function createCols(players: Player[]) {
+//   players.forEach((value: Player, index: number) => {
+//     cols.push({ title: value.nickname, field: `score${index + 1}`, type: "numeric" });
+//   });
+//   return cols;
+// }
+// function createData(scores: any[]) {
+//   let cScores = {};
+//   if (!scores) return;
+//   if (scores?.length === 2) {
+//     cScores = { scoreOne: scores[0], scoreTwo: scores[1] };
+//     console.log({ cScores });
+//     console.table(cScores);
+//     return cScores;
+//   } else if (scores?.length === 3) {
+//     cScores = { scoreOne: scores[0], scoreTwo: scores[1], scoreThree: scores[2] };
+//     console.log({ cScores });
+//     console.table(cScores);
+//     return cScores;
+//   } else {
+//     cScores = scores.reduce((acc: object, current: number, index: number) => {
+//       return { ...acc, [index]: current };
+//     }, {});
+//   }
+//   console.log({ cScores });
+//   console.table(cScores);
+//   return cScores;
+// }

@@ -46,13 +46,13 @@ const useStyles = makeStyles((theme: Theme) =>
         marginTop: 13,
       },
     },
-    checked: {
-      color: theme.palette.getContrastText(theme.palette.primary.main),
-      backgroundColor: theme.palette.primary.main,
-      "&:hover": {
-        backgroundColor: theme.palette.primary.light,
-      },
-    },
+    // checked: {
+    //   color: theme.palette.getContrastText(theme.palette.primary.main),
+    //   backgroundColor: theme.palette.primary.main,
+    //   "&:hover": {
+    //     backgroundColor: theme.palette.primary.light,
+    //   },
+    // },
     actions: {
       justifyContent: "space-between",
     },
@@ -77,7 +77,7 @@ export default function PlayerCard({ player, onToggle }: Props) {
   };
 
   return (
-    <Card className={checkedState ? (classes.root, classes.checked) : classes.root} raised onClick={handleToggle}>
+    <Card className={classes.root} raised onClick={handleToggle}>
       <CardHeader
         avatar={<Avatar alt={`${player.nickname}`}>{player.nickname[0]}</Avatar>}
         action={

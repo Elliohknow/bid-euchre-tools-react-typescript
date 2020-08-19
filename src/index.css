@@ -5,8 +5,8 @@
   --smain: #ad1457;
   --sdark: #790e3c;
   --slight: #bd4378;
-  --radgrad: radial-gradient(circle at center var(--pmain), var(--slight));
-  --offwhite: #e9e4e4;
+  /* --radgrad: radial-gradient(circle at center var(--pmain), var(--slight)); */
+  --offwhite: #e6dfdf;
 }
 
 body {
@@ -84,8 +84,8 @@ li.game-card-wrapper {
 }
 .current-turn,
 .current-turn > * {
-  /* background-color: var(--radgrad); */
-  color: var(--offwhite) !important;
+  background: var(--pmain);
+  color: var(--offwhite);
 }
 .dealer-icon {
   color: var(--smain);

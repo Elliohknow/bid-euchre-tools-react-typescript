@@ -31,6 +31,8 @@ export interface Game {
   currentHand: number;
   currentDealer: number;
   currentLeader?: any;
+  currentBid?: any;
+  bids?: any;
   // scores?: Array<any>;
 }
 export interface Player {
@@ -132,11 +134,11 @@ const ContextStore: React.FC<Props> = (props) => {
   }, []);
 
   React.useEffect(() => {
-    console.log("context: setting values to localStorage: ");
-    console.log({ players });
-    console.log({ savedGames });
-    console.log({ activeGame });
-    console.log({ oldGames });
+    // console.log("context: setting values to localStorage: ");
+    // console.log({ players });
+    // console.log({ savedGames });
+    // console.log({ activeGame });
+    // console.log({ oldGames });
 
     localStorage.setItem("players", JSON.stringify(players));
     localStorage.setItem("saved-games", JSON.stringify(savedGames));
