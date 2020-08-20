@@ -27,10 +27,10 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function DialogSelect() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [age, setAge] = React.useState<number | string>("");
+  const [amount, setAmount] = React.useState<number | string>("");
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAge(Number(event.target.value) || "");
+    setAmount(Number(event.target.value) || "");
   };
 
   const handleClickOpen = () => {
@@ -49,8 +49,8 @@ export default function DialogSelect() {
         <DialogContent>
           <form className={classes.container}>
             <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="demo-dialog-native">Age</InputLabel>
-              <Select native value={age} onChange={handleChange} input={<Input id="demo-dialog-native" />}>
+              <InputLabel htmlFor="demo-dialog-native">Amount</InputLabel>
+              <Select native value={amount} onChange={handleChange} input={<Input id="demo-dialog-native" />}>
                 <option aria-label="None" value="" />
                 <option value={10}>Ten</option>
                 <option value={20}>Twenty</option>
@@ -58,8 +58,8 @@ export default function DialogSelect() {
               </Select>
             </FormControl>
             <FormControl className={classes.formControl}>
-              <InputLabel id="demo-dialog-select-label">Age</InputLabel>
-              <Select labelId="demo-dialog-select-label" id="demo-dialog-select" value={age} onChange={handleChange} input={<Input />}>
+              <InputLabel id="demo-dialog-select-label">Amount</InputLabel>
+              <Select labelId="demo-dialog-select-label" id="demo-dialog-select" value={amount} onChange={handleChange} input={<Input />}>
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>

@@ -38,8 +38,8 @@ export interface Game {
 export interface Player {
   id: string;
   nickname: string;
-  hands?: any[];
-  currentScore?: number;
+  currentScore: number;
+  hands?: any;
   stats?: PlayerStats;
 }
 export interface PlayerStats {

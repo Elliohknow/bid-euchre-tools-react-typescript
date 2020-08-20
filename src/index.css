@@ -86,7 +86,7 @@ li.game-card-wrapper {
 }
 .current-turn,
 .current-turn > * {
-  background: var(--pmain);
+  background: var(--plight);
   color: var(--offwhite);
 }
 .dealer-icon {

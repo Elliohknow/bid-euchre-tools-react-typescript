@@ -10,6 +10,7 @@ import TableRow from "@material-ui/core/TableRow";
 import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import { CTX, Game, Player } from "../ContextStore";
+import ScoreInput from "./ScoreInput";
 // import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 const useStyles = makeStyles({
   root: {
@@ -48,16 +49,16 @@ function createRows(numPlayers: number) {
 interface RowProps {
   index: number;
   row: any;
-  g: Game;
+  game: Game;
 }
-const CustomRow: React.FC<RowProps> = ({ index, row, g }) => (
-  <TableRow className={`${g.currentHand === index + 1 && "current-turn"}`}>
+const CustomRow: React.FC<RowProps> = ({ index, row, game }) => (
+  <TableRow className={`${game.currentHand === index + 1 && "current-turn"}`}>
     <TableCell component="th" scope="row">
       #{index + 1}
     </TableCell>
-    {g.players.map((value: Player, i: number) => (
-      <TableCell key={`tc_${value.nickname}_${row}`} align="center" className={`${g.currentDealer === i && "dealer-indicator"}`}>
-        {g.currentHand < index + 1 ? "-" : value.currentScore}
+    {game.players.map((player: Player, i: number) => (
+      <TableCell key={`tc_${player.nickname}_${row}`} align="center" className={`${game.currentDealer === i && "dealer-indicator"}`}>
+        <ScoreInput player={player} rowIndex={index} />
       </TableCell>
     ))}
   </TableRow>
@@ -85,10 +86,14 @@ const GameTable: React.FC = () => {
   const changeDealer = (playerIndex: number) => {
     setActiveGame({ ...activeGame, currentDealer: playerIndex });
   };
+  const handleChangeScore = (score: number | string) => {
+    // setActiveGame()
+    console.log({ score });
+  };
 
   return (
     <TableContainer className={classes.root} component={Paper}>
-      <Table /*className={classes.table}*/ aria-label="customized table">
+      <Table /*className={classes.table}*/ aria-label="customized table for tracking games">
         <TableHead>
           <TableRow>
             <TableCell align="center">Hand</TableCell>
@@ -101,8 +106,7 @@ const GameTable: React.FC = () => {
                     </IconButton>
                   ) : (
                     <IconButton
-                      aria-label="player"
-                      color="default"
+                      aria-label="set this player to dealer"
                       onClick={(e) => {
                         e.preventDefault();
                         changeDealer(index);
@@ -120,7 +124,7 @@ const GameTable: React.FC = () => {
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
-            <CustomRow index={index} row={row} g={activeGame} key={`tr_${index}`} />
+            <CustomRow index={index} row={row} game={activeGame} key={`tr_${index}`} />
           ))}
           <TableRow>
             <TableCell>TOTALS</TableCell>

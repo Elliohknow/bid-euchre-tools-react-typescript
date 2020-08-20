@@ -36,7 +36,7 @@ interface Props {
   props: any;
 }
 
-export default function FloatingActionButtonZoom<Props>({ props }: any) {
+export default function FloatingActionButton<Props>({ props }: any) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 

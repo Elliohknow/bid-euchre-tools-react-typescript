@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       padding: 8,
       minWidth: 300,
-      maxWidth: 600,
+      maxWidth: 500,
       justifyContent: "center",
     },
     pos: {
@@ -68,11 +68,6 @@ export default function GameCard({ game }: Props) {
       <CardContent>
         <Typography className={classes.pos} color="textSecondary">
           id: {game.id}
-        </Typography>
-        <Typography variant="body2" component="p">
-          body of card
-          <br />
-          {'"some quoted text"'}
         </Typography>
       </CardContent>
       <CardActions className={classes.actions}>
