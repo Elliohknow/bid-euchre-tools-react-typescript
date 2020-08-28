@@ -4,8 +4,6 @@ import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import React from "react";
 import { Player } from "../ContextStore";
 // import EditIcon from "@material-ui/icons/Edit";
@@ -58,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.action.disabledBackground,
     },
     avatarColor: {
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: "radial-gradient(circle at center var(--pmain), var(--slight))",
     },
   })
 );
@@ -101,7 +99,7 @@ export default function PlayerCard({ player, onToggle }: Props) {
               </Avatar>
             )
           }
-          action={!checkedState ? <CheckBoxOutlineBlankIcon aria-label="unchecked" /> : <CheckBoxIcon aria-label="checked" />}
+          // action={!checkedState ? <CheckBoxOutlineBlankIcon aria-label="unchecked" /> : <CheckBoxIcon aria-label="checked" />}
         />
         <CardContent>
           <Typography variant="body2" component="p" className="player-card-item">

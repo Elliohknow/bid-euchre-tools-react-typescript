@@ -3,7 +3,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import React from "react";
-import { CTX, Player } from "../ContextStore";
+import { CTX, Player, scoreOptions } from "../ContextStore";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,20 +18,20 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-const scoreOptions = [
-  { value: 0, label: "0" },
-  { value: 1, label: "1" },
-  { value: 2, label: "2" },
-  { value: 3, label: "3" },
-  { value: 4, label: "4" },
-  { value: 5, label: "5" },
-  { value: 6, label: "6" },
-  { value: 7, label: "7" },
-  { value: 8, label: "8" },
-  { value: 12, label: "Call for 2" },
-  { value: 18, label: "Call for 1" },
-  { value: 24, label: "Shoot the Moon" },
-];
+// const scoreOptions = [
+//   { value: 0, label: "0" },
+//   { value: 1, label: "1" },
+//   { value: 2, label: "2" },
+//   { value: 3, label: "3" },
+//   { value: 4, label: "4" },
+//   { value: 5, label: "5" },
+//   { value: 6, label: "6" },
+//   { value: 7, label: "7" },
+//   { value: 8, label: "8" },
+//   { value: 12, label: "Call for 2" },
+//   { value: 18, label: "Call for 1" },
+//   { value: 24, label: "Shoot the Moon" },
+// ];
 
 interface Props {
   player: Player;
@@ -55,7 +55,7 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex }) => {
       return;
     }
 
-    if (activeGame?.currentBid?.player.id === player.id && score < activeGame?.currentBid?.amount) {
+    if (activeGame?.currentBid?.player?.id === player.id && score < activeGame?.currentBid?.amount) {
       setActiveGame({
         ...activeGame,
         players: [
@@ -91,7 +91,7 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex }) => {
     <form className={classes.root} noValidate autoComplete="off">
       <div>
         {activeGame?.currentBid?.player?.id === player?.id && (
-          <Avatar>{callHand ? `C${activeGame?.currentBid?.callAmount}` : `${activeGame?.currentBid?.amount}${activeGame?.currentBid?.suit?.symbol}`}</Avatar>
+          <Avatar>{callHand ? `C${activeGame?.currentBid?.callAmount}` : `${activeGame?.currentBid?.amount}${activeGame?.currentBid?.suit?.label}`}</Avatar>
         )}
         <TextField
           select

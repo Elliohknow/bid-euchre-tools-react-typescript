@@ -4,6 +4,7 @@ import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import React from "react";
+import DialogSelect from "./DialogSelect";
 // import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -47,9 +48,9 @@ export default function FloatingActionButton<Props>({ props }: any) {
     setValue(value + 1);
   };
 
-  const handleBid = () => {
-    // setValue(index);
-  };
+  // const handleBid = () => {
+  //   // setValue(index);
+  // };
 
   const fabs = [
     {
@@ -64,9 +65,10 @@ export default function FloatingActionButton<Props>({ props }: any) {
       color: "secondary" as "secondary",
       className: classes.fabBid,
       icon: <EmojiPeopleIcon />,
+      component: <DialogSelect />,
       label: "Make Bid",
       variant: "extended",
-      onClick: handleBid,
+      // onClick: handleBid,
     },
     {
       color: "primary" as "primary",
@@ -86,7 +88,7 @@ export default function FloatingActionButton<Props>({ props }: any) {
           className={fab.className}
           color={fab.color}
           variant={fab.variant === "round" ? "round" : "extended"}
-          onClick={fab.onClick}
+          onClick={fab?.onClick}
           key={`fab_${fab.color}_${index}`}
         >
           {fab.icon} {fab.variant === "extended" && "Set Bid"}

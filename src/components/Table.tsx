@@ -101,12 +101,13 @@ const GameTable: React.FC = () => {
               return (
                 <TableCell key={`hc_${index}`} align="center">
                   {activeGame.currentDealer === index ? (
-                    <IconButton aria-label="current dealer" disabled color="primary">
+                    <IconButton aria-label="current dealer" disabled color="secondary">
                       <PersonIcon className="dealer-icon"></PersonIcon>
                     </IconButton>
                   ) : (
                     <IconButton
                       aria-label="set this player to dealer"
+                      color="primary"
                       onClick={(e) => {
                         e.preventDefault();
                         changeDealer(index);

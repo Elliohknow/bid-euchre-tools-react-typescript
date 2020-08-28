@@ -53,32 +53,76 @@ export interface PlayerStats {
   upRiverCount?: number;
 }
 export interface Suit {
-  name?: string;
-  symbol?: string;
+  value: string;
+  label: string;
 }
-interface Bid {
-  player: Player;
+export interface Bid {
   amount: number;
   suit: Suit;
+  player: Player;
   call?: boolean;
   callAmount?: number;
 }
+export interface ScoreOption {
+  value: number;
+  label: string;
+}
+//"♠ ♥ ♦ ♣"
+export const suits: Suit[] = [
+  {
+    value: "Spades",
+    label: "♠",
+  },
+  {
+    value: "Hearts",
+    label: "♥",
+  },
+  {
+    value: "Diamonds",
+    label: "♦",
+  },
+  {
+    value: "Clubs",
+    label: "♣",
+  },
+  {
+    value: "None",
+    label: "🃏",
+  },
+];
+
+export const scoreOptions: ScoreOption[] = [
+  { value: 1, label: "1" },
+  { value: 2, label: "2" },
+  { value: 3, label: "3" },
+  { value: 4, label: "4" },
+  { value: 5, label: "5" },
+  { value: 6, label: "6" },
+  { value: 7, label: "7" },
+  { value: 8, label: "8" },
+  { value: 12, label: "Call for 2" },
+  { value: 18, label: "Call for 1" },
+  { value: 24, label: "Shoot the Moon" },
+];
 
 const defaultPlayers: Array<Player> = [
   {
     id: "player_1",
     nickname: "Pat",
     currentScore: 0,
+    hands: {},
   },
   {
     id: "player_2",
     nickname: "Elliott",
     currentScore: 0,
+    hands: {},
   },
   {
     id: "player_3",
     nickname: "Liz",
     currentScore: 0,
+    hands: {},
   },
 ];
 
