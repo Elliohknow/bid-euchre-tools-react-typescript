@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
     fabBid: {
       position: "absolute",
       bottom: theme.spacing(2),
-      marginRight: theme.spacing(1),
+      marginRight: "50%",
       zIndex: theme.zIndex.appBar,
     },
     fabNext: {
@@ -39,21 +39,27 @@ const useStyles = makeStyles((theme: Theme) =>
 const FabGroup: React.FC = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
 
-  const handleGoToPreviousHand = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    setValue((prev) => prev--);
+  const handleGoToPreviousHand = () => {
+    // e.preventDefault();
+    setValue((prev) => prev - 1);
   };
-  const handleGoToNextHand = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    setValue((prev) => prev++);
-  };
-
-  const showAlert = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    alert("cannot complete this action. the hand you are looking for does not exist.");
+  const handleGoToNextHand = () => {
+    // e.preventDefault();
+    setValue((prev) => prev + 1);
+    console.log({ value });
   };
 
+  const showAlert = () => {
+    // e.preventDefault();
+    console.log("cannot complete this action. the hand you are looking for does not exist.");
+    console.log({ value });
+  };
+  const handleOpen = () => {
+    setOpen((prev) => !prev);
+    console.log("Should open now", open);
+  };
   // const handleBid = () => {
   //   // setValue(index);
   // };
@@ -71,10 +77,10 @@ const FabGroup: React.FC = () => {
       color: "secondary" as "secondary",
       className: classes.fabBid,
       icon: <EmojiPeopleIcon />,
-      component: <DialogSelect />,
+      component: <DialogSelect open={open} setOpen={setOpen} />,
       label: "Make Bid",
       variant: "extended",
-      // onClick: handleBid,
+      onClick: handleOpen,
     },
     {
       color: "primary" as "primary",

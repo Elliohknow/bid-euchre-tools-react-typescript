@@ -3,7 +3,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import React from "react";
-import { CTX, Game, Player, scoreOptions } from "../ContextStore";
+import { CTX, Player, scoreOptions } from "../ContextStore";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,36 +42,37 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex }) => {
     }
 
     if (activeGame?.currentBid?.player?.id === player.id && score < activeGame?.currentBid?.amount) {
-      setActiveGame((prev: Game) => {
-        return {
-          ...prev,
-          players: [
-            ...prev.players,
-            {
-              ...prev.players[index],
-              currentScore: player?.currentScore - Number(score),
-              // TODO fix the below functionality, should edit the hand value at an explicit array index/object key
-              hands: [...player?.hands, [prev.currentHand, 0 - Number(score)]],
-            },
-          ],
-        };
-      });
-    } else {
-      setActiveGame((prev: Game) => {
-        return {
-          ...prev,
-          players: [
-            ...prev.players,
-            {
-              ...prev.players[index],
-              currentScore: player?.currentScore + Number(score),
-              // TODO fix the below functionality, should edit the hand value at an explicit array index/object key
-              hands: [...player?.hands, [prev.currentHand, Number(score)]],
-              // currentScore: (player?.currentScore ? player.currentScore + Number(score) : 0 + Number(score)),
-            },
-          ],
-        };
-      });
+      console.log(player.nickname, score);
+      //   setActiveGame((prev: Game) => {
+      //     return {
+      //       ...prev,
+      //       players: [
+      //         ...prev.players,
+      //         {
+      //           ...prev.players[index],
+      //           currentScore: player?.currentScore - Number(score),
+      //           // TODO fix the below functionality, should edit the hand value at an explicit array index/object key
+      //           hands: [...player?.hands, [prev.currentHand, 0 - Number(score)]],
+      //         },
+      //       ],
+      //     };
+      //   });
+      // } else {
+      //   setActiveGame((prev: Game) => {
+      //     return {
+      //       ...prev,
+      //       players: [
+      //         ...prev.players,
+      //         {
+      //           ...prev.players[index],
+      //           currentScore: player?.currentScore + Number(score),
+      //           // TODO fix the below functionality, should edit the hand value at an explicit array index/object key
+      //           hands: [...player?.hands, [prev.currentHand, Number(score)]],
+      //           // currentScore: (player?.currentScore ? player.currentScore + Number(score) : 0 + Number(score)),
+      //         },
+      //       ],
+      //     };
+      //   });
     }
   }, [score]);
 
@@ -93,7 +94,7 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex }) => {
           margin="dense"
           color="primary"
           size="small"
-          disabled={activeGame.currentHand === rowIndex + 1}
+          disabled={activeGame.currentHand !== rowIndex + 1}
         >
           {scoreOptions.map((option, idx) => (
             <MenuItem key={`mi_${option.value}_${idx}`} value={option.value}>

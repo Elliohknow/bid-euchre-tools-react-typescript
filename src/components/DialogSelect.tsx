@@ -51,10 +51,12 @@ const useStyles = makeStyles((theme: Theme) =>
 //     label: "🃏",
 //   },
 // ];
-
-const DialogSelect: React.FC = () => {
+interface Props {
+  open: boolean;
+  setOpen: (v: any) => void;
+}
+const DialogSelect: React.FC<Props> = ({ open, setOpen }) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
   const [amount, setAmount] = React.useState<number | string>("");
   const [suit, setSuit] = React.useState<string>("");
   const [playerName, setPlayerName] = React.useState<string>("");
@@ -70,9 +72,9 @@ const DialogSelect: React.FC = () => {
     setSuit(String(event.target.value) || "");
   };
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
 
   const handleCancel = () => {
     setOpen(false);
@@ -111,57 +113,54 @@ const DialogSelect: React.FC = () => {
   };
 
   return (
-    <React.Fragment>
-      <Button onClick={handleOpen}></Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Set the Bid</DialogTitle>
-        <DialogContent>
-          <form className={classes.container}>
-            <FormControl className={classes.formControl}>
-              <InputLabel id="dialog-select-label-1">Player</InputLabel>
-              <Select labelId="dialog-select-label-1" id="dialog-select-1" name="player" value={playerName} onChange={handleChangePlayerName} input={<Input />}>
-                <MenuItem value={""}>
-                  <em>None</em>
-                </MenuItem>
-                {activeGame.players.map((value: Player, index: number) => {
-                  return <MenuItem value={value?.nickname}>{value?.nickname}</MenuItem>;
-                })}
-              </Select>
-            </FormControl>
-            <FormControl className={classes.formControl}>
-              <InputLabel id="dialog-select-label-2">Amount</InputLabel>
-              <Select labelId="dialog-select-label-2" id="dialog-select-2" name="amout" value={amount} onChange={handleChangeAmount} input={<Input />}>
-                <MenuItem value={""}>
-                  <em>None</em>
-                </MenuItem>
-                {scoreOptions.map((value, index) => {
-                  return <MenuItem value={value.value}>{value.label}</MenuItem>;
-                })}
-              </Select>
-            </FormControl>
-            <FormControl className={classes.formControl}>
-              <InputLabel id="dialog-select-label-3">Suit</InputLabel>
-              <Select labelId="dialog-select-label-3" id="dialog-select-3" name="suit" value={suit} onChange={handleChangeSuit} input={<Input />}>
-                <MenuItem value={""}>
-                  <em>None</em>
-                </MenuItem>
-                {suits.map((value: Suit, index: number) => {
-                  return <MenuItem value={value.value}>{value.label}</MenuItem>;
-                })}
-              </Select>
-            </FormControl>
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancel} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit} color="primary">
-            Submit
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </React.Fragment>
+    <Dialog open={open} onClose={handleClose}>
+      <DialogTitle>Set the Bid</DialogTitle>
+      <DialogContent>
+        <form className={classes.container}>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="dialog-select-label-1">Player</InputLabel>
+            <Select labelId="dialog-select-label-1" id="dialog-select-1" name="player" value={playerName} onChange={handleChangePlayerName} input={<Input />}>
+              <MenuItem value={""}>
+                <em>None</em>
+              </MenuItem>
+              {activeGame.players.map((value: Player, index: number) => {
+                return <MenuItem value={value?.nickname}>{value?.nickname}</MenuItem>;
+              })}
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="dialog-select-label-2">Amount</InputLabel>
+            <Select labelId="dialog-select-label-2" id="dialog-select-2" name="amout" value={amount} onChange={handleChangeAmount} input={<Input />}>
+              <MenuItem value={""}>
+                <em>None</em>
+              </MenuItem>
+              {scoreOptions.map((value, index) => {
+                return <MenuItem value={value.value}>{value.label}</MenuItem>;
+              })}
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="dialog-select-label-3">Suit</InputLabel>
+            <Select labelId="dialog-select-label-3" id="dialog-select-3" name="suit" value={suit} onChange={handleChangeSuit} input={<Input />}>
+              <MenuItem value={""}>
+                <em>None</em>
+              </MenuItem>
+              {suits.map((value: Suit, index: number) => {
+                return <MenuItem value={value.value}>{value.label}</MenuItem>;
+              })}
+            </Select>
+          </FormControl>
+        </form>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCancel} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleSubmit} color="primary">
+          Submit
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

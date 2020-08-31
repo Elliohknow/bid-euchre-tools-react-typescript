@@ -33,13 +33,12 @@ export interface Game {
   currentLeader?: any;
   currentBid?: Bid;
   bids?: any;
-  playerScores?: any[];
 }
 export interface Player {
   id: string;
   nickname: string;
   currentScore: number;
-  hands?: any[] | object;
+  hands?: any;
   stats?: PlayerStats;
 }
 export interface PlayerStats {
@@ -110,19 +109,19 @@ const defaultPlayers: Array<Player> = [
     id: "player_1",
     nickname: "Pat",
     currentScore: 0,
-    hands: {},
+    hands: [],
   },
   {
     id: "player_2",
     nickname: "Elliott",
     currentScore: 0,
-    hands: {},
+    hands: [],
   },
   {
     id: "player_3",
     nickname: "Liz",
     currentScore: 0,
-    hands: {},
+    hands: [],
   },
 ];
 
@@ -135,7 +134,6 @@ const defaultGames: Array<Game> = [
     numHands: 8,
     currentHand: 1,
     currentDealer: getRandomInitialDealer(defaultPlayers.length),
-    playerScores: [],
   },
 ];
 const defaultActiveGame: Game = {
@@ -146,7 +144,6 @@ const defaultActiveGame: Game = {
   numHands: 8,
   currentHand: 1,
   currentDealer: getRandomInitialDealer(defaultPlayers.length),
-  playerScores: [],
 };
 const defaultOldGames: any = [{ winner: "Estelle" }];
 interface ContextProps {

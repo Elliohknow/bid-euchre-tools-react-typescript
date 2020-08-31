@@ -1,29 +1,36 @@
+import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core/styles";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import { CTX, Game, Player } from "../ContextStore";
+import FabGroup from "./FabGroup";
 import ScoreInput from "./ScoreInput";
 
-const useStyles = makeStyles({
-  root: {
-    justifyContent: "center",
-    minWidth: 600,
-    maxWidth: 900,
-    padding: 8,
-    margin: 10,
-  },
-  // table: {
-  // },
-});
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      justifyContent: "center",
+      width: "100%", //changed recently
+      padding: 8,
+      marginTop: 10,
+      marginRight: 15,
+      marginBottom: 10,
+      marginLeft: 15,
+      backgroundColor: "transparent",
+      border: "solid var(--pdark) 3px",
+      "& > *": {
+        backgroundColor: theme.palette.background.default,
+      },
+    },
+  })
+);
 
 function createData(numPlayers: number) {
   if (numPlayers <= 2) {
@@ -51,9 +58,9 @@ interface RowProps {
   index: number;
   row: any;
   game: Game;
-  incrementHand: any;
+  // incrementHand: any;
 }
-const CustomRow: React.FC<RowProps> = ({ index, row, game, incrementHand }) => (
+const CustomRow: React.FC<RowProps> = ({ index, row, game }) => (
   <TableRow className={`${game.currentHand === index + 1 && "current-turn"}`}>
     <TableCell component="th" scope="row">
       #{index + 1}
@@ -63,11 +70,11 @@ const CustomRow: React.FC<RowProps> = ({ index, row, game, incrementHand }) => (
         <ScoreInput player={player} rowIndex={index} />
       </TableCell>
     ))}
-    <TableCell>
+    {/* <TableCell>
       <IconButton aria-label="go to next hand" onClick={incrementHand}>
         <ArrowDownwardIcon />
       </IconButton>
-    </TableCell>
+    </TableCell> */}
   </TableRow>
 );
 // &nbsp; -> whitespace
@@ -99,50 +106,55 @@ const GameTable: React.FC = () => {
   };
 
   return (
-    <TableContainer className={classes.root} component={Paper}>
-      <Table aria-label="customized table for tracking games">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center">Hand</TableCell>
-            {activeGame.players.map((value: Player, index: number) => {
-              return (
-                <TableCell key={`hc_${index}`} align="center">
-                  {activeGame.currentDealer === index ? (
-                    <IconButton aria-label="current dealer" disabled color="secondary">
-                      <PersonIcon className="dealer-icon"></PersonIcon>
-                    </IconButton>
-                  ) : (
-                    <IconButton
-                      aria-label="set this player to dealer"
-                      color="primary"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        changeDealer(index);
-                      }}
-                    >
-                      <PersonIcon className="dealer-icon"></PersonIcon>
-                    </IconButton>
-                  )}
-                  {value.nickname}
-                </TableCell>
-              );
-            })}
-            {/* <TableCell>Next</TableCell> */}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, index) => (
-            <CustomRow key={`tr_${index}`} index={index} row={row} game={activeGame} incrementHand={incrementHand} />
-          ))}
-          <TableRow>
-            <TableCell>TOTALS</TableCell>
-            {activeGame.players.map((value: Player, index: number) => (
-              <TableCell key={`totals_${index}`}>{value?.currentScore}</TableCell>
+    <div>
+      <TableContainer className={classes.root} component={Paper}>
+        <Table aria-label="customized table for tracking games">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Hand</TableCell>
+              {activeGame.players.map((value: Player, index: number) => {
+                return (
+                  <TableCell key={`hc_${index}`} align="center">
+                    {activeGame.currentDealer === index ? (
+                      <IconButton aria-label="current dealer" disabled color="secondary">
+                        <Avatar color="secondary" className="dealer-icon">
+                          D
+                        </Avatar>
+                      </IconButton>
+                    ) : (
+                      <IconButton
+                        aria-label="set this player to dealer"
+                        color="primary"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          changeDealer(index);
+                        }}
+                      >
+                        <Avatar color="primary" className="not-dealer-icon"></Avatar>
+                      </IconButton>
+                    )}
+                    {value.nickname}
+                  </TableCell>
+                );
+              })}
+              {/* <TableCell>Next</TableCell> */}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row, index) => (
+              <CustomRow key={`tr_${index}`} index={index} row={row} game={activeGame} />
             ))}
-          </TableRow>
-        </TableBody>
-      </Table>
-    </TableContainer>
+            <TableRow>
+              <TableCell>TOTALS</TableCell>
+              {activeGame.players.map((value: Player, index: number) => (
+                <TableCell key={`totals_${index}`}>{value?.currentScore}</TableCell>
+              ))}
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <FabGroup />
+    </div>
   );
 };
 export default GameTable;

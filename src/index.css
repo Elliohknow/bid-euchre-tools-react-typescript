@@ -86,11 +86,15 @@ li.game-card-wrapper {
 }
 .current-turn,
 .current-turn > * {
-  background: var(--plight);
-  color: var(--offwhite);
+  border-bottom: solid 5px var(--plight);
+  /* color: var(--offwhite); */
 }
 .dealer-icon {
-  color: var(--smain);
+  color: #fff;
+  background-color: var(--sdark);
+}
+.not-dealer-icon {
+  background-color: var(--pmain);
 }
 .dealer-indicator {
   border-right-color: var(--slight);

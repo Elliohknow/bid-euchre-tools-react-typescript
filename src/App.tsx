@@ -4,7 +4,6 @@ import DoubleArrowIcon from "@material-ui/icons/DoubleArrow";
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import BasicAppBar from "./components/BasicAppBar";
-import FabGroup from "./components/FabGroup";
 import GameCard from "./components/GameCard";
 import PlayerCard from "./components/PlayerCard";
 import GameTable from "./components/Table";
@@ -27,7 +26,6 @@ const ActiveGame: React.FC = () => {
       <div className="numPlayers">number of players: {activeGame?.players.length}</div>
       <div className="numDummies">number of dummy players: {numDummies}</div>
       <GameTable />
-      <FabGroup />
     </div>
   );
 };
@@ -55,7 +53,6 @@ const NewGameSetup: React.FC = () => {
     numHands: 8,
     currentHand: 1,
     currentDealer: getRandomInitialDealer(players.length),
-    playerScores: [],
   });
 
   const handleStart = () => {
