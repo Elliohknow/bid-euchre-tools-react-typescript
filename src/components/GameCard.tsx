@@ -45,7 +45,7 @@ interface Props {
   game: Game;
 }
 
-export default function GameCard({ game }: Props) {
+const GameCard: React.FC<Props> = ({ game }) => {
   const classes = useStyles();
 
   const { setActiveGame, setSavedGames, savedGames } = React.useContext(CTX);
@@ -69,6 +69,12 @@ export default function GameCard({ game }: Props) {
         <Typography className={classes.pos} color="textSecondary">
           id: {game.id}
         </Typography>
+        <Typography className={classes.pos} color="textSecondary">
+          currentBid: {game.currentBid}
+        </Typography>
+        <Typography className={classes.pos} color="textSecondary">
+          currentHand: {game.currentHand}
+        </Typography>
       </CardContent>
       <CardActions className={classes.actions}>
         <Button onClick={handleLoad} size="medium" component={Link} to={`/active/?id=${game.id}`} variant="outlined" color="primary">
@@ -80,4 +86,6 @@ export default function GameCard({ game }: Props) {
       </CardActions>
     </Card>
   );
-}
+};
+
+export default GameCard;

@@ -7,11 +7,12 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import PersonIcon from "@material-ui/icons/Person";
 import React from "react";
 import { CTX, Game, Player } from "../ContextStore";
 import ScoreInput from "./ScoreInput";
-// import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+
 const useStyles = makeStyles({
   root: {
     justifyContent: "center",
@@ -50,8 +51,9 @@ interface RowProps {
   index: number;
   row: any;
   game: Game;
+  incrementHand: any;
 }
-const CustomRow: React.FC<RowProps> = ({ index, row, game }) => (
+const CustomRow: React.FC<RowProps> = ({ index, row, game, incrementHand }) => (
   <TableRow className={`${game.currentHand === index + 1 && "current-turn"}`}>
     <TableCell component="th" scope="row">
       #{index + 1}
@@ -61,6 +63,11 @@ const CustomRow: React.FC<RowProps> = ({ index, row, game }) => (
         <ScoreInput player={player} rowIndex={index} />
       </TableCell>
     ))}
+    <TableCell>
+      <IconButton aria-label="go to next hand" onClick={incrementHand}>
+        <ArrowDownwardIcon />
+      </IconButton>
+    </TableCell>
   </TableRow>
 );
 // &nbsp; -> whitespace
@@ -93,7 +100,7 @@ const GameTable: React.FC = () => {
 
   return (
     <TableContainer className={classes.root} component={Paper}>
-      <Table /*className={classes.table}*/ aria-label="customized table for tracking games">
+      <Table aria-label="customized table for tracking games">
         <TableHead>
           <TableRow>
             <TableCell align="center">Hand</TableCell>
@@ -120,12 +127,12 @@ const GameTable: React.FC = () => {
                 </TableCell>
               );
             })}
-            <TableCell>Next</TableCell>
+            {/* <TableCell>Next</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
-            <CustomRow index={index} row={row} game={activeGame} key={`tr_${index}`} />
+            <CustomRow key={`tr_${index}`} index={index} row={row} game={activeGame} incrementHand={incrementHand} />
           ))}
           <TableRow>
             <TableCell>TOTALS</TableCell>
@@ -139,9 +146,7 @@ const GameTable: React.FC = () => {
   );
 };
 export default GameTable;
-//  <IconButton aria-label="go to next hand" onClick={incrementHand}>
-//    <ArrowDownwardIcon />
-//  </IconButton>
+
 // function reducer(state: Game, action: { type: any }) {
 //   switch (action.type) {
 //     case "next-hand":

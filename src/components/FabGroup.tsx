@@ -19,33 +19,39 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "absolute",
       bottom: theme.spacing(2),
       left: theme.spacing(2),
+      zIndex: theme.zIndex.appBar,
     },
     fabBid: {
       position: "absolute",
       bottom: theme.spacing(2),
       marginRight: theme.spacing(1),
+      zIndex: theme.zIndex.appBar,
     },
     fabNext: {
       position: "absolute",
       bottom: theme.spacing(2),
       right: theme.spacing(2),
+      zIndex: theme.zIndex.appBar,
     },
   })
 );
 
-interface Props {
-  props: any;
-}
-
-export default function FloatingActionButton<Props>({ props }: any) {
+const FabGroup: React.FC = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const handleGoToPreviousHand = (event: unknown) => {
-    setValue(value - 1);
+  const handleGoToPreviousHand = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    setValue((prev) => prev--);
   };
-  const handleGoToNextHand = (event: unknown) => {
-    setValue(value + 1);
+  const handleGoToNextHand = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    setValue((prev) => prev++);
+  };
+
+  const showAlert = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    alert("cannot complete this action. the hand you are looking for does not exist.");
   };
 
   // const handleBid = () => {
@@ -57,9 +63,9 @@ export default function FloatingActionButton<Props>({ props }: any) {
       color: "primary" as "primary",
       className: classes.fabPrev,
       icon: <KeyboardArrowLeftIcon />,
-      label: "Previous Turn",
+      label: "Previous Hand",
       variant: "round",
-      onClick: handleGoToPreviousHand,
+      onClick: value > 0 ? handleGoToPreviousHand : showAlert,
     },
     {
       color: "secondary" as "secondary",
@@ -74,9 +80,9 @@ export default function FloatingActionButton<Props>({ props }: any) {
       color: "primary" as "primary",
       className: classes.fabNext,
       icon: <KeyboardArrowRightIcon />,
-      label: "Next Turn",
+      label: "Next Hand",
       variant: "round",
-      onClick: handleGoToNextHand,
+      onClick: value < 8 ? handleGoToNextHand : showAlert,
     },
   ];
 
@@ -96,4 +102,5 @@ export default function FloatingActionButton<Props>({ props }: any) {
       ))}
     </div>
   );
-}
+};
+export default FabGroup;

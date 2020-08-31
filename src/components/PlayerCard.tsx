@@ -10,30 +10,15 @@ import { Player } from "../ContextStore";
 // import HistoryIcon from "@material-ui/icons/History";
 // import TouchAppIcon from "@material-ui/icons/TouchApp";
 // import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-// const StyledIconButton = withStyles((theme: Theme) => ({
-//   root: {
-//     backgroundColor: theme.palette.getContrastText(theme.palette.primary.main),
-//     color: theme.palette.primary.main,
-//     marginLeft: 20,
-//     // borderRadius: 4,
-//     "&:hover": {
-//       color: theme.palette.getContrastText(theme.palette.primary.main),
-//       backgroundColor: theme.palette.primary.main,
-//     },
-//   },
-// }))(IconButton);
-// const StyledAvatar = withStyles((theme: Theme) => ({
-//   root: {
-//     backgroundColor: theme.palette.secondary.main,
-//     // backgroundColor: 'radial-gradiant: '
-//   },
-// }))(Avatar);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       padding: 8,
-      margin: "1rem 2rem 1rem 2rem",
+      marginTop: "1rem",
+      marginRight: "2rem",
+      marginBottom: "1rem",
+      marginLeft: "2rem",
       minWidth: 350,
       maxWidth: 500,
       backgroundColor: theme.palette.background.default,
@@ -52,11 +37,12 @@ const useStyles = makeStyles((theme: Theme) =>
       verticalAlign: "middle",
       textAlign: "left",
     },
-    avatarDefault: {
-      backgroundColor: theme.palette.action.disabledBackground,
+    avatarUnchecked: {
+      backgroundColor: theme.palette.secondary.main,
+      opacity: 0.5,
     },
-    avatarColor: {
-      backgroundColor: "radial-gradient(circle at center var(--pmain), var(--slight))",
+    avatarChecked: {
+      backgroundColor: theme.palette.primary.main,
     },
   })
 );
@@ -66,8 +52,8 @@ interface Props {
   onToggle: (v: Player) => void;
 }
 
-export default function PlayerCard({ player, onToggle }: Props) {
-  const [checkedState, setCheckedState] = React.useState(true);
+const PlayerCard: React.FC<Props> = ({ player, onToggle }) => {
+  const [checkedState, setCheckedState] = React.useState<boolean>(true);
   const classes = useStyles();
   // const [count, setCount] = React.useState(0);
 
@@ -89,15 +75,15 @@ export default function PlayerCard({ player, onToggle }: Props) {
             </Typography>
           }
           avatar={
-            !checkedState ? (
-              <Avatar className={classes.avatarDefault} alt={`${player.nickname}`}>
-                {player.nickname[0]}
-              </Avatar>
-            ) : (
-              <Avatar className={classes.avatarColor} alt={`${player.nickname}`}>
-                {player.nickname[0]}
-              </Avatar>
-            )
+            // !checkedState ? (
+            <Avatar className={checkedState ? classes.avatarChecked : classes.avatarUnchecked} alt={`${player.nickname}`}>
+              {player.nickname[0]}
+            </Avatar>
+            // ) : (
+            //   <Avatar className={classes.avatarColor} alt={`${player.nickname}`}>
+            //     {player.nickname[0]}
+            //   </Avatar>
+            // )
           }
           // action={!checkedState ? <CheckBoxOutlineBlankIcon aria-label="unchecked" /> : <CheckBoxIcon aria-label="checked" />}
         />
@@ -127,7 +113,8 @@ export default function PlayerCard({ player, onToggle }: Props) {
       </CardActionArea>
     </Card>
   );
-}
+};
+export default PlayerCard;
 // <CardActions className={classes.actions}>
 //   <StyledIconButton size="small" disabled>
 //     <EditIcon />

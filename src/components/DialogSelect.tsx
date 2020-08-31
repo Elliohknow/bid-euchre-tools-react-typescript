@@ -103,13 +103,16 @@ const DialogSelect: React.FC = () => {
           },
         };
       });
+      console.log({ playerName, amount, suit });
       handleClose();
+    } else {
+      console.log("Could not submit invalid bid.");
     }
   };
 
   return (
-    <div title="make a bid">
-      <Button onClick={handleOpen}>Bid</Button>
+    <React.Fragment>
+      <Button onClick={handleOpen}></Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Set the Bid</DialogTitle>
         <DialogContent>
@@ -158,7 +161,7 @@ const DialogSelect: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </React.Fragment>
   );
 };
 
