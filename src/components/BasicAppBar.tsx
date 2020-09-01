@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const StyledAppBar = withStyles((theme: Theme) =>
   createStyles({
     root: {
-      // background: `linear-gradient(45deg, ${theme.palette.primary.light}, 50%, ${theme.palette.secondary.main}, 80%)`,
       background: theme.palette.primary.main,
     },
   })

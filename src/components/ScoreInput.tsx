@@ -10,7 +10,8 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       "& .MuiTextField-root": {
         margin: theme.spacing(1),
-        width: "25ch",
+        minWidth: 0,
+        maxWidth: "15ch",
       },
     },
     // formControl: {
@@ -94,8 +95,12 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex }) => {
           margin="dense"
           color="primary"
           size="small"
+          // label={"hand" || ""}
           disabled={activeGame.currentHand !== rowIndex + 1}
         >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
           {scoreOptions.map((option, idx) => (
             <MenuItem key={`mi_${option.value}_${idx}`} value={option.value}>
               {option.value < 12 ? option.label : <em>{option.label}</em>}

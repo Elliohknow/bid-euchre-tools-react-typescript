@@ -10,21 +10,22 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import React from "react";
 import { CTX, Game, Player } from "../ContextStore";
-import FabGroup from "./FabGroup";
+import BottomBar from "./BottomBar";
 import ScoreInput from "./ScoreInput";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       justifyContent: "center",
-      width: "100%", //changed recently
+      overflowX: "hidden",
+      width: "calc(100% - 46px)", //changed recently
       padding: 8,
       marginTop: 10,
       marginRight: 15,
       marginBottom: 10,
       marginLeft: 15,
       backgroundColor: "transparent",
-      border: "solid var(--pdark) 3px",
+      // border: "solid var(--pdark) 3px",
       "& > *": {
         backgroundColor: theme.palette.background.default,
       },
@@ -153,7 +154,7 @@ const GameTable: React.FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <FabGroup />
+      <BottomBar />
     </div>
   );
 };

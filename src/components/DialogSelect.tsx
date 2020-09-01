@@ -24,33 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-// //"♠ ♥ ♦ ♣"
-// const suits: Suit[] = [
-//   {
-//     value: "",
-//     label: "",
-//   },
-//   {
-//     value: "Spades",
-//     label: "♠",
-//   },
-//   {
-//     value: "Hearts",
-//     label: "♥",
-//   },
-//   {
-//     value: "Diamonds",
-//     label: "♦",
-//   },
-//   {
-//     value: "Clubs",
-//     label: "♣",
-//   },
-//   {
-//     value: "None",
-//     label: "🃏",
-//   },
-// ];
+
 interface Props {
   open: boolean;
   setOpen: (v: any) => void;
