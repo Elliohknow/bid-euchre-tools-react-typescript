@@ -56,7 +56,7 @@ export interface Suit {
   label: string;
 }
 export interface Bid {
-  amount: number;
+  amount: number | string;
   suit: Suit;
   player: Player;
   call?: boolean;
@@ -85,8 +85,8 @@ export const suits: Suit[] = [
     label: "♣",
   },
   {
-    value: "None",
-    label: "🃏",
+    value: "No trump",
+    label: "⁉",
   },
 ];
 
@@ -99,9 +99,9 @@ export const scoreOptions: ScoreOption[] = [
   { value: 6, label: "6" },
   { value: 7, label: "7" },
   { value: 8, label: "8" },
-  { value: 12, label: "Call for 2" },
-  { value: 18, label: "Call for 1" },
-  { value: 24, label: "Shoot the Moon" },
+  { value: 12, label: "Call (12)" },
+  { value: 18, label: "Call (18)" },
+  { value: 24, label: "ShM (24)" },
 ];
 
 const defaultPlayers: Array<Player> = [

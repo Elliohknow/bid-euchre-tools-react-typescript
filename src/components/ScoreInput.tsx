@@ -1,4 +1,5 @@
 import Avatar from "@material-ui/core/Avatar";
+import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -10,13 +11,17 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       "& .MuiTextField-root": {
         margin: theme.spacing(1),
-        minWidth: 0,
-        maxWidth: "15ch",
+        minWidth: "10ch",
       },
     },
-    // formControl: {
-    //   display: "none",
-    // },
+    small: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: "8ch",
+    },
   })
 );
 
@@ -79,9 +84,9 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex }) => {
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <div>
-        {activeGame?.currentBid?.player?.id === player?.id && (
-          <Avatar>
+      <FormControl className={classes.formControl}>
+        {activeGame?.currentBid && activeGame?.currentBid?.player?.id === player?.id && activeGame.currentHand === rowIndex + 1 && (
+          <Avatar className={classes.small}>
             {activeGame?.currentBid?.call
               ? `C${activeGame?.currentBid?.callAmount}`
               : `${activeGame?.currentBid?.amount}${activeGame?.currentBid?.suit?.label}`}
@@ -91,7 +96,7 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex }) => {
           select
           value={score}
           onChange={handleChange}
-          variant="filled"
+          variant="standard"
           margin="dense"
           color="primary"
           size="small"
@@ -107,7 +112,7 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex }) => {
             </MenuItem>
           ))}
         </TextField>
-      </div>
+      </FormControl>
     </form>
   );
 };

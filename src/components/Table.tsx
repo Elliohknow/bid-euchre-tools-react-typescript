@@ -18,13 +18,10 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       justifyContent: "center",
       overflowX: "hidden",
-      width: "calc(100% - 46px)", //changed recently
-      padding: 8,
-      marginTop: 10,
-      marginRight: 15,
-      marginBottom: 10,
-      marginLeft: 15,
-      backgroundColor: "transparent",
+      width: "calc(100% - 20px)", //changed recently
+      // padding: 8,
+      margin: 10,
+      // backgroundColor: "transparent",
       // border: "solid var(--pdark) 3px",
       "& > *": {
         backgroundColor: theme.palette.background.default,
@@ -107,7 +104,7 @@ const GameTable: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="game">
       <TableContainer className={classes.root} component={Paper}>
         <Table aria-label="customized table for tracking games">
           <TableHead>
