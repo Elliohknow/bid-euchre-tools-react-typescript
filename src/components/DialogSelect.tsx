@@ -5,7 +5,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
+import NativeSelect from "@material-ui/core/NativeSelect";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
 import { CTX, Player, scoreOptions, Suit, suits } from "../ContextStore";
@@ -113,9 +113,8 @@ const DialogSelect: React.FC<Props> = (props) => {
         <form className={classes.container}>
           <FormControl variant="filled" className={classes.formControl}>
             <InputLabel htmlFor="player-select">Player</InputLabel>
-            <Select
+            <NativeSelect
               ref={selectRef}
-              native
               value={bid.playerName}
               onChange={handleChangePlayerName}
               inputProps={{
@@ -131,13 +130,11 @@ const DialogSelect: React.FC<Props> = (props) => {
                   </option>
                 );
               })}
-            </Select>
+            </NativeSelect>
           </FormControl>
-          <FormControl className={classes.formControl}>
+          <FormControl variant="filled" className={classes.formControl}>
             <InputLabel htmlFor="amount-select">Amount</InputLabel>
-            <Select
-              native
-              variant="filled"
+            <NativeSelect
               value={bid.amount}
               onChange={handleChangeAmount}
               inputProps={{
@@ -153,13 +150,11 @@ const DialogSelect: React.FC<Props> = (props) => {
                   </option>
                 );
               })}
-            </Select>
+            </NativeSelect>
           </FormControl>
-          <FormControl className={classes.formControl}>
+          <FormControl variant="filled" className={classes.formControl}>
             <InputLabel htmlFor="suit-select">Suit</InputLabel>
-            <Select
-              variant="outlined"
-              native
+            <NativeSelect
               value={bid.suit}
               onChange={handleChangeSuit}
               inputProps={{
@@ -175,7 +170,7 @@ const DialogSelect: React.FC<Props> = (props) => {
                   </option>
                 );
               })}
-            </Select>
+            </NativeSelect>
           </FormControl>
         </form>
       </DialogContent>
