@@ -8,6 +8,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { CTX, Game, Player } from "../ContextStore";
 import BottomBar from "./BottomBar";
@@ -131,7 +132,9 @@ const GameTable: React.FC = () => {
                         <Avatar color="primary" className="not-dealer-icon"></Avatar>
                       </IconButton>
                     )}
-                    {value.nickname}
+                    <Typography variant="h6" gutterBottom>
+                      {value.nickname}
+                    </Typography>
                   </TableCell>
                 );
               })}

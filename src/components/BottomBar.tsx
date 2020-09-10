@@ -1,13 +1,13 @@
 import { AppBar, Toolbar } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
+// import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
 import React from "react";
 import { CTX, Game } from "../ContextStore";
 import DialogSelect from "./DialogSelect";
-// import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -59,16 +59,16 @@ const BottomBar: React.FC = () => {
     setOpen(true);
     console.log({ open });
   };
-  const handleClose = (bid?: { playerName: string; suit: string; amount: string | number }) => {
+  const handleClose = (bid?: { name: string; suit: string; amount: string | number }) => {
     setOpen(false);
     console.log({ open });
 
-    if (bid?.playerName && bid?.suit && bid?.amount) {
+    if (bid?.name && bid?.suit && bid?.amount) {
       setActiveGame((prev: Game) => {
         return {
           ...prev,
           currentBid: {
-            player: prev?.players.find((player) => player.nickname === bid.playerName),
+            player: prev?.players.find((player) => player.nickname === bid.name),
             suit: bid.suit,
             amount: bid.amount,
           },
@@ -86,8 +86,10 @@ const BottomBar: React.FC = () => {
           </IconButton>
         </div>
         <div className={classes.column}>
-          <IconButton color="secondary" onClick={handleOpen} aria-label="Set Current Bid" aria-haspopup="true" role="set bid button">
-            <EmojiPeopleIcon />
+          <IconButton color="secondary" onClick={handleOpen} aria-label="Set Current Bid" aria-haspopup="true" role="bid button">
+            <RecordVoiceOverIcon />
+            SET BID
+            {/* <EmojiPeopleIcon /> */}
           </IconButton>
         </div>
         <div className={classes.column}>

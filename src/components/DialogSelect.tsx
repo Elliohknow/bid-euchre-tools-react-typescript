@@ -4,6 +4,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
+import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
@@ -33,16 +34,13 @@ interface Props {
 const DialogSelect: React.FC<Props> = (props) => {
   const { open, onClose, ...other } = props;
   const classes = useStyles();
-  const [bid, setBid] = React.useState<{ playerName: string; suit: string; amount: string | number }>({
-    playerName: "",
+  const [bid, setBid] = React.useState<{ name: string; suit: string; amount: string | number }>({
+    name: "",
     suit: "",
     amount: "",
   });
   const selectRef = React.useRef<HTMLElement>(null);
   const { activeGame } = React.useContext(CTX);
-  // const [amount, setAmount] = React.useState<number | string>("");
-  // const [suit, setSuit] = React.useState<string>("");
-  // const [playerName, setPlayerName] = React.useState<string>("");
 
   // React.useEffect(() => {
   //   if (!open) {
@@ -84,10 +82,6 @@ const DialogSelect: React.FC<Props> = (props) => {
     });
   };
 
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
-
   const handleCancel = () => {
     onClose();
   };
@@ -115,8 +109,9 @@ const DialogSelect: React.FC<Props> = (props) => {
             <InputLabel htmlFor="player-select">Player</InputLabel>
             <NativeSelect
               ref={selectRef}
-              value={bid.playerName}
+              value={bid.name}
               onChange={handleChangePlayerName}
+              input={<Input />}
               inputProps={{
                 id: "player-select",
                 name: "player",
@@ -137,6 +132,7 @@ const DialogSelect: React.FC<Props> = (props) => {
             <NativeSelect
               value={bid.amount}
               onChange={handleChangeAmount}
+              input={<Input />}
               inputProps={{
                 id: "amount-select",
                 name: "amount",
@@ -157,6 +153,7 @@ const DialogSelect: React.FC<Props> = (props) => {
             <NativeSelect
               value={bid.suit}
               onChange={handleChangeSuit}
+              input={<Input />}
               inputProps={{
                 id: "suit-select",
                 name: "suit",

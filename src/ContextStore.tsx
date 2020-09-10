@@ -66,7 +66,7 @@ export interface ScoreOption {
   value: number;
   label: string;
 }
-//"♠ ♥ ♦ ♣"
+//"♠ ♥ ♦ ♣ ☯"
 export const suits: Suit[] = [
   {
     value: "Spades",
@@ -86,7 +86,7 @@ export const suits: Suit[] = [
   },
   {
     value: "No trump",
-    label: "⁉",
+    label: "☯",
   },
 ];
 
