@@ -39,17 +39,21 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const BottomBar: React.FC = () => {
+interface Props {
+  hand: number;
+  setHand: (value: any) => void;
+}
+const BottomBar: React.FC<Props> = (props) => {
+  const { hand, setHand } = props;
   const classes = useStyles();
-  const [hand, setHand] = React.useState(0);
   const [open, setOpen] = React.useState(false);
   const { setActiveGame } = React.useContext(CTX);
 
   const handleLast = () => {
-    hand > 0 ? setHand((prev) => prev - 1) : showAlert();
+    hand > 1 ? setHand((prev: number) => prev - 1) : showAlert();
   };
   const handleNext = () => {
-    hand < 8 ? setHand((prev) => prev + 1) : showAlert();
+    hand < 8 ? setHand((prev: number) => prev + 1) : showAlert();
   };
   const showAlert = () => {
     alert("cannot complete this action. the hand you are looking for does not exist.");
@@ -82,19 +86,19 @@ const BottomBar: React.FC = () => {
       <Toolbar className={classes.container}>
         <div className={classes.column}>
           <IconButton color="primary" aria-label="Previous Hand" onClick={handleLast}>
-            <KeyboardArrowLeftIcon />
+            <KeyboardArrowLeftIcon fontSize="large" />
           </IconButton>
         </div>
         <div className={classes.column}>
           <IconButton color="secondary" onClick={handleOpen} aria-label="Set Current Bid" aria-haspopup="true" role="bid button">
-            <RecordVoiceOverIcon />
+            <RecordVoiceOverIcon fontSize="large" />
             SET BID
             {/* <EmojiPeopleIcon /> */}
           </IconButton>
         </div>
         <div className={classes.column}>
           <IconButton color="primary" aria-label="Next Hand" onClick={handleNext}>
-            <KeyboardArrowRightIcon />
+            <KeyboardArrowRightIcon fontSize="large" />
           </IconButton>
         </div>
         <DialogSelect open={open} onClose={handleClose} keepMounted id="bid-menu" />

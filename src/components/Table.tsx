@@ -9,6 +9,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
+import AddIcon from "@material-ui/icons/Add";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import React from "react";
 import { CTX, Game, Player } from "../ContextStore";
 import BottomBar from "./BottomBar";
@@ -33,9 +35,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function createData(numPlayers: number) {
   if (numPlayers <= 2) {
-    return { score1: 0, score2: 0 };
+    return [0, 0];
   } else {
-    return { score1: 0, score2: 0, score3: 0 };
+    return [0, 0, 0];
   }
 }
 
@@ -57,23 +59,42 @@ interface RowProps {
   index: number;
   row: any;
   game: Game;
-  // incrementHand: any;
+  hand: number;
+  setHand: (value: any) => void;
 }
-const CustomRow: React.FC<RowProps> = ({ index, row, game }) => (
+const CustomRow: React.FC<RowProps> = ({ index, row, game, hand, setHand }) => (
   <TableRow className={`${game.currentHand === index + 1 && "current-turn"}`}>
     <TableCell component="th" scope="row">
       #{index + 1}
     </TableCell>
-    {game.players.map((player: Player, i: number) => (
-      <TableCell key={`tc_${player.nickname}_${row}`} align="center" className={`${game.currentDealer === i && "dealer-indicator"}`}>
-        <ScoreInput player={player} rowIndex={index} />
+    {row.map((value: number, i: number) => (
+      <TableCell key={`tc_${i}`} align="center" className={`${hand - 1 === i && "dealer-indicator"}`}>
+        <ScoreInput player={game.players[i]} rowIndex={index} scoreProp={value} />
       </TableCell>
     ))}
-    {/* <TableCell>
-      <IconButton aria-label="go to next hand" onClick={incrementHand}>
-        <ArrowDownwardIcon />
-      </IconButton>
-    </TableCell> */}
+    <TableCell>
+      {index + 1 !== 8 ? (
+        <IconButton
+          aria-label="go to next hand"
+          onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            e.preventDefault();
+            setHand((prev: number) => prev + 1);
+          }}
+        >
+          <ArrowDownwardIcon />
+        </IconButton>
+      ) : (
+        <IconButton
+          aria-label="go to next hand"
+          onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+            e.preventDefault();
+            // setHand((prev: number) => prev + 1);
+          }}
+        >
+          <AddIcon />
+        </IconButton>
+      )}
+    </TableCell>
   </TableRow>
 );
 // &nbsp; -> whitespace
@@ -82,19 +103,28 @@ const GameTable: React.FC = () => {
   const classes = useStyles();
   const { activeGame, setActiveGame } = React.useContext(CTX);
   // const [state, dispatch] = React.useReducer(reducer, activeGame);
-
+  const [hand, setHand] = React.useState(1);
   const rows = createRows(activeGame.players.length);
 
-  const incrementHand = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    let cHand = activeGame.currentHand + 1;
-    //TODO: add score-based check on hand count
+  React.useEffect(() => {
+    if (hand !== 1) {
+      incrementHand();
+    }
+  }, [hand]);
+
+  const incrementHand = () => {
     let cDealer = activeGame.currentDealer + 1;
     if (cDealer > activeGame.players.length - 1) {
       cDealer = 0;
     }
-
-    setActiveGame({ ...activeGame, currentHand: cHand, currentDealer: cDealer });
+    setActiveGame((prev: Game) => {
+      return {
+        ...prev,
+        currentHand: hand,
+        currentDealer: cDealer,
+      };
+    });
+    //TODO: add score-based check on hand count
   };
   const changeDealer = (playerIndex: number) => {
     setActiveGame({ ...activeGame, currentDealer: playerIndex });
@@ -138,12 +168,14 @@ const GameTable: React.FC = () => {
                   </TableCell>
                 );
               })}
-              {/* <TableCell>Next</TableCell> */}
+              {/* <TableCell>
+                Next
+                </TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row, index) => (
-              <CustomRow key={`tr_${index}`} index={index} row={row} game={activeGame} />
+              <CustomRow key={`tr_${index}`} index={index} row={row} game={activeGame} setHand={setHand} hand={hand} />
             ))}
             <TableRow>
               <TableCell>TOTALS</TableCell>
@@ -154,7 +186,7 @@ const GameTable: React.FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <BottomBar />
+      <BottomBar hand={hand} setHand={setHand} />
     </div>
   );
 };

@@ -6,7 +6,8 @@ import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import BasicAppBar from "./components/BasicAppBar";
 import GameCard from "./components/GameCard";
 import PlayerCard from "./components/PlayerCard";
-import GameTable from "./components/Table";
+// import GameTable from "./components/Table";
+import GameGrid from "./components/TableGrid";
 import { CTX, Game, Player } from "./ContextStore";
 import { formatDateTime, getDateTimeElements, getRandomInitialDealer, UUID } from "./utils";
 // import HelpOutlinedIcon from "@material-ui/icons/HelpOutlined";
@@ -25,7 +26,8 @@ const ActiveGame: React.FC = () => {
       </div>
       <div className="numPlayers">number of players: {activeGame?.players.length}</div>
       <div className="numDummies">number of dummy players: {numDummies}</div>
-      <GameTable />
+      {/* <GameTable /> */}
+      <GameGrid />
     </div>
   );
 };
