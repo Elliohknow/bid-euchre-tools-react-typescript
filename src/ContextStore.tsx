@@ -1,6 +1,6 @@
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import React from "react";
-import { formatDateTime, getRandomInitialDealer, UUID } from "./utils";
+import { formatDateTime, getDealersForHands, getRandomInitialDealer, UUID } from "./utils";
 
 export const appTheme = createMuiTheme({
   palette: {
@@ -29,6 +29,7 @@ export interface Game {
   winner: any;
   numHands: number;
   hands: number[];
+  dealers: string[];
   currentHand: number;
   currentDealer: number;
   currentLeader?: any;
@@ -92,7 +93,7 @@ export const suits: Suit[] = [
 ];
 
 export const scoreOptions: ScoreOption[] = [
-  { value: 0, label: "0" },
+  { value: 0, label: "" },
   { value: 1, label: "1" },
   { value: 2, label: "2" },
   { value: 3, label: "3" },
@@ -106,7 +107,7 @@ export const scoreOptions: ScoreOption[] = [
   { value: 24, label: "ShM (24)" },
 ];
 
-const defaultPlayers: Array<Player> = [
+export const defaultPlayers: Array<Player> = [
   {
     id: "player_1",
     nickname: "Pat",
@@ -126,7 +127,10 @@ const defaultPlayers: Array<Player> = [
     hands: [],
   },
 ];
-
+// getDealerForHands(activeGame.hands, activeGame.players);
+export const defaultHands: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
+export const defaultDealer: number = getRandomInitialDealer(defaultPlayers.length);
+export const defaultDealers: string[] = getDealersForHands(defaultHands, defaultPlayers, defaultDealer);
 const defaultGames: Array<Game> = [
   {
     id: `test_${UUID()}`,
@@ -134,20 +138,22 @@ const defaultGames: Array<Game> = [
     players: defaultPlayers,
     winner: null,
     numHands: 8,
-    hands: [1, 2, 3, 4, 5, 6, 7, 8],
+    hands: defaultHands,
     currentHand: 1,
-    currentDealer: getRandomInitialDealer(defaultPlayers.length),
+    currentDealer: defaultDealer,
+    dealers: defaultDealers,
   },
 ];
-const defaultActiveGame: Game = {
+export const defaultActiveGame: Game = {
   id: `test_${UUID()}`,
   dateTime: formatDateTime(),
   players: defaultPlayers,
   winner: null,
   numHands: 8,
-  hands: [1, 2, 3, 4, 5, 6, 7, 8],
+  hands: defaultHands,
   currentHand: 1,
-  currentDealer: getRandomInitialDealer(defaultPlayers.length),
+  currentDealer: defaultDealer,
+  dealers: defaultDealers,
 };
 const defaultOldGames: any = [{ winner: "Estelle" }];
 interface ContextProps {

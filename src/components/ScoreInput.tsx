@@ -1,9 +1,9 @@
 import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
 import React from "react";
 import { CTX, Player, scoreOptions } from "../ContextStore";
 
@@ -11,19 +11,22 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       minWidth: "100%",
+      // height: "calc(10vh - 5px)",
+      placeItems: "stretch",
+      placeContent: "stretch",
+      // paddingTop: theme.spacing(1),
     },
-    form: {
-      "& .MuiTextField-root": {
-        margin: theme.spacing(1),
-        //     minWidth: "8ch",
-        //     minHeight: 0,
-        //     maxHeight: 15,
-      },
-      //   "& .MuiSelect-selectMenu": {
-      //     minHeight: 0,
-      //     maxHeight: 15,
-      //   },
-    },
+    // form: {
+    //   "& .MuiTextField-root": {
+    //     minWidth: "8ch",
+    //     minHeight: 0,
+    //     maxHeight: 15,
+    // },
+    //   "& .MuiSelect-selectMenu": {
+    //     minHeight: 0,
+    //     maxHeight: 15,
+    //   },
+    // },
     // small: {
     //   width: theme.spacing(3),
     //   height: theme.spacing(3),
@@ -40,43 +43,63 @@ interface Props {
   scoreProp: string | number;
 }
 
-const ScoreInput: React.FC<Props> = ({ player, rowIndex, scoreProp }) => {
+const ScoreInput: React.FC<Props> = ({ player, scoreProp, rowIndex }) => {
   const classes = useStyles();
   const [score, setScore] = React.useState<string | number>(scoreProp);
   // const inputRef = React.useRef<HTMLInputElement>(null);
   const { activeGame } = React.useContext(CTX);
+  const dealing = activeGame.dealers[rowIndex] === player.nickname;
 
-  // React.useEffect(() => {
-  //   if (inputRef.current == null) {
+  React.useEffect(() => {
+    console.log("activeGame.dealers[rowIndex] : ", activeGame.dealers[rowIndex]);
+    console.log("player.nickname : ", player.nickname);
+    console.log("dealing : ", dealing);
+  });
 
-  //   }
-  // })
+  // function includeAdornment() {
+  //   activeGame.
+
+  // }
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setScore(Number(event.target.value));
 
-    if (activeGame.currentBid?.player?.id === player.id && score < activeGame?.currentBid?.amount) {
-      console.log(player.nickname, score);
-    }
-    console.log(player.nickname, score);
+    // if (activeGame.currentBid?.player?.id === player.id && score < activeGame?.currentBid?.amount) {
+    //   console.log(player.nickname, score);
+    // }
+    // console.log(player.nickname, score);
   };
 
   return (
     // <div className={classes.root}>
-    <form noValidate autoComplete="off" className={classes.form}>
-      <FormControl variant="filled" className={classes.root}>
-        <InputLabel id="score-input-label">Score</InputLabel>
-        <Select labelId="score-input-label" variant="filled" value={score} onChange={handleChange} color="primary" input={<Input />}>
-          <MenuItem value="">
-            <em>None</em>
+    // <form noValidate autoComplete="off" className={classes.form}>
+    <FormControl variant="filled" className={classes.root}>
+      <TextField
+        select
+        id="select"
+        label="score"
+        variant="filled"
+        value={score}
+        onChange={handleChange}
+        color="primary"
+        SelectProps={{
+          startAdornment: dealing && (
+            <InputAdornment position="start">
+              <PersonPinCircleIcon />
+            </InputAdornment>
+          ),
+        }}
+      >
+        <MenuItem value="">
+          <em>None</em>
+        </MenuItem>
+        {scoreOptions.map((option, idx) => (
+          <MenuItem key={`mi_${option.value}_${idx}`} value={option.value}>
+            {option.value < 12 ? option.label : <em>{option.label}</em>}
           </MenuItem>
-          {scoreOptions.map((option, idx) => (
-            <MenuItem key={`mi_${option.value}_${idx}`} value={option.value}>
-              {option.value < 12 ? option.label : <em>{option.label}</em>}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </form>
+        ))}
+      </TextField>
+    </FormControl>
+    // </form>
     // </div>
   );
 };

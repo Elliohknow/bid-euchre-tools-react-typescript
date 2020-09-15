@@ -34,18 +34,18 @@ export function getRandomInitialDealer(max: number): number {
 
 // if (previousDealer) {
 // }
-export function getDealerForHands(hands: number[], players: Player[]) {
+export function getDealersForHands(hands: number[], players: Player[], startingIndex?: number) {
   const names: string[] = players.map((player: Player) => player?.nickname);
+  console.log({ names });
   const dealers: string[] = [];
-
-  for (let i = 0; i < hands.length; i++) {
-    for (let j = 0; j < names.length; j++) {
-      dealers.push(names[j]);
-      console.log({ dealers });
-      i = i + 1;
+  let k = startingIndex || 0;
+  while (dealers?.length < hands.length) {
+    for (let i = k; i < names.length; i++) {
+      dealers.push(names[i]);
     }
-    console.log(`i:${i}, hands.length:${hands.length}`);
+    k = 0;
   }
+  console.log({ dealers });
   return dealers;
 }
 

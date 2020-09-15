@@ -7,8 +7,8 @@ import BasicAppBar from "./components/BasicAppBar";
 import GameCard from "./components/GameCard";
 import PlayerCard from "./components/PlayerCard";
 import GameGrid from "./components/TableGrid";
-import { CTX, Game, Player } from "./ContextStore";
-import { formatDateTime, getDateTimeElements, getRandomInitialDealer, UUID } from "./utils";
+import { CTX, defaultActiveGame, Game, Player } from "./ContextStore";
+import { getDateTimeElements, getDealersForHands, getRandomInitialDealer } from "./utils";
 // import GameTable from "./components/Table";
 // import HelpOutlinedIcon from "@material-ui/icons/HelpOutlined";
 // import RecentActorsIcon from "@material-ui/icons/RecentActors";
@@ -43,20 +43,21 @@ const useNewGameStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
 const NewGameSetup: React.FC = () => {
   const classes = useNewGameStyles();
   const { setActiveGame, savedGames, setSavedGames, players } = React.useContext(CTX);
-  const [newGameState, setNewGameState] = React.useState<Game>({
-    id: UUID(),
-    dateTime: formatDateTime(),
-    players: players,
-    winner: null,
-    numHands: 8,
-    hands: [1, 2, 3, 4, 5, 6, 7, 8],
-    currentHand: 1,
-    currentDealer: getRandomInitialDealer(players.length),
-  });
+  const [newGameState, setNewGameState] = React.useState<Game>(defaultActiveGame);
+  // const [newGameState, setNewGameState] = React.useState<Game>({
+  //   id: UUID(),
+  //   dateTime: formatDateTime(),
+  //   players: players,
+  //   winner: null,
+  //   numHands: 8,
+  //   hands: [1, 2, 3, 4, 5, 6, 7, 8],
+  //   dealers: ,
+  //   currentHand: 1,
+  //   currentDealer: getRandomInitialDealer(players.length),
+  // });
 
   const handleStart = () => {
     setActiveGame(newGameState);
@@ -75,7 +76,19 @@ const NewGameSetup: React.FC = () => {
     if (index === -1) {
       currentPlayers.push(playerToToggle);
     }
-    setNewGameState({ ...newGameState, players: currentPlayers });
+    setNewGameState((prev: Game) => {
+      let startingIndex = getRandomInitialDealer(currentPlayers.length);
+      return {
+        ...prev,
+        players: currentPlayers,
+        currentDealer: startingIndex,
+        dealers: getDealersForHands(prev.hands, currentPlayers, startingIndex),
+      };
+    });
+
+    console.table(newGameState.players);
+    console.table(currentPlayers);
+    console.table(newGameState.dealers);
   };
 
   return (
