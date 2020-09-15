@@ -1,38 +1,43 @@
-import Avatar from "@material-ui/core/Avatar";
 import FormControl from "@material-ui/core/FormControl";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
 import React from "react";
 import { CTX, Player, scoreOptions } from "../ContextStore";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      margin: theme.spacing(1),
-      minWidth: "8ch",
+      minWidth: "100%",
     },
     form: {
       "& .MuiTextField-root": {
-        // margin: theme.spacing(1),
-        minWidth: "8ch",
+        margin: theme.spacing(1),
+        //     minWidth: "8ch",
+        //     minHeight: 0,
+        //     maxHeight: 15,
       },
+      //   "& .MuiSelect-selectMenu": {
+      //     minHeight: 0,
+      //     maxHeight: 15,
+      //   },
     },
-    small: {
-      width: theme.spacing(3),
-      height: theme.spacing(3),
-    },
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: "8ch",
-    },
+    // small: {
+    //   width: theme.spacing(3),
+    //   height: theme.spacing(3),
+    // },
+    // formControl: {
+    //   minWidth: "8ch",
+    // },
   })
 );
 
 interface Props {
   player: Player;
   rowIndex: number;
-  scoreProp: number;
+  scoreProp: string | number;
 }
 
 const ScoreInput: React.FC<Props> = ({ player, rowIndex, scoreProp }) => {
@@ -56,39 +61,23 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex, scoreProp }) => {
   };
 
   return (
-    <div className={classes.root}>
-      <form className={classes.form} noValidate autoComplete="off">
-        <FormControl className={classes.formControl}>
-          {activeGame?.currentBid && activeGame?.currentBid?.player?.id === player?.id && activeGame.currentHand === rowIndex + 1 && (
-            <Avatar className={classes.small}>
-              {activeGame?.currentBid?.call
-                ? `C${activeGame?.currentBid?.callAmount}`
-                : `${activeGame?.currentBid?.amount}${activeGame?.currentBid?.suit?.label}`}
-            </Avatar>
-          )}
-          <TextField
-            select
-            value={score}
-            onChange={handleChange}
-            variant="standard"
-            margin="dense"
-            color="primary"
-            size="small"
-            // label={"hand" || ""}
-            disabled={activeGame.currentHand !== rowIndex + 1}
-          >
-            <MenuItem value="">
-              <em>None</em>
+    // <div className={classes.root}>
+    <form noValidate autoComplete="off" className={classes.form}>
+      <FormControl variant="filled" className={classes.root}>
+        <InputLabel id="score-input-label">Score</InputLabel>
+        <Select labelId="score-input-label" variant="filled" value={score} onChange={handleChange} color="primary" input={<Input />}>
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          {scoreOptions.map((option, idx) => (
+            <MenuItem key={`mi_${option.value}_${idx}`} value={option.value}>
+              {option.value < 12 ? option.label : <em>{option.label}</em>}
             </MenuItem>
-            {scoreOptions.map((option, idx) => (
-              <MenuItem key={`mi_${option.value}_${idx}`} value={option.value}>
-                {option.value < 12 ? option.label : <em>{option.label}</em>}
-              </MenuItem>
-            ))}
-          </TextField>
-        </FormControl>
-      </form>
-    </div>
+          ))}
+        </Select>
+      </FormControl>
+    </form>
+    // </div>
   );
 };
 export default ScoreInput;

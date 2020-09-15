@@ -9,7 +9,6 @@ import PlusOneIcon from "@material-ui/icons/PlusOne";
 import React from "react";
 import { CTX } from "../ContextStore";
 import { getDealerForHands } from "../utils";
-// import BottomBar from "./BottomBar";
 import ScoreInput from "./ScoreInput";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -18,16 +17,17 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     container: {
-      // height: "100%",
+      height: "100%",
       overflowY: "auto",
       overflowX: "hidden",
     },
+    bar: {},
     paper: {
+      maxHeight: "7ch",
       padding: theme.spacing(1),
       textAlign: "center",
-      color: theme.palette.text.secondary,
+      color: theme.palette.text.primary,
       whiteSpace: "nowrap",
-      marginBottom: theme.spacing(1),
     },
     divider: {
       margin: theme.spacing(2, 0),
@@ -37,9 +37,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function createData(numPlayers: number) {
   if (numPlayers <= 2) {
-    return [0, 0];
+    return ["", ""];
   } else {
-    return [0, 0, 0];
+    return ["", "", ""];
   }
 }
 
@@ -71,52 +71,53 @@ const GameGrid: React.FC = () => {
     <div className="game">
       <CssBaseline />
       <Container maxWidth="md" className={classes.container}>
-        <Grid container direction="column" justify="flex-start" alignItems="stretch" spacing={1}>
-          <Grid item md={12} spacing={1}>
-            {/* <Grid container> */}
-            <Paper>
-              <Grid item md={1}>
+        <Grid container spacing={1}>
+          <Grid container item direction="row" justify="center" spacing={1} md={12}>
+            <Grid item md={activeGame.players?.length < 3 ? 1 : 3}>
+              <Paper className={classes.paper}>
                 <Typography variant="body1">Hand</Typography>
+              </Paper>
+            </Grid>
+            {activeGame.players.map((value, index) => (
+              <Grid key={`pn_${index}`} item md={activeGame.players?.length < 3 ? 5 : 3}>
+                <Paper className={classes.paper} style={{ width: "100%" }}>
+                  <Typography variant="body1">{value.nickname}</Typography>
+                </Paper>
               </Grid>
-              <Grid item>
-                {activeGame.players.map((value, index) => (
-                  <Typography key={`pn_${index}`} variant="body1">
-                    {value.nickname}
-                  </Typography>
-                ))}
-              </Grid>
-            </Paper>
-            {/* </Grid> */}
+            ))}
+            <Grid item md={1}>
+              <Paper className={classes.paper}>END-0</Paper>
+            </Grid>
           </Grid>
-          <Grid item md={12} spacing={1}>
-            <Paper>
-              {rows.map((value, index) => (
-                //<GridRow key={`gr_${index}`} row={value} index={index} game={activeGame} />
-                <Grid key={`ri_${index}`} item>
-                  <Grid item md={1}>
-                    #{index + 1}
+          {rows.map((value, index) => (
+            //<GridRow key={`gr_${index}`} row={value} index={index} game={activeGame} />
+            <Grid key={`ri_${index}`} container item direction="row" justify="center" spacing={1} md={12}>
+              <Grid item md={1}>
+                <Paper className={classes.paper}>#{index + 1}</Paper>
+              </Grid>
+              {value.map((value: number | string, idx: number) => (
+                <Grid key={`si_${idx}`} container item md={activeGame.players?.length < 3 ? 5 : 3} alignContent="flex-start">
+                  <Grid item md={2}>
+                    <Paper className={classes.paper}>
+                      <PersonPinCircleIcon />
+                    </Paper>
                   </Grid>
-                  {value.map((value: number, idx: number) => (
-                    <Grid key={`si_${idx}`} item md={rows?.length < 3 ? 5 : 3}>
-                      <Grid item>
-                        <PersonPinCircleIcon />
-                      </Grid>
-                      <Grid item>
-                        <ScoreInput player={activeGame.players[idx]} rowIndex={index} scoreProp={value} />
-                      </Grid>
-                    </Grid>
-                  ))}
-                  <Grid item md={1}>
-                    ENDOF #{index + 1}
+                  <Grid item md={10}>
+                    <Paper className={classes.paper}>
+                      <ScoreInput player={activeGame.players[idx]} rowIndex={index} scoreProp={value} />
+                    </Paper>
                   </Grid>
                 </Grid>
               ))}
-            </Paper>
-          </Grid>
+              <Grid item md={1}>
+                <Paper className={classes.paper}>END-{index + 1}</Paper>
+              </Grid>
+            </Grid>
+          ))}
 
           <Grid container item direction="row" justify="center" spacing={1}>
             <Grid item md={12}>
-              <Paper>
+              <Paper className={classes.paper}>
                 <PlusOneIcon />
               </Paper>
             </Grid>
@@ -133,13 +134,13 @@ export default GameGrid;
 //   return (
 //     <React.Fragment>
 //       <Grid item md={4}>
-//         <Paper className={classes.paper}>item</Paper>
+//         <Paper className={classes.paper}  className={classes.paper}>item</Paper>
 //       </Grid>
 //       <Grid item md={4}>
-//         <Paper className={classes.paper}>item</Paper>
+//         <Paper className={classes.paper}  className={classes.paper}>item</Paper>
 //       </Grid>
 //       <Grid item md={4}>
-//         <Paper className={classes.paper}>item</Paper>
+//         <Paper className={classes.paper}  className={classes.paper}>item</Paper>
 //       </Grid>
 //     </React.Fragment>
 //   );
