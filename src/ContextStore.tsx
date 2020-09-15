@@ -28,6 +28,7 @@ export interface Game {
   players: Array<Player>;
   winner: any;
   numHands: number;
+  hands: number[];
   currentHand: number;
   currentDealer: number;
   currentLeader?: any;
@@ -91,6 +92,7 @@ export const suits: Suit[] = [
 ];
 
 export const scoreOptions: ScoreOption[] = [
+  { value: 0, label: "0" },
   { value: 1, label: "1" },
   { value: 2, label: "2" },
   { value: 3, label: "3" },
@@ -132,6 +134,7 @@ const defaultGames: Array<Game> = [
     players: defaultPlayers,
     winner: null,
     numHands: 8,
+    hands: [1, 2, 3, 4, 5, 6, 7, 8],
     currentHand: 1,
     currentDealer: getRandomInitialDealer(defaultPlayers.length),
   },
@@ -142,6 +145,7 @@ const defaultActiveGame: Game = {
   players: defaultPlayers,
   winner: null,
   numHands: 8,
+  hands: [1, 2, 3, 4, 5, 6, 7, 8],
   currentHand: 1,
   currentDealer: getRandomInitialDealer(defaultPlayers.length),
 };

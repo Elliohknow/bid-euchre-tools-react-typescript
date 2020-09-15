@@ -6,10 +6,10 @@ import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import BasicAppBar from "./components/BasicAppBar";
 import GameCard from "./components/GameCard";
 import PlayerCard from "./components/PlayerCard";
-// import GameTable from "./components/Table";
 import GameGrid from "./components/TableGrid";
 import { CTX, Game, Player } from "./ContextStore";
 import { formatDateTime, getDateTimeElements, getRandomInitialDealer, UUID } from "./utils";
+// import GameTable from "./components/Table";
 // import HelpOutlinedIcon from "@material-ui/icons/HelpOutlined";
 // import RecentActorsIcon from "@material-ui/icons/RecentActors";
 
@@ -32,7 +32,7 @@ const ActiveGame: React.FC = () => {
   );
 };
 
-const useStyles = makeStyles((theme: Theme) =>
+const useNewGameStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       backgroundColor: theme.palette.secondary.main,
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const NewGameSetup: React.FC = () => {
-  const classes = useStyles();
+  const classes = useNewGameStyles();
   const { setActiveGame, savedGames, setSavedGames, players } = React.useContext(CTX);
   const [newGameState, setNewGameState] = React.useState<Game>({
     id: UUID(),
@@ -53,6 +53,7 @@ const NewGameSetup: React.FC = () => {
     players: players,
     winner: null,
     numHands: 8,
+    hands: [1, 2, 3, 4, 5, 6, 7, 8],
     currentHand: 1,
     currentDealer: getRandomInitialDealer(players.length),
   });

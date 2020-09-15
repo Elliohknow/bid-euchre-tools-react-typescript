@@ -1,3 +1,5 @@
+import { Player } from "./ContextStore";
+
 export function formatDateTime(date?: Date): string {
   const rightNow = date ?? new Date(Date.now());
   return rightNow.toLocaleString([], {
@@ -26,6 +28,25 @@ export function getRandomInitialDealer(max: number): number {
   let dealer = Math.floor(Math.random() * max);
   // console.log({ dealer });
   return dealer;
+}
+
+// let remainder = hands.length % players.length;
+
+// if (previousDealer) {
+// }
+export function getDealerForHands(hands: number[], players: Player[]) {
+  const names: string[] = players.map((player: Player) => player?.nickname);
+  const dealers: string[] = [];
+
+  for (let i = 0; i < hands.length; i++) {
+    for (let j = 0; j < names.length; j++) {
+      dealers.push(names[j]);
+      console.log({ dealers });
+      i = i + 1;
+    }
+    console.log(`i:${i}, hands.length:${hands.length}`);
+  }
+  return dealers;
 }
 
 function keyByNicknameReducer(acc: object, player: any): object {

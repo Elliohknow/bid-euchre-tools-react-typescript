@@ -39,7 +39,7 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex, scoreProp }) => {
   const classes = useStyles();
   const [score, setScore] = React.useState<string | number>(scoreProp);
   // const inputRef = React.useRef<HTMLInputElement>(null);
-  const { activeGame, setActiveGame } = React.useContext(CTX);
+  const { activeGame } = React.useContext(CTX);
 
   // React.useEffect(() => {
   //   if (inputRef.current == null) {

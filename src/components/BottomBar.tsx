@@ -1,10 +1,10 @@
-import { AppBar, Toolbar } from "@material-ui/core";
+import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-// import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
+import Toolbar from "@material-ui/core/Toolbar";
 import KeyboardArrowLeftIcon from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
-import RecordVoiceOverIcon from "@material-ui/icons/RecordVoiceOver";
 import React from "react";
 import { CTX, Game } from "../ContextStore";
 import DialogSelect from "./DialogSelect";
@@ -90,11 +90,9 @@ const BottomBar: React.FC<Props> = (props) => {
           </IconButton>
         </div>
         <div className={classes.column}>
-          <IconButton color="secondary" onClick={handleOpen} aria-label="Set Current Bid" aria-haspopup="true" role="bid button">
-            <RecordVoiceOverIcon fontSize="large" />
+          <Button color="secondary" onClick={handleOpen} aria-label="Set Current Bid" aria-haspopup="true" role="bid button">
             SET BID
-            {/* <EmojiPeopleIcon /> */}
-          </IconButton>
+          </Button>
         </div>
         <div className={classes.column}>
           <IconButton color="primary" aria-label="Next Hand" onClick={handleNext}>
