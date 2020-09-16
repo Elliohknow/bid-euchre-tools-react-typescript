@@ -18,7 +18,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 .app {
-  /* background-color: #e9e4e4; */
   display: block;
   height: 100vh;
   width: 100%;
@@ -46,20 +45,6 @@ body {
   box-shadow: 7px 7px 7px 0px rgba(0, 0, 0, 0.03), -7px -7px 7px 0px rgb(250, 250, 250, 1);
   /* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1); */
 }
-/* .start-btn {
-  font-weight: bold;
-  font-size: 2rem;
-  text-transform: uppercase;
-  background-color: white;
-  cursor: pointer;
-} */
-/* .double-btn {
-  margin: 8px;
-  padding: 8px;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 8px 8px 8px 0 rgba(0, 0, 0, 0.3), -8px -8px 8px 0 rgb(250, 250, 250, 1);
-} */
 
 .select-player-wrapper {
   display: grid;
@@ -74,7 +59,6 @@ ul.saved-game-list {
   display: grid;
   list-style: none;
   gap: 25px;
-  /* margin: 0; */
   padding: 0;
   grid-template-columns: max-content;
   text-align: center;
@@ -82,7 +66,7 @@ ul.saved-game-list {
   place-items: center;
 }
 li.game-card-wrapper {
-  background-color: #dbd1d3;
+  background-color: var(--offwhite);
   width: 100%;
 }
 .current-turn,
@@ -92,21 +76,18 @@ li.game-card-wrapper {
 }
 .dealer-icon {
   color: #fff;
-  background-color: var(--sdark);
-}
-.not-dealer-icon {
   background-color: var(--pmain);
 }
-.dealer-indicator {
-  border-right-color: var(--slight);
-  border-left-color: var(--slight);
+.not-dealer-icon {
+  background-color: var(--sdark);
 }
 #eyes {
+  /* background-color: var(--offwhite); */
   background-color: #dfdbe5;
   background-image: url("data:image/svg+xml,%3Csvg width='20' height='12' viewBox='0 0 20 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 12c0-.622-.095-1.221-.27-1.785A5.982 5.982 0 0 0 10 12c1.67 0 3.182-.683 4.27-1.785A5.998 5.998 0 0 0 14 12h2a4 4 0 0 1 4-4V6c-1.67 0-3.182.683-4.27 1.785C15.905 7.22 16 6.622 16 6c0-.622-.095-1.221-.27-1.785A5.982 5.982 0 0 0 20 6V4a4 4 0 0 1-4-4h-2c0 .622.095 1.221.27 1.785A5.982 5.982 0 0 0 10 0C8.33 0 6.818.683 5.73 1.785 5.905 1.22 6 .622 6 0H4a4 4 0 0 1-4 4v2c1.67 0 3.182.683 4.27 1.785A5.998 5.998 0 0 1 4 6c0-.622.095-1.221.27-1.785A5.982 5.982 0 0 1 0 6v2a4 4 0 0 1 4 4h2zm-4 0a2 2 0 0 0-2-2v2h2zm16 0a2 2 0 0 1 2-2v2h-2zM0 2a2 2 0 0 0 2-2H0v2zm20 0a2 2 0 0 1-2-2h2v2zm-10 8a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z' fill='%239C92AC' fill-opacity='0.19' fill-rule='evenodd'/%3E%3C/svg%3E");
 }
 
-/* .button-wrapper {
-  font-size: 4rem;
-  margin: 1rem 0 2rem 0;
+/* .dealer-indicator {
+  border-right-color: var(--slight);
+  border-left-color: var(--slight);
 } */

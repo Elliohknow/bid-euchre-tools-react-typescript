@@ -13,7 +13,7 @@ import AddIcon from "@material-ui/icons/Add";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import React from "react";
 import { CTX, Game, Player } from "../ContextStore";
-import BottomBar from "./BottomBar";
+// import BottomBar from "./BottomBar";
 import ScoreInput from "./ScoreInput";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -186,7 +186,7 @@ const GameTable: React.FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <BottomBar hand={hand} setHand={setHand} />
+      {/* <BottomBar hand={hand} setHand={setHand} /> */}
     </div>
   );
 };

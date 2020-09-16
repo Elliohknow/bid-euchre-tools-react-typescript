@@ -30,13 +30,9 @@ export function getRandomInitialDealer(max: number): number {
   return dealer;
 }
 
-// let remainder = hands.length % players.length;
-
-// if (previousDealer) {
-// }
 export function getDealersForHands(hands: number[], players: Player[], startingIndex?: number) {
   const names: string[] = players.map((player: Player) => player?.nickname);
-  console.log({ names });
+  // console.log({ names });
   const dealers: string[] = [];
   let k = startingIndex || 0;
   while (dealers?.length < hands.length) {
@@ -45,24 +41,8 @@ export function getDealersForHands(hands: number[], players: Player[], startingI
     }
     k = 0;
   }
-  console.log({ dealers });
+  // console.log({ dealers });
   return dealers;
-}
-
-function keyByNicknameReducer(acc: object, player: any): object {
-  return { ...acc, [player.nickname]: true };
-}
-
-export function getKeyedNicknameObjectFromArray(array: Array<any>): object {
-  return array.reduce(keyByNicknameReducer, {});
-}
-
-function keyByIdReducer(acc: object, game: any): object {
-  return { ...acc, [game.id]: game };
-}
-
-export function getKeyedGamesObjectFromArray(array: Array<any>): object {
-  return array.reduce(keyByIdReducer, {});
 }
 
 function sumReducer(acc: number, current: number): number {
@@ -72,6 +52,22 @@ function sumReducer(acc: number, current: number): number {
 export function sumScoresFromArray(array: Array<number>): number {
   return array.reduce(sumReducer, 0);
 }
+// function keyByNicknameReducer(acc: object, player: any): object {
+//   return { ...acc, [player.nickname]: true };
+// }
+
+// export function getKeyedNicknameObjectFromArray(array: Array<any>): object {
+//   return array.reduce(keyByNicknameReducer, {});
+// }
+
+// function keyByIdReducer(acc: object, game: any): object {
+//   return { ...acc, [game.id]: game };
+// }
+
+// export function getKeyedGamesObjectFromArray(array: Array<any>): object {
+//   return array.reduce(keyByIdReducer, {});
+// }
+
 // function keyByNicknameReducer(acc: object, player: any): object {
 //   return { ...acc, [player.nickname]: player };
 // }

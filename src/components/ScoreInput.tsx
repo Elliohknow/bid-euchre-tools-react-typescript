@@ -16,24 +16,6 @@ const useStyles = makeStyles((theme: Theme) =>
       placeContent: "stretch",
       // paddingTop: theme.spacing(1),
     },
-    // form: {
-    //   "& .MuiTextField-root": {
-    //     minWidth: "8ch",
-    //     minHeight: 0,
-    //     maxHeight: 15,
-    // },
-    //   "& .MuiSelect-selectMenu": {
-    //     minHeight: 0,
-    //     maxHeight: 15,
-    //   },
-    // },
-    // small: {
-    //   width: theme.spacing(3),
-    //   height: theme.spacing(3),
-    // },
-    // formControl: {
-    //   minWidth: "8ch",
-    // },
   })
 );
 
@@ -50,23 +32,14 @@ const ScoreInput: React.FC<Props> = ({ player, scoreProp, rowIndex }) => {
   const { activeGame } = React.useContext(CTX);
   const dealing = activeGame.dealers[rowIndex] === player.nickname;
 
-  React.useEffect(() => {
-    console.log("activeGame.dealers[rowIndex] : ", activeGame.dealers[rowIndex]);
-    console.log("player.nickname : ", player.nickname);
-    console.log("dealing : ", dealing);
-  });
+  // React.useEffect(() => {
+  //   console.log("activeGame.dealers[rowIndex] : ", activeGame.dealers[rowIndex]);
+  //   console.log("player.nickname : ", player.nickname);
+  //   console.log("dealing : ", dealing);
+  // }, []);
 
-  // function includeAdornment() {
-  //   activeGame.
-
-  // }
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setScore(Number(event.target.value));
-
-    // if (activeGame.currentBid?.player?.id === player.id && score < activeGame?.currentBid?.amount) {
-    //   console.log(player.nickname, score);
-    // }
-    // console.log(player.nickname, score);
   };
 
   return (
@@ -84,7 +57,7 @@ const ScoreInput: React.FC<Props> = ({ player, scoreProp, rowIndex }) => {
         SelectProps={{
           startAdornment: dealing && (
             <InputAdornment position="start">
-              <PersonPinCircleIcon />
+              <PersonPinCircleIcon className="dealer-icon" />
             </InputAdornment>
           ),
         }}
