@@ -74,6 +74,13 @@ const GameGrid: React.FC = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const { activeGame, setActiveGame } = React.useContext(CTX);
+  const [rows, setRows] = React.useState(createRows(activeGame.players?.length));
+  React.useEffect(() => {
+    console.table(rows);
+    console.table(activeGame.dealers);
+
+    return () => {};
+  }, []);
 
   const handleOpen = () => {
     setOpen(true);
@@ -96,11 +103,6 @@ const GameGrid: React.FC = () => {
       });
     }
   };
-  const rows = createRows(activeGame.players?.length);
-
-  React.useEffect(() => {
-    console.table(activeGame.dealers);
-  }, []);
 
   return (
     <div className={classes.root}>
