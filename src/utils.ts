@@ -52,8 +52,16 @@ function sumReducer(acc: number, current: number): number {
 export function sumScoresFromArray(array: Array<number>): number {
   return array.reduce(sumReducer, 0);
 }
-// function keyByNicknameReducer(acc: object, player: any): object {
-//   return { ...acc, [player.nickname]: true };
+
+// function singleArrayFrom2DArrayReducer(acc: object, scoreArray:any[]) {
+//   for (let i = 0; i < scoreArray?.length;i++){
+
+//   }
+//   return {...acc, score}
+// }
+
+// export function getSingleArrayFrom2DArray(array: Array<any>) {
+//   return array.reduce(singleArrayFrom2DArrayReducer, {})
 // }
 
 // export function getKeyedNicknameObjectFromArray(array: Array<any>): object {

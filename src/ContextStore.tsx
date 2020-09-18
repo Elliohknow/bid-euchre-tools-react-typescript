@@ -127,7 +127,7 @@ export const defaultPlayers: Array<Player> = [
     hands: [],
   },
 ];
-// getDealerForHands(activeGame.hands, activeGame.players);
+
 export const defaultHands: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
 export const defaultDealer: number = getRandomInitialDealer(defaultPlayers.length);
 export const defaultDealers: string[] = getDealersForHands(defaultHands, defaultPlayers, defaultDealer);
