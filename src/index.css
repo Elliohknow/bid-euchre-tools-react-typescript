@@ -79,7 +79,7 @@ li.game-card-wrapper {
   background-color: var(--pmain);
 }
 .not-dealer-icon {
-  background-color: var(--sdark);
+  background-color: var(--smain);
 }
 #eyes {
   /* background-color: var(--offwhite); */

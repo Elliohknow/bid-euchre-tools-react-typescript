@@ -1,4 +1,3 @@
-import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
@@ -10,14 +9,17 @@ import React from "react";
 import { CTX, Game, Player } from "../ContextStore";
 import DialogSelect from "./DialogSelect";
 import ScoreInput from "./ScoreInput";
+// import Fab from "@material-ui/core/Fab";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       flexGrow: 1,
+      width: "100%",
+      position: "relative",
+      height: "100vh",
     },
     container: {
-      height: "100vh",
       width: "100%",
     },
     bar: {
@@ -45,6 +47,11 @@ const useStyles = makeStyles((theme: Theme) =>
     divider: {
       margin: theme.spacing(2, 0),
     },
+    // fab: {
+    //   position: "absolute",
+    //   bottom: theme.spacing(2),
+    //   right: theme.spacing(2),
+    // },
   })
 );
 
@@ -72,32 +79,47 @@ function createRows(numPlayers: number) {
 
 const GameGrid: React.FC = () => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
   const { activeGame, setActiveGame } = React.useContext(CTX);
+  const [open, setOpen] = React.useState<boolean>(false);
   const [rows, setRows] = React.useState(createRows(activeGame.players?.length));
+  const [bidRow, setBidRow] = React.useState<any>(null);
   React.useEffect(() => {
-    console.table(rows);
-    console.table(activeGame.dealers);
-
-    return () => {};
+    setRows(() => {
+      if (activeGame?.rows) {
+        return activeGame.rows;
+      }
+      return createRows(activeGame.players?.length);
+    });
   }, []);
 
-  const handleOpen = () => {
-    setOpen(true);
-    console.log({ open });
-  };
-  const handleClose = (bid?: { name: string; suit: string; amount: string | number }) => {
-    setOpen(false);
-    console.log({ open });
+  React.useEffect(() => {
+    // console.table(activeGame.dealers);
+    console.table(rows);
+    setActiveGame((prev: Game) => {
+      return {
+        ...prev,
+        rows: rows,
+      };
+    });
+  }, [rows]);
 
-    if (bid?.name && bid?.suit && bid?.amount) {
+  const handleOpen = (index: number) => {
+    setOpen(true);
+    setBidRow(index);
+  };
+  const handleClose = (bid?: { name: string; suit: string; amount: string | number; row: number }) => {
+    setOpen(false);
+
+    if (bid?.name && bid?.suit && bid?.amount && bid?.row) {
       setActiveGame((prev: Game) => {
         return {
           ...prev,
+          bids: [...prev?.bids, bid],
           currentBid: {
             player: prev?.players.find((player: Player) => player.nickname === bid.name),
             suit: bid.suit,
             amount: bid.amount,
+            row: bid.row,
           },
         };
       });
@@ -128,17 +150,24 @@ const GameGrid: React.FC = () => {
             ))}
             <Grid item sm={1}>
               <Paper square className={classes.paper}>
-                <Typography className={classes.typography}>
-                  <Button color="secondary" onClick={handleOpen} aria-label="Set Current Bid" aria-haspopup="true" role="bid button">
-                    BID
-                  </Button>
-                </Typography>
+                <Typography className={classes.typography}>BID</Typography>
               </Paper>
             </Grid>
           </Grid>
           {rows.map((row, index) => (
             //<GridRow key={`gr_${index}`} row={value} index={index} game={activeGame} />
-            <Grid key={`ri_${index}`} className={classes.bar} container item direction="row" justify="center" spacing={1} sm={12}>
+            <Grid
+              key={`ri_${index}`}
+              style={{ cursor: "pointer" }}
+              className={classes.bar}
+              onClick={() => handleOpen(index)}
+              container
+              item
+              direction="row"
+              justify="center"
+              spacing={1}
+              sm={12}
+            >
               <Grid item sm={1}>
                 <Paper square className={classes.paper}>
                   <Typography className={classes.typography} align="center" variant="body1">
@@ -156,7 +185,10 @@ const GameGrid: React.FC = () => {
               <Grid item sm={1}>
                 <Paper square className={classes.paper}>
                   <Typography className={classes.typography} align="center" variant="body1">
-                    END-{index + 1}
+                    {/* <Button color="secondary" onClick={handleOpen} aria-label="Set Current Bid" aria-haspopup="true" role="bid button" disabled>
+                      BID {index + 1}
+                    </Button> */}
+                    BID
                   </Typography>
                 </Paper>
               </Grid>
@@ -173,7 +205,10 @@ const GameGrid: React.FC = () => {
             </Grid>
           </Grid>
         </Grid>
-        <DialogSelect open={open} onClose={handleClose} keepMounted id="bid-menu" />
+        {/* <Fab className={classes.fab} variant="extended" color="secondary" aria-label="bid">
+          BID
+        </Fab> */}
+        <DialogSelect open={open} onClose={handleClose} bidRow={bidRow} keepMounted id="bid-menu" />
       </Container>
     </div>
   );

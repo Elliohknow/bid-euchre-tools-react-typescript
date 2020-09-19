@@ -29,15 +29,17 @@ interface Props {
   onClose: (value?: any) => void;
   id: string;
   keepMounted: boolean;
+  bidRow: any;
 }
 
 const DialogSelect: React.FC<Props> = (props) => {
-  const { open, onClose, ...other } = props;
+  const { open, onClose, bidRow, ...other } = props;
   const classes = useStyles();
-  const [bid, setBid] = React.useState<{ name: string; suit: string; amount: string | number }>({
+  const [bid, setBid] = React.useState<{ name: string; suit: string; amount: string | number; row: any }>({
     name: "",
     suit: "",
     amount: "",
+    row: bidRow,
   });
   const selectRef = React.useRef<HTMLElement>(null);
   const { activeGame } = React.useContext(CTX);

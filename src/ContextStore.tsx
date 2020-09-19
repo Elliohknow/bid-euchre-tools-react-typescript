@@ -61,6 +61,7 @@ export interface Bid {
   amount: number | string;
   suit: Suit;
   player: Player;
+  row: number;
   call?: boolean;
   callAmount?: number;
 }
