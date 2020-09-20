@@ -1,11 +1,13 @@
 :root {
+  /* --pdark: #004346;
   --pmain: #006064;
-  --pdark: #004346;
-  --plight: #337f83;
-  --smain: #ad1457;
+  --plight: #337f83; */
+  --pdark: #009074;
+  --pmain: #00c1a3;
+  --plight: #5df5d4;
   --sdark: #790e3c;
+  --smain: #ad1457;
   --slight: #bd4378;
-  /* --radgrad: 'radial-gradient(circle at center var(--pmain), var(--slight))' */
   --offwhite: #b9b9b9;
 }
 

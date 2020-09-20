@@ -5,16 +5,11 @@ import { formatDateTime, getDealersForHands, getRandomInitialDealer, UUID } from
 export const appTheme = createMuiTheme({
   palette: {
     primary: {
-      main: "#006064",
-      dark: "#004346",
-      light: "#337f83",
-      contrastText: "#fff",
+      main: "#00c1a3",
+      // main: "#006064",
     },
     secondary: {
       main: "#ad1457",
-      dark: "#790e3c",
-      light: "#bd4378",
-      contrastText: "#fff",
     },
   },
 });
@@ -35,6 +30,7 @@ export interface Game {
   currentLeader?: any;
   currentBid?: Bid;
   bids?: any;
+  rows?: any;
 }
 export interface Player {
   id: string;
