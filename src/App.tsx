@@ -134,6 +134,7 @@ const useButtonStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       backgroundColor: theme.palette.secondary.main,
+      color: "#ffffff",
       margin: "2rem 0 2rem 0",
       fontSize: "2rem",
       "&:hover": {

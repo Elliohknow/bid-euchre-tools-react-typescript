@@ -131,8 +131,8 @@ const GameGrid: React.FC = () => {
       <CssBaseline />
       <Container maxWidth="md" className={classes.container}>
         <Grid container spacing={1}>
-          <Grid className={classes.bar} container item direction="row" justify="center" spacing={1} sm={12} alignContent="stretch" alignItems="stretch">
-            <Grid item sm={activeGame.players?.length < 3 ? 1 : 3}>
+          <Grid className={classes.bar} container item direction="row" justify="center" spacing={1} md={12} alignContent="stretch" alignItems="stretch">
+            <Grid item md={activeGame.players?.length < 3 ? 1 : 3}>
               <Paper square className={classes.paper}>
                 <Typography className={classes.typography} align="center" variant="body1">
                   Hand
@@ -140,7 +140,7 @@ const GameGrid: React.FC = () => {
               </Paper>
             </Grid>
             {activeGame.players.map((value, index) => (
-              <Grid key={`pn_${index}`} item sm={activeGame.players?.length < 3 ? 5 : 3}>
+              <Grid key={`pn_${index}`} item md={activeGame.players?.length < 3 ? 5 : 3}>
                 <Paper square className={classes.paper} style={{ width: "100%" }}>
                   <Typography className={classes.typography} variant="body1">
                     {value.nickname}
@@ -148,7 +148,7 @@ const GameGrid: React.FC = () => {
                 </Paper>
               </Grid>
             ))}
-            <Grid item sm={1}>
+            <Grid item md={1}>
               <Paper square className={classes.paper}>
                 <Typography className={classes.typography}>BID</Typography>
               </Paper>
@@ -166,9 +166,9 @@ const GameGrid: React.FC = () => {
               direction="row"
               justify="center"
               spacing={1}
-              sm={12}
+              md={12}
             >
-              <Grid item sm={1}>
+              <Grid item md={1}>
                 <Paper square className={classes.paper}>
                   <Typography className={classes.typography} align="center" variant="body1">
                     #{index + 1}
@@ -176,13 +176,13 @@ const GameGrid: React.FC = () => {
                 </Paper>
               </Grid>
               {row.map((value: number | string, idx: number) => (
-                <Grid key={`si_${idx}`} item sm={activeGame.players?.length < 3 ? 5 : 3}>
+                <Grid key={`si_${idx}`} item md={activeGame.players?.length < 3 ? 5 : 3}>
                   <Paper square className={classes.paper}>
                     <ScoreInput player={activeGame.players[idx]} rowIndex={index} scoreProp={value} />
                   </Paper>
                 </Grid>
               ))}
-              <Grid item sm={1}>
+              <Grid item md={1}>
                 <Paper square className={classes.paper}>
                   <Typography className={classes.typography} align="center" variant="body1">
                     {/* <Button color="secondary" onClick={handleOpen} aria-label="Set Current Bid" aria-haspopup="true" role="bid button" disabled>
@@ -195,8 +195,8 @@ const GameGrid: React.FC = () => {
             </Grid>
           ))}
 
-          <Grid className={classes.bar} container item direction="row" alignContent="center" justify="center" spacing={1}>
-            <Grid item sm={12}>
+          <Grid className={classes.bar} container item direction="row" alignContent="stretch" justify="center" spacing={1}>
+            <Grid item md={12}>
               <Paper square className={classes.paper}>
                 <Typography className={classes.typography} align="center" variant="body1">
                   <PlusOneIcon fontSize="large" />
@@ -218,13 +218,13 @@ export default GameGrid;
 // function FormRow() {
 //   return (
 //     <React.Fragment>
-//       <Grid item sm={4}>
+//       <Grid item md={4}>
 //         <Paper square className={classes.paper}  className={classes.paper}>item</Paper>
 //       </Grid>
-//       <Grid item sm={4}>
+//       <Grid item md={4}>
 //         <Paper square className={classes.paper}  className={classes.paper}>item</Paper>
 //       </Grid>
-//       <Grid item sm={4}>
+//       <Grid item md={4}>
 //         <Paper square className={classes.paper}  className={classes.paper}>item</Paper>
 //       </Grid>
 //     </React.Fragment>
