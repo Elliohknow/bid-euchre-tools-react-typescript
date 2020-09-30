@@ -1,3 +1,4 @@
+import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
@@ -24,14 +25,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     bar: {
       height: "10vh",
-      placeItems: "center",
-      placeContent: "center",
+      // placeItems: "center",
+      // placeContent: "center",
       padding: theme.spacing(1),
       margin: theme.spacing(1),
     },
     paper: {
-      // alignItems: "middle",
-      // alignItems: "center",
+      placeContent: "center",
+      placeItems: "center",
       // padding: theme.spacing(1),
       // margin: theme.spacing(1),
       height: "10vh",
@@ -160,7 +161,6 @@ const GameGrid: React.FC = () => {
               key={`ri_${index}`}
               style={{ cursor: "pointer" }}
               className={classes.bar}
-              onClick={() => handleOpen(index)}
               container
               item
               direction="row"
@@ -185,9 +185,9 @@ const GameGrid: React.FC = () => {
               <Grid item md={1}>
                 <Paper square className={classes.paper}>
                   <Typography className={classes.typography} align="center" variant="body1">
-                    {/* <Button color="secondary" onClick={handleOpen} aria-label="Set Current Bid" aria-haspopup="true" role="bid button" disabled>
+                    <Button color="secondary" onClick={() => handleOpen(index)} aria-label="Set Current Bid" aria-haspopup="true" role="bid button" disabled>
                       BID {index + 1}
-                    </Button> */}
+                    </Button>
                     BID
                   </Typography>
                 </Paper>
