@@ -9,7 +9,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
-import { CTX, Player, scoreOptions, Suit, suits } from "../ContextStore";
+import { CTX, scoreOptions, Suit, suits } from "../ContextStore";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,7 +28,7 @@ interface Props {
   open: boolean;
   onClose: (value?: any) => void;
   id: string;
-  keepMounted: boolean;
+  // keepMounted: boolean;
   bidRow: any;
 }
 
@@ -61,7 +61,7 @@ const DialogSelect: React.FC<Props> = (props) => {
     setBid((prev) => {
       return {
         ...prev,
-        playerName: String(event.target.value) || "",
+        name: String(event.target.value) || "",
       };
     });
   };
@@ -96,7 +96,7 @@ const DialogSelect: React.FC<Props> = (props) => {
   return (
     <Dialog
       onEntering={handleEntering}
-      maxWidth="xs"
+      maxWidth="sm"
       aria-labelledby="dialog-select-title"
       disableBackdropClick
       disableEscapeKeyDown
@@ -104,7 +104,7 @@ const DialogSelect: React.FC<Props> = (props) => {
       onClose={onClose}
       {...other}
     >
-      <DialogTitle id="dialog-select-title">Set the Bid</DialogTitle>
+      <DialogTitle id="dialog-select-title">Set the Bid for Hand {bidRow + 1}</DialogTitle>
       <DialogContent>
         <form className={classes.container}>
           <FormControl variant="filled" className={classes.formControl}>
@@ -120,7 +120,7 @@ const DialogSelect: React.FC<Props> = (props) => {
               }}
             >
               <option aria-label="None" value={""} />
-              {activeGame.players.map((value: Player, index: number) => {
+              {activeGame.players.map((value, index) => {
                 return (
                   <option key={`agp_${index}`} value={value.nickname}>
                     {value.nickname}

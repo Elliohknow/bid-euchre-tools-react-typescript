@@ -84,14 +84,15 @@ const GameGrid: React.FC = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [rows, setRows] = React.useState(createRows(activeGame.players?.length));
   const [bidRow, setBidRow] = React.useState<any>(null);
+  const len = activeGame.players.length;
   React.useEffect(() => {
     setRows(() => {
-      if (activeGame?.rows) {
+      if (activeGame.rows) {
         return activeGame.rows;
       }
-      return createRows(activeGame.players?.length);
+      return createRows(len);
     });
-  }, []);
+  }, [activeGame.rows, len]);
 
   React.useEffect(() => {
     // console.table(activeGame.dealers);
@@ -102,7 +103,7 @@ const GameGrid: React.FC = () => {
         rows: rows,
       };
     });
-  }, [rows]);
+  }, [setActiveGame, rows]);
 
   const handleOpen = (index: number) => {
     setOpen(true);
@@ -112,12 +113,16 @@ const GameGrid: React.FC = () => {
     setOpen(false);
 
     if (bid?.name && bid?.suit && bid?.amount && bid?.row) {
+      console.log({bid})
       setActiveGame((prev: Game) => {
         return {
           ...prev,
-          bids: [...prev?.bids, bid],
+          // bids: [...prev?.bids, bid],
+          bids: prev?.bids.map((value:any, index:number) => {
+            return index === bid.row ? {...value, name: bid.name, suit: bid.suit, amount: bid.amount, } : value;
+          }),
           currentBid: {
-            player: prev?.players.find((player: Player) => player.nickname === bid.name),
+            player: prev.players.find((player: Player) => player.nickname === bid.name),
             suit: bid.suit,
             amount: bid.amount,
             row: bid.row,
@@ -133,7 +138,7 @@ const GameGrid: React.FC = () => {
       <Container maxWidth="md" className={classes.container}>
         <Grid container spacing={1}>
           <Grid className={classes.bar} container item direction="row" justify="center" spacing={1} md={12} alignContent="stretch" alignItems="stretch">
-            <Grid item md={activeGame.players?.length < 3 ? 1 : 3}>
+            <Grid item md={activeGame.players?.length < 3 ? 1 : 2}>
               <Paper square className={classes.paper}>
                 <Typography className={classes.typography} align="center" variant="body1">
                   Hand
@@ -184,12 +189,12 @@ const GameGrid: React.FC = () => {
               ))}
               <Grid item md={1}>
                 <Paper square className={classes.paper}>
-                  <Typography className={classes.typography} align="center" variant="body1">
-                    <Button color="secondary" onClick={() => handleOpen(index)} aria-label="Set Current Bid" aria-haspopup="true" role="bid button" disabled>
+                  {/* <Typography className={classes.typography} align="center" variant="body1"> */}
+                    <Button color="secondary" onClick={() => handleOpen(index)} aria-label="Set Current Bid" aria-haspopup="true" role="bid button">
                       BID {index + 1}
                     </Button>
-                    BID
-                  </Typography>
+                    {/* BID
+                  </Typography> */}
                 </Paper>
               </Grid>
             </Grid>
@@ -205,10 +210,13 @@ const GameGrid: React.FC = () => {
             </Grid>
           </Grid>
         </Grid>
-        {/* <Fab className={classes.fab} variant="extended" color="secondary" aria-label="bid">
-          BID
-        </Fab> */}
-        <DialogSelect open={open} onClose={handleClose} bidRow={bidRow} keepMounted id="bid-menu" />
+        <DialogSelect
+          open={open}
+          onClose={handleClose}
+          bidRow={bidRow}
+          // keepMounted
+          id="bid-menu" 
+        />
       </Container>
     </div>
   );
