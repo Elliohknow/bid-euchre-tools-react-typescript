@@ -90,7 +90,7 @@ export const suits: Suit[] = [
   },
   {
     value: "No trump",
-    label: "☯",
+    label: "⚖",
   },
 ];
 
