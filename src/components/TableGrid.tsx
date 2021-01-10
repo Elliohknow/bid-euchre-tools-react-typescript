@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
     },
     bar: {
-      height: "10vh",
+      // height: "10vh",
       // placeItems: "center",
       // placeContent: "center",
       padding: theme.spacing(1),
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
       placeItems: "center",
       // padding: theme.spacing(1),
       // margin: theme.spacing(1),
-      height: "10vh",
+      // height: "10vh",
       textAlign: "center",
       color: theme.palette.text.primary,
       whiteSpace: "normal",
@@ -84,15 +84,15 @@ const GameGrid: React.FC = () => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [rows, setRows] = React.useState(createRows(activeGame.players?.length));
   const [bidRow, setBidRow] = React.useState<any>(null);
-  const len = activeGame.players.length;
-  React.useEffect(() => {
-    setRows(() => {
-      if (activeGame.rows) {
-        return activeGame.rows;
-      }
-      return createRows(len);
-    });
-  }, [activeGame.rows, len]);
+  // const len = activeGame.players.length;
+  // React.useEffect(() => {
+  //   setRows(() => {
+  //     if (activeGame.rows) {
+  //       return activeGame.rows;
+  //     }
+  //     return createRows(len);
+  //   });
+  // }, [activeGame.rows, len]);
 
   React.useEffect(() => {
     // console.table(activeGame.dealers);
@@ -100,7 +100,7 @@ const GameGrid: React.FC = () => {
     setActiveGame((prev: Game) => {
       return {
         ...prev,
-        rows: rows,
+        rows,
       };
     });
   }, [setActiveGame, rows]);
@@ -118,9 +118,10 @@ const GameGrid: React.FC = () => {
         return {
           ...prev,
           // bids: [...prev?.bids, bid],
-          bids: prev?.bids.map((value:any, index:number) => {
-            return index === bid.row ? {...value, name: bid.name, suit: bid.suit, amount: bid.amount, } : value;
-          }),
+          bids: [...prev?.bids, bid],
+          // prev?.bids ? prev?.bids.map((value:any, index:number) => {
+          //   return index === bid.row ? {...value, name: bid.name, suit: bid.suit, amount: bid.amount, } : value;
+          // }) : [bid],
           currentBid: {
             player: prev.players.find((player: Player) => player.nickname === bid.name),
             suit: bid.suit,
@@ -129,13 +130,34 @@ const GameGrid: React.FC = () => {
           },
         };
       });
+      console.log(activeGame.bids);
     }
   };
+  const onScoreChange = (inputValue?:{rowIdx: number; score: number | string; colIdx: number}) => {
+    if(inputValue) {
+      console.log(`{ rowIdx: ${inputValue.rowIdx}, colIdx: ${inputValue.colIdx}, score: ${inputValue.score} }`);
+      // setRows((prev: string[][]) => {
+      //   return [
+      //     prev.map((r:any, ri:any) => {
+      //       return ri === inputValue.rowIdx 
+      //         ? r.map((c:any,ci:number)=> ci === inputValue.colIdx ? String(inputValue.score) : c) : r
+      //     })
+      //     // ...prev, 
+      //     // prev[inputValue.rowIdx].map((value, index) => {
+      //     //   console.log('inputValue.colIdx: ' + inputValue.colIdx)
+      //     //   console.log('inputValue.rowIdx: ' + inputValue.rowIdx)
+      //     //   console.log('prev[inputValue.rowIdx]: ' + prev[inputValue.rowIdx])
+      //     //   return index === inputValue.colIdx ? String(inputValue.score) : value;
+      //     // })
+      //   ]
+      // })
+    }
+  }
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Container maxWidth="md" className={classes.container}>
+      <Container maxWidth="xl" className={classes.container}>
         <Grid container spacing={1}>
           <Grid className={classes.bar} container item direction="row" justify="center" spacing={1} md={12} alignContent="stretch" alignItems="stretch">
             <Grid item md={activeGame.players?.length < 3 ? 1 : 2}>
@@ -183,7 +205,7 @@ const GameGrid: React.FC = () => {
               {row.map((value: number | string, idx: number) => (
                 <Grid key={`si_${idx}`} item md={activeGame.players?.length < 3 ? 5 : 3}>
                   <Paper square className={classes.paper}>
-                    <ScoreInput player={activeGame.players[idx]} rowIndex={index} scoreProp={value} />
+                    <ScoreInput player={activeGame.players[idx]} rowIndex={index} colIndex={idx} scoreProp={value} onScoreChange={onScoreChange} />
                   </Paper>
                 </Grid>
               ))}

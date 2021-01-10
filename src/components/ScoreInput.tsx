@@ -22,10 +22,12 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
   player: Player;
   rowIndex: number;
+  colIndex: number;
   scoreProp: string | number;
+  onScoreChange: (value?: any) => void;
 }
 
-const ScoreInput: React.FC<Props> = ({ player, scoreProp, rowIndex }) => {
+const ScoreInput: React.FC<Props> = ({ player, rowIndex, colIndex, scoreProp, onScoreChange }) => {
   const classes = useStyles();
   const [score, setScore] = React.useState<string | number>(scoreProp);
   // const inputRef = React.useRef<HTMLInputElement>(null);
@@ -39,7 +41,9 @@ const ScoreInput: React.FC<Props> = ({ player, scoreProp, rowIndex }) => {
   // }, []);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setScore(Number(event.target.value));
+    let changed = Number(event.target.value);
+    setScore(changed);
+    onScoreChange({rowIdx: rowIndex, score: changed, colIdx: colIndex})
   };
 
   return (
@@ -62,7 +66,7 @@ const ScoreInput: React.FC<Props> = ({ player, scoreProp, rowIndex }) => {
           ),
         }}
       >
-        <MenuItem value="">
+        <MenuItem value="0">
           <em>None</em>
         </MenuItem>
         {scoreOptions.map((option, idx) => (

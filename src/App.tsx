@@ -86,9 +86,9 @@ const NewGameSetup: React.FC = () => {
       };
     });
 
-    console.table(newGameState.players);
+    // console.table(newGameState.players);
     console.table(currentPlayers);
-    console.table(newGameState.dealers);
+    // console.table(newGameState.dealers);
   };
 
   return (

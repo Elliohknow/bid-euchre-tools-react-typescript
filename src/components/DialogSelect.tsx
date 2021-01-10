@@ -39,21 +39,30 @@ const DialogSelect: React.FC<Props> = (props) => {
     name: "",
     suit: "",
     amount: "",
-    row: bidRow,
+    row: bidRow ? bidRow : null,
   });
   const selectRef = React.useRef<HTMLElement>(null);
   const { activeGame } = React.useContext(CTX);
 
   // React.useEffect(() => {
-  //   if (!open) {
-  //     setValue(valueProp);
+  //   return () => {
   //   }
-  // }, [valueProp, open]);
+  // });
 
   const handleEntering = () => {
     if (selectRef.current != null) {
       selectRef.current.focus();
     }
+    setBid({ ...bid, row: bidRow });
+  };
+
+  const handleExiting = () => {
+    setBid({
+      name: "",
+      suit: "",
+      amount: "",
+      row: null,
+    });
   };
 
   const handleChangePlayerName = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -91,6 +100,7 @@ const DialogSelect: React.FC<Props> = (props) => {
   const handleSubmit = () => {
     // onClose(playerName, suit, amount);
     onClose(bid);
+    handleExiting();
   };
 
   return (

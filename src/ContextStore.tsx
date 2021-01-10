@@ -34,7 +34,7 @@ export interface Game {
   currentDealer: number;
   currentLeader?: any;
   currentBid?: Bid;
-  bids?: any;
+  bids?: any | null;
   rows?: any;
 }
 export interface Player {
