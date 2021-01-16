@@ -42,8 +42,11 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex, colIndex, scoreProp, on
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     let changed = Number(event.target.value);
+    if(changed !== Number(score)) {
+      setScore(changed);
+      onScoreChange({rowIdx: rowIndex, score: changed, colIdx: colIndex})
+    }
     setScore(changed);
-    onScoreChange({rowIdx: rowIndex, score: changed, colIdx: colIndex})
   };
 
   return (
@@ -52,7 +55,7 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex, colIndex, scoreProp, on
     <FormControl variant="filled" className={classes.root}>
       <TextField
         select
-        id="select"
+        // id="select"
         label="score"
         variant="filled"
         value={score}
@@ -66,7 +69,7 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex, colIndex, scoreProp, on
           ),
         }}
       >
-        <MenuItem value="0">
+        <MenuItem value="">
           <em>None</em>
         </MenuItem>
         {scoreOptions.map((option, idx) => (

@@ -58,9 +58,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function createData(numPlayers: number) {
   if (numPlayers <= 2) {
-    return ["", ""];
+    return ["0", "0"];
   } else {
-    return ["", "", ""];
+    return ["0", "0", "0"];
   }
 }
 
@@ -85,18 +85,10 @@ const GameGrid: React.FC = () => {
   const [rows, setRows] = React.useState(createRows(activeGame.players?.length));
   const [bidRow, setBidRow] = React.useState<any>(null);
   // const len = activeGame.players.length;
-  // React.useEffect(() => {
-  //   setRows(() => {
-  //     if (activeGame.rows) {
-  //       return activeGame.rows;
-  //     }
-  //     return createRows(len);
-  //   });
-  // }, [activeGame.rows, len]);
 
   React.useEffect(() => {
     // console.table(activeGame.dealers);
-    console.table(rows);
+    // console.table(rows);
     setActiveGame((prev: Game) => {
       return {
         ...prev,
@@ -133,25 +125,19 @@ const GameGrid: React.FC = () => {
       console.log(activeGame.bids);
     }
   };
-  const onScoreChange = (inputValue?:{rowIdx: number; score: number | string; colIdx: number}) => {
-    if(inputValue) {
-      console.log(`{ rowIdx: ${inputValue.rowIdx}, colIdx: ${inputValue.colIdx}, score: ${inputValue.score} }`);
-      // setRows((prev: string[][]) => {
-      //   return [
-      //     prev.map((r:any, ri:any) => {
-      //       return ri === inputValue.rowIdx 
-      //         ? r.map((c:any,ci:number)=> ci === inputValue.colIdx ? String(inputValue.score) : c) : r
-      //     })
-      //     // ...prev, 
-      //     // prev[inputValue.rowIdx].map((value, index) => {
-      //     //   console.log('inputValue.colIdx: ' + inputValue.colIdx)
-      //     //   console.log('inputValue.rowIdx: ' + inputValue.rowIdx)
-      //     //   console.log('prev[inputValue.rowIdx]: ' + prev[inputValue.rowIdx])
-      //     //   return index === inputValue.colIdx ? String(inputValue.score) : value;
-      //     // })
-      //   ]
-      // })
-    }
+  const onScoreChange = (inputValue:{rowIdx: number; score: number | string; colIdx: number}) => {
+    let tempRows = rows.slice();
+    let newRows = tempRows.map((value, index) => {
+      // console.log(`value: ${value}, index: ${index}`);
+      return tempRows[index] !== tempRows[inputValue.rowIdx] 
+        ? value 
+        : value.map((val, idx) => {
+          console.log(`value[idx]: ${value[idx]}, val: ${val}, idx: ${idx}`);
+          return idx !== inputValue.colIdx ? val : String(inputValue.score)});
+    });
+    console.log(`score changed in row ${inputValue.rowIdx+1}--column ${inputValue.colIdx+1}-->${inputValue.score}`);
+    // console.table(newRows)
+    setRows(newRows);
   }
 
   return (
