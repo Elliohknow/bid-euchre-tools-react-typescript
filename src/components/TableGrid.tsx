@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
             // padding: theme.spacing(1),
             // margin: theme.spacing(1),
             // height: "10vh",
+            width: "100%",
             textAlign: "center",
             color: theme.palette.text.primary,
             whiteSpace: "normal",
@@ -84,14 +85,14 @@ const GameGrid: React.FC = () => {
     const memoizedData = React.useMemo(() => createRows(activeGame.players?.length), [])
     const [open, setOpen] = React.useState<boolean>(false)
     const [rows, setRows] = React.useState(memoizedData)
-    const [bidRow, setBidRow] = React.useState<any>(null)
+    const [bidRow, setBidRow] = React.useState<number|null>(null)
     // const len = activeGame.players.length;
 
     React.useEffect(() => {
         // console.table(activeGame.dealers);
-        let a = 0 ?? null
-        console.log({ a })
-        console.log("a: ", a)
+        // let a = 0 ?? null
+        // console.log({ a })
+        // console.log("a: ", a)
         setActiveGame((prev: Game) => {
             return {
                 ...prev,
@@ -100,15 +101,17 @@ const GameGrid: React.FC = () => {
         })
     }, [setActiveGame, rows])
 
-    const handleOpen = (index: number) => {
+    const handleOpen = (rowNum: number) => {
         setOpen(true)
-        setBidRow(index)
+        setBidRow(rowNum)
     }
     const handleClose = (bid?: { name: string; suit: string; amount: string | number; row: number }) => {
         setOpen(false)
-
+        if (!bid) {
+            setBidRow(null)
+        }
+        console.log("bid: ", bid)
         if (bid?.name && bid?.suit && bid?.amount && bid?.row) {
-            console.log("bid: ", bid)
             setActiveGame((prev: Game) => {
                 return {
                     ...prev,
@@ -125,8 +128,8 @@ const GameGrid: React.FC = () => {
                     },
                 }
             })
-            console.log(activeGame.bids)
         }
+        console.log(activeGame.bids)
     }
     const onScoreChange = (inputValue: { rowIdx: number; score: number | string; colIdx: number }) => {
         let tempRows = rows.slice()
@@ -225,10 +228,9 @@ const GameGrid: React.FC = () => {
                                         aria-haspopup="true"
                                         role="bid button"
                                     >
-                                        BID {index + 1}
+                                        BID {index+1}
                                     </Button>
-                                    {/* BID
-                  </Typography> */}
+                                    {/* BID  </Typography> */}
                                 </Paper>
                             </Grid>
                         </Grid>
