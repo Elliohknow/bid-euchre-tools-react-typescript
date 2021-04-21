@@ -76,7 +76,12 @@ const PlayerCard: React.FC<Props> = ({ player, onToggle }) => {
           }
           avatar={
             // !checkedState ? (
-            <Avatar className={checkedState ? classes.avatarChecked : classes.avatarUnchecked} alt={`${player.nickname}`}>
+            <Avatar
+              className={
+                checkedState ? classes.avatarChecked : classes.avatarUnchecked
+              }
+              alt={`${player.nickname}`}
+            >
               {player.nickname[0]}
             </Avatar>
             // ) : (
@@ -88,25 +93,53 @@ const PlayerCard: React.FC<Props> = ({ player, onToggle }) => {
           // action={!checkedState ? <CheckBoxOutlineBlankIcon aria-label="unchecked" /> : <CheckBoxIcon aria-label="checked" />}
         />
         <CardContent>
-          <Typography variant="body2" component="p" className="player-card-item">
+          <Typography
+            variant="body2"
+            component="p"
+            className="player-card-item"
+          >
             Last Win: {player?.stats?.lastWin || "¯\\_(ツ)_/¯"}
           </Typography>
-          <Typography variant="body2" component="p" className="player-card-item">
+          <Typography
+            variant="body2"
+            component="p"
+            className="player-card-item"
+          >
             Games Played: {player?.stats?.gamesPlayed || "¯\\_(ツ)_/¯"}
           </Typography>
-          <Typography variant="body2" component="p" className="player-card-item">
+          <Typography
+            variant="body2"
+            component="p"
+            className="player-card-item"
+          >
             Wins: {player?.stats?.wins || "¯\\_(ツ)_/¯"}
           </Typography>
-          <Typography variant="body2" component="p" className="player-card-item">
+          <Typography
+            variant="body2"
+            component="p"
+            className="player-card-item"
+          >
             Bids Taken: {player?.stats?.totalBidsTaken || "¯\\_(ツ)_/¯"}
           </Typography>
-          <Typography variant="body2" component="p" className="player-card-item">
+          <Typography
+            variant="body2"
+            component="p"
+            className="player-card-item"
+          >
             Up-The-River Count: {player?.stats?.upRiverCount || "¯\\_(ツ)_/¯"}
           </Typography>
-          <Typography variant="body2" component="p" className="player-card-item">
+          <Typography
+            variant="body2"
+            component="p"
+            className="player-card-item"
+          >
             Call Count: {player?.stats?.callCount || "¯\\_(ツ)_/¯"}
           </Typography>
-          <Typography variant="body2" component="p" className="player-card-item">
+          <Typography
+            variant="body2"
+            component="p"
+            className="player-card-item"
+          >
             Favored Suit: {player?.stats?.favoredSuit || "¯\\_(ツ)_/¯"}
           </Typography>
         </CardContent>

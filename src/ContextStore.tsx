@@ -1,6 +1,11 @@
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import React from "react";
-import { formatDateTime, getDealersForHands, getRandomInitialDealer, UUID } from "./utils";
+import {
+  formatDateTime,
+  getDealersForHands,
+  getRandomInitialDealer,
+  UUID,
+} from "./utils";
 
 export const appTheme = createMuiTheme({
   palette: {
@@ -34,7 +39,7 @@ export interface Game {
   currentDealer: number;
   currentLeader?: any;
   currentBid?: Bid;
-  bids?: any | null;
+  bids: Bid[];
   rows?: any;
 }
 export interface Player {
@@ -131,8 +136,14 @@ export const defaultPlayers: Array<Player> = [
 ];
 
 export const defaultHands: number[] = [1, 2, 3, 4, 5, 6, 7, 8];
-export const defaultDealer: number = getRandomInitialDealer(defaultPlayers.length);
-export const defaultDealers: string[] = getDealersForHands(defaultHands, defaultPlayers, defaultDealer);
+export const defaultDealer: number = getRandomInitialDealer(
+  defaultPlayers.length
+);
+export const defaultDealers: string[] = getDealersForHands(
+  defaultHands,
+  defaultPlayers,
+  defaultDealer
+);
 const defaultGames: Array<Game> = [
   {
     id: `test_${UUID()}`,
@@ -144,6 +155,7 @@ const defaultGames: Array<Game> = [
     currentHand: 1,
     currentDealer: defaultDealer,
     dealers: defaultDealers,
+    bids: [],
   },
 ];
 export const defaultActiveGame: Game = {
@@ -156,8 +168,9 @@ export const defaultActiveGame: Game = {
   currentHand: 1,
   currentDealer: defaultDealer,
   dealers: defaultDealers,
+  bids: [],
 };
-const defaultOldGames: any = [{ winner: "Estelle" }];
+// const defaultOldGames: any = [{ winner: "Estelle" }];
 interface ContextProps {
   players: Player[];
   setPlayers: (v: any) => void;
@@ -165,8 +178,8 @@ interface ContextProps {
   setSavedGames: (v: any) => void;
   activeGame: Game;
   setActiveGame: (v: any) => void;
-  oldGames: any;
-  setOldGames: (v: any) => void;
+  // oldGames: any;
+  // setOldGames: (v: any) => void;
 }
 
 export const CTX = React.createContext<ContextProps>(undefined!);
@@ -175,18 +188,18 @@ const ContextStore: React.FC<Props> = (props) => {
   const [players, setPlayers] = React.useState(defaultPlayers);
   const [savedGames, setSavedGames] = React.useState(defaultGames);
   const [activeGame, setActiveGame] = React.useState(defaultActiveGame);
-  const [oldGames, setOldGames] = React.useState(defaultOldGames);
+  // const [oldGames, setOldGames] = React.useState(defaultOldGames);
 
   React.useEffect(() => {
     const pData = localStorage.getItem("players");
     const sgData = localStorage.getItem("saved-games");
     const agData = localStorage.getItem("active-game");
-    const ogData = localStorage.getItem("old-games");
+    // const ogData = localStorage.getItem("old-games");
     try {
       if (pData) setPlayers(JSON.parse(pData));
       if (sgData) setSavedGames(JSON.parse(sgData));
       if (agData) setActiveGame(JSON.parse(agData));
-      if (ogData) setOldGames(JSON.parse(ogData));
+      // if (ogData) setOldGames(JSON.parse(ogData));
     } catch (error) {
       console.log(error);
     }
@@ -205,7 +218,7 @@ const ContextStore: React.FC<Props> = (props) => {
     localStorage.setItem("players", JSON.stringify(players));
     localStorage.setItem("saved-games", JSON.stringify(savedGames));
     localStorage.setItem("active-game", JSON.stringify(activeGame));
-    localStorage.setItem("old-games", JSON.stringify(oldGames));
+    // localStorage.setItem("old-games", JSON.stringify(oldGames));
   });
 
   return (
@@ -218,8 +231,8 @@ const ContextStore: React.FC<Props> = (props) => {
           setSavedGames,
           activeGame,
           setActiveGame,
-          oldGames,
-          setOldGames,
+          // oldGames,
+          // setOldGames,
         }}
       >
         {props.children}

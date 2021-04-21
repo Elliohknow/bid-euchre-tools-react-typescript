@@ -5,7 +5,12 @@ import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import { red } from "@material-ui/core/colors";
 import IconButton from "@material-ui/core/IconButton";
-import { createStyles, makeStyles, Theme, withStyles } from "@material-ui/core/styles";
+import {
+  createStyles,
+  makeStyles,
+  Theme,
+  withStyles,
+} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import React from "react";
@@ -64,7 +69,10 @@ const GameCard: React.FC<Props> = ({ game }) => {
 
   return (
     <Card className={classes.root} raised>
-      <CardHeader title={`Recent ${game.players.length}-Player Game`} subheader={`${game.dateTime}`} />
+      <CardHeader
+        title={`Recent ${game.players.length}-Player Game`}
+        subheader={`${game.dateTime}`}
+      />
       <CardContent>
         <Typography className={classes.pos} color="textSecondary">
           id: {game.id}
@@ -77,7 +85,14 @@ const GameCard: React.FC<Props> = ({ game }) => {
         </Typography>
       </CardContent>
       <CardActions className={classes.actions}>
-        <Button onClick={handleLoad} size="medium" component={Link} to={`/active/?id=${game.id}`} variant="outlined" color="primary">
+        <Button
+          onClick={handleLoad}
+          size="medium"
+          component={Link}
+          to={`/active/?id=${game.id}`}
+          variant="outlined"
+          color="primary"
+        >
           Load Game
         </Button>
         <StyledIconButton aria-label="delete" onClick={handleRemoveGame}>

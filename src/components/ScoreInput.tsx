@@ -27,7 +27,13 @@ interface Props {
   onScoreChange: (value?: any) => void;
 }
 
-const ScoreInput: React.FC<Props> = ({ player, rowIndex, colIndex, scoreProp, onScoreChange }) => {
+const ScoreInput: React.FC<Props> = ({
+  player,
+  rowIndex,
+  colIndex,
+  scoreProp,
+  onScoreChange,
+}) => {
   const classes = useStyles();
   const [score, setScore] = React.useState<string | number>(scoreProp);
   // const inputRef = React.useRef<HTMLInputElement>(null);
@@ -42,9 +48,9 @@ const ScoreInput: React.FC<Props> = ({ player, rowIndex, colIndex, scoreProp, on
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     let changed = Number(event.target.value);
-    if(changed !== Number(score)) {
+    if (changed !== Number(score)) {
       setScore(changed);
-      onScoreChange({rowIdx: rowIndex, score: changed, colIdx: colIndex})
+      onScoreChange({ rowIdx: rowIndex, score: changed, colIdx: colIndex });
     }
     setScore(changed);
   };

@@ -8,14 +8,19 @@ import GameCard from "./components/GameCard";
 import PlayerCard from "./components/PlayerCard";
 import GameGrid from "./components/TableGrid";
 import { CTX, defaultActiveGame, Game, Player } from "./ContextStore";
-import { getDateTimeElements, getDealersForHands, getRandomInitialDealer } from "./utils";
+import {
+  getDateTimeElements,
+  getDealersForHands,
+  getRandomInitialDealer,
+} from "./utils";
 // import GameTable from "./components/Table";
 // import HelpOutlinedIcon from "@material-ui/icons/HelpOutlined";
 // import RecentActorsIcon from "@material-ui/icons/RecentActors";
 
 const ActiveGame: React.FC = () => {
   const { activeGame } = React.useContext(CTX);
-  const numDummies = activeGame?.players.length <= 3 ? 4 - activeGame?.players.length : 0;
+  const numDummies =
+    activeGame?.players.length <= 3 ? 4 - activeGame?.players.length : 0;
   const { day, date, time } = getDateTimeElements(activeGame?.dateTime);
 
   return (
@@ -24,7 +29,9 @@ const ActiveGame: React.FC = () => {
       <div className="date">
         Started on {day}, {date} at {time}
       </div>
-      <div className="numPlayers">number of players: {activeGame?.players.length}</div>
+      <div className="numPlayers">
+        number of players: {activeGame?.players.length}
+      </div>
       <div className="numDummies">number of dummy players: {numDummies}</div>
       {/* <GameTable /> */}
       <GameGrid />
@@ -45,8 +52,15 @@ const useNewGameStyles = makeStyles((theme: Theme) =>
 );
 const NewGameSetup: React.FC = () => {
   const classes = useNewGameStyles();
-  const { setActiveGame, savedGames, setSavedGames, players } = React.useContext(CTX);
-  const [newGameState, setNewGameState] = React.useState<Game>(defaultActiveGame);
+  const {
+    setActiveGame,
+    savedGames,
+    setSavedGames,
+    players,
+  } = React.useContext(CTX);
+  const [newGameState, setNewGameState] = React.useState<Game>(
+    defaultActiveGame
+  );
   // const [newGameState, setNewGameState] = React.useState<Game>({
   //   id: UUID(),
   //   dateTime: formatDateTime(),
@@ -67,7 +81,9 @@ const NewGameSetup: React.FC = () => {
   const onToggle = (playerToToggle: Player) => {
     let currentPlayers = newGameState.players.slice();
     // check for the player in the new game's players list
-    const index = currentPlayers.findIndex((value: Player) => value.id === playerToToggle.id);
+    const index = currentPlayers.findIndex(
+      (value: Player) => value.id === playerToToggle.id
+    );
     // if it exists there, delete it
     if (index > -1) {
       currentPlayers.splice(index, 1);
@@ -107,7 +123,13 @@ const NewGameSetup: React.FC = () => {
       </Button>
       <div className="select-player-wrapper">
         {players.map((value: Player, index: number) => {
-          return <PlayerCard onToggle={onToggle} player={value} key={`pc_${players[index].id}`} />;
+          return (
+            <PlayerCard
+              onToggle={onToggle}
+              player={value}
+              key={`pc_${players[index].id}`}
+            />
+          );
         })}
         {/* <AddPlayerCard /> */}
       </div>
@@ -148,7 +170,14 @@ const Home = () => {
   const classes = useButtonStyles();
   return (
     <React.Fragment>
-      <Button component={Link} size="large" className={classes.root} to="/newgame" color="primary" variant="contained">
+      <Button
+        component={Link}
+        size="large"
+        className={classes.root}
+        to="/newgame"
+        color="primary"
+        variant="contained"
+      >
         NEW GAME
       </Button>
       <SavedGamesList />

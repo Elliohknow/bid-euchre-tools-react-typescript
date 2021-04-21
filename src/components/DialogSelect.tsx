@@ -35,11 +35,16 @@ interface Props {
 const DialogSelect: React.FC<Props> = (props) => {
   const { open, onClose, bidRow, ...other } = props;
   const classes = useStyles();
-  const [bid, setBid] = React.useState<{ name: string; suit: string; amount: string | number; row: any }>({
+  const [bid, setBid] = React.useState<{
+    name: string;
+    suit: string;
+    amount: string | number;
+    row: any;
+  }>({
     name: "",
     suit: "",
     amount: "",
-    row: bidRow ? bidRow : null,
+    row: bidRow ?? null,
   });
   const selectRef = React.useRef<HTMLElement>(null);
   const { activeGame } = React.useContext(CTX);
@@ -65,7 +70,9 @@ const DialogSelect: React.FC<Props> = (props) => {
     });
   };
 
-  const handleChangePlayerName = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleChangePlayerName = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
     // setPlayerName(String(event.target.value) || "");
     setBid((prev) => {
       return {
@@ -114,7 +121,9 @@ const DialogSelect: React.FC<Props> = (props) => {
       onClose={onClose}
       {...other}
     >
-      <DialogTitle id="dialog-select-title">Set the Bid for Hand {bidRow + 1}</DialogTitle>
+      <DialogTitle id="dialog-select-title">
+        Set the Bid for Hand {bidRow}
+      </DialogTitle>
       <DialogContent>
         <form className={classes.container}>
           <FormControl variant="filled" className={classes.formControl}>

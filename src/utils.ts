@@ -18,7 +18,8 @@ export function getDateTimeElements(date: string) {
 }
 export function UUID(): string {
   let result = "";
-  const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  const chars =
+    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   for (let i = 0; i < 16; i++) {
     result += chars.charAt(Math.floor(Math.random() * chars.length));
   }
@@ -30,7 +31,11 @@ export function getRandomInitialDealer(max: number): number {
   return dealer;
 }
 
-export function getDealersForHands(hands: number[], players: Player[], startingIndex?: number) {
+export function getDealersForHands(
+  hands: number[],
+  players: Player[],
+  startingIndex?: number
+) {
   const names: string[] = players.map((player: Player) => player?.nickname);
   // console.log({ names });
   const dealers: string[] = [];
