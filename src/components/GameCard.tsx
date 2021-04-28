@@ -1,21 +1,16 @@
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
-import { red } from "@material-ui/core/colors";
-import IconButton from "@material-ui/core/IconButton";
-import {
-  createStyles,
-  makeStyles,
-  Theme,
-  withStyles,
-} from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import React from "react";
-import { Link } from "react-router-dom";
-import { CTX, Game } from "../ContextStore";
+import Button from '@material-ui/core/Button'
+import Card from '@material-ui/core/Card'
+import CardActions from '@material-ui/core/CardActions'
+import CardContent from '@material-ui/core/CardContent'
+import CardHeader from '@material-ui/core/CardHeader'
+import {red} from '@material-ui/core/colors'
+import IconButton from '@material-ui/core/IconButton'
+import {createStyles, makeStyles, Theme, withStyles} from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
+import React from 'react'
+import {Link} from 'react-router-dom'
+import {CTX, Game} from '../ContextStore'
 
 const StyledIconButton = withStyles((theme: Theme) => ({
   root: {
@@ -23,56 +18,53 @@ const StyledIconButton = withStyles((theme: Theme) => ({
     backgroundColor: theme.palette.secondary.main,
     marginLeft: 20,
     borderRadius: 4,
-    "&:hover": {
+    '&:hover': {
       color: theme.palette.secondary.light,
       backgroundColor: red[100],
     },
   },
-}))(IconButton);
+}))(IconButton)
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       padding: 8,
       minWidth: 300,
       maxWidth: 500,
-      justifyContent: "center",
+      justifyContent: 'center',
     },
     pos: {
       marginBottom: 12,
     },
     actions: {
-      justifyContent: "space-between",
+      justifyContent: 'space-between',
     },
   })
-);
+)
 
 interface Props {
-  game: Game;
+  game: Game
 }
 
-const GameCard: React.FC<Props> = ({ game }) => {
-  const classes = useStyles();
+const GameCard: React.FC<Props> = ({game}) => {
+  const classes = useStyles()
 
-  const { setActiveGame, setSavedGames, savedGames } = React.useContext(CTX);
+  const {setActiveGame, setSavedGames, savedGames} = React.useContext(CTX)
 
   const handleLoad = () => {
-    setActiveGame(game);
-  };
+    setActiveGame(game)
+  }
 
   const handleRemoveGame = () => {
     setSavedGames(() => {
       return savedGames.filter((value: Game, index: number) => {
-        return savedGames[index].id !== game.id;
-      });
-    });
-  };
+        return savedGames[index].id !== game.id
+      })
+    })
+  }
 
   return (
     <Card className={classes.root} raised>
-      <CardHeader
-        title={`Recent ${game.players.length}-Player Game`}
-        subheader={`${game.dateTime}`}
-      />
+      <CardHeader title={`Recent ${game.players.length}-Player Game`} subheader={`${game.dateTime}`} />
       <CardContent>
         <Typography className={classes.pos} color="textSecondary">
           id: {game.id}
@@ -85,14 +77,7 @@ const GameCard: React.FC<Props> = ({ game }) => {
         </Typography>
       </CardContent>
       <CardActions className={classes.actions}>
-        <Button
-          onClick={handleLoad}
-          size="medium"
-          component={Link}
-          to={`/active/?id=${game.id}`}
-          variant="outlined"
-          color="primary"
-        >
+        <Button onClick={handleLoad} size="medium" component={Link} to={`/active/?id=${game.id}`} variant="outlined" color="primary">
           Load Game
         </Button>
         <StyledIconButton aria-label="delete" onClick={handleRemoveGame}>
@@ -100,7 +85,7 @@ const GameCard: React.FC<Props> = ({ game }) => {
         </StyledIconButton>
       </CardActions>
     </Card>
-  );
-};
+  )
+}
 
-export default GameCard;
+export default GameCard

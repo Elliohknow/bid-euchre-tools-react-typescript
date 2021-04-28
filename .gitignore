@@ -2,7 +2,6 @@
 
 # dependencies
 node_modules
-node_modules/
 /node_modules
 /.pnp
 .pnp.js
@@ -14,6 +13,8 @@ node_modules/
 /build
 
 # misc
+/haters
+haters
 .DS_Store
 .env.local
 .env.development.local
@@ -25,7 +26,3 @@ yarn-debug.log*
 yarn-error.log*
 
 /.vscode
-/theHaters
-theHaters/
-theHaters
-./theHaters

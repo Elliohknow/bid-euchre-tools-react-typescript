@@ -1,13 +1,8 @@
-import AppBar from "@material-ui/core/AppBar";
-import {
-  createStyles,
-  makeStyles,
-  Theme,
-  withStyles,
-} from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import React from "react";
+import AppBar from '@material-ui/core/AppBar'
+import {createStyles, makeStyles, Theme, withStyles} from '@material-ui/core/styles'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import React from 'react'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,10 +13,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       flexGrow: 1,
-      textAlign: "center",
+      textAlign: 'center',
     },
   })
-);
+)
 
 const StyledAppBar = withStyles((theme: Theme) =>
   createStyles({
@@ -29,10 +24,10 @@ const StyledAppBar = withStyles((theme: Theme) =>
       background: theme.palette.primary.main,
     },
   })
-)(AppBar);
+)(AppBar)
 
 export default function BasicAppBar() {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <div className={classes.root}>
@@ -44,5 +39,5 @@ export default function BasicAppBar() {
         </Toolbar>
       </StyledAppBar>
     </div>
-  );
+  )
 }

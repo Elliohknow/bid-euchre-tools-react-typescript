@@ -1,62 +1,57 @@
-import { Player } from "./ContextStore";
+import {Player} from './ContextStore'
 
 export function formatDateTime(date?: Date): string {
-  const rightNow = date ?? new Date(Date.now());
+  const rightNow = date ?? new Date(Date.now())
   return rightNow.toLocaleString([], {
-    weekday: "short",
-    month: "numeric",
-    year: "numeric",
-    day: "numeric",
+    weekday: 'short',
+    month: 'numeric',
+    year: 'numeric',
+    day: 'numeric',
     hour12: true,
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+    hour: '2-digit',
+    minute: '2-digit',
+  })
 }
 export function getDateTimeElements(date: string) {
-  let strArr = date.slice().split(",");
-  return { day: strArr[0], date: strArr[1], time: strArr[2] };
-}
-export function UUID(): string {
-  let result = "";
-  const chars =
-    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  for (let i = 0; i < 16; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return result;
+  let strArr = date.slice().split(',')
+  return {day: strArr[0], date: strArr[1], time: strArr[2]}
 }
 export function getRandomInitialDealer(max: number): number {
-  let dealer = Math.floor(Math.random() * max);
+  let dealer = Math.floor(Math.random() * max)
   // console.log({ dealer });
-  return dealer;
+  return dealer
 }
 
-export function getDealersForHands(
-  hands: number[],
-  players: Player[],
-  startingIndex?: number
-) {
-  const names: string[] = players.map((player: Player) => player?.nickname);
+export function getDealingOrder(hands: number[], players: Player[], startingIndex?: number) {
+  const names: string[] = players.map((player: Player) => player?.nickname)
   // console.log({ names });
-  const dealers: string[] = [];
-  let k = startingIndex || 0;
+  const dealers: string[] = []
+  let k = startingIndex || 0
   while (dealers?.length < hands.length) {
     for (let i = k; i < names.length; i++) {
-      dealers.push(names[i]);
+      dealers.push(names[i])
     }
-    k = 0;
+    k = 0
   }
   // console.log({ dealers });
-  return dealers;
+  return dealers
 }
 
 function sumReducer(acc: number, current: number): number {
-  return acc + current;
+  return acc + current
 }
 
 export function sumScoresFromArray(array: Array<number>): number {
-  return array.reduce(sumReducer, 0);
+  return array.reduce(sumReducer, 0)
 }
+// export function UUID(): string {
+//   let result = ''
+//   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+//   for (let i = 0; i < 16; i++) {
+//     result += chars.charAt(Math.floor(Math.random() * chars.length))
+//   }
+//   return result
+// }
 
 // function singleArrayFrom2DArrayReducer(acc: object, scoreArray:any[]) {
 //   for (let i = 0; i < scoreArray?.length;i++){

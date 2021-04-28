@@ -1,53 +1,53 @@
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import NativeSelect from "@material-ui/core/NativeSelect";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import React from "react";
-import { CTX, scoreOptions, Suit, suits } from "../ContextStore";
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import FormControl from '@material-ui/core/FormControl'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import NativeSelect from '@material-ui/core/NativeSelect'
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles'
+import React from 'react'
+import {CTX, scoreOptions, Suit, suits} from '../ContextStore'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      display: "flex",
-      flexWrap: "wrap",
+      display: 'flex',
+      flexWrap: 'wrap',
     },
     formControl: {
       margin: theme.spacing(1),
-      minWidth: "10ch",
+      minWidth: '10ch',
     },
   })
-);
+)
 
 interface Props {
-  open: boolean;
-  onClose: (value?: any) => void;
-  id: string;
+  open: boolean
+  onClose: (value?: any) => void
+  id: string
   // keepMounted: boolean;
-  bidRow: any;
+  bidRow: any
 }
 
-const DialogSelect: React.FC<Props> = (props) => {
-  const { open, onClose, bidRow, ...other } = props;
-  const classes = useStyles();
+const DialogSelect: React.FC<Props> = props => {
+  const {open, onClose, bidRow, ...other} = props
+  const classes = useStyles()
   const [bid, setBid] = React.useState<{
-    name: string;
-    suit: string;
-    amount: string | number;
-    row: any;
+    name: string
+    suit: string
+    amount: string | number
+    row: any
   }>({
-    name: "",
-    suit: "",
-    amount: "",
+    name: '',
+    suit: '',
+    amount: '',
     row: bidRow ?? null,
-  });
-  const selectRef = React.useRef<HTMLElement>(null);
-  const { activeGame } = React.useContext(CTX);
+  })
+  const selectRef = React.useRef<HTMLElement>(null)
+  const {activeGame} = React.useContext(CTX)
 
   // React.useEffect(() => {
   //   return () => {
@@ -56,59 +56,57 @@ const DialogSelect: React.FC<Props> = (props) => {
 
   const handleEntering = () => {
     if (selectRef.current != null) {
-      selectRef.current.focus();
+      selectRef.current.focus()
     }
-    setBid({ ...bid, row: bidRow });
-  };
+    setBid({...bid, row: bidRow})
+  }
 
   const handleExiting = () => {
     setBid({
-      name: "",
-      suit: "",
-      amount: "",
+      name: '',
+      suit: '',
+      amount: '',
       row: null,
-    });
-  };
+    })
+  }
 
-  const handleChangePlayerName = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
+  const handleChangePlayerName = (event: React.ChangeEvent<{value: unknown}>) => {
     // setPlayerName(String(event.target.value) || "");
-    setBid((prev) => {
+    setBid(prev => {
       return {
         ...prev,
-        name: String(event.target.value) || "",
-      };
-    });
-  };
-  const handleChangeSuit = (event: React.ChangeEvent<{ value: unknown }>) => {
+        name: String(event.target.value) || '',
+      }
+    })
+  }
+  const handleChangeSuit = (event: React.ChangeEvent<{value: unknown}>) => {
     // setSuit(String(event.target.value) || "");
-    setBid((prev) => {
+    setBid(prev => {
       return {
         ...prev,
-        suit: String(event.target.value) || "",
-      };
-    });
-  };
-  const handleChangeAmount = (event: React.ChangeEvent<{ value: unknown }>) => {
+        suit: String(event.target.value) || '',
+      }
+    })
+  }
+  const handleChangeAmount = (event: React.ChangeEvent<{value: unknown}>) => {
     // setAmount(Number(event.target.value) || "");
-    setBid((prev) => {
+    setBid(prev => {
       return {
         ...prev,
-        amount: String(event.target.value) || "",
-      };
-    });
-  };
+        amount: String(event.target.value) || '',
+      }
+    })
+  }
 
   const handleCancel = () => {
-    onClose();
-  };
+    onClose()
+  }
 
   const handleSubmit = () => {
     // onClose(playerName, suit, amount);
-    onClose(bid);
-    handleExiting();
-  };
+    onClose(bid)
+    handleExiting()
+  }
 
   return (
     <Dialog
@@ -121,9 +119,7 @@ const DialogSelect: React.FC<Props> = (props) => {
       onClose={onClose}
       {...other}
     >
-      <DialogTitle id="dialog-select-title">
-        Set the Bid for Hand {bidRow}
-      </DialogTitle>
+      <DialogTitle id="dialog-select-title">Set the Bid for Hand {bidRow}</DialogTitle>
       <DialogContent>
         <form className={classes.container}>
           <FormControl variant="filled" className={classes.formControl}>
@@ -134,17 +130,17 @@ const DialogSelect: React.FC<Props> = (props) => {
               onChange={handleChangePlayerName}
               input={<Input />}
               inputProps={{
-                id: "player-select",
-                name: "player",
+                id: 'player-select',
+                name: 'player',
               }}
             >
-              <option aria-label="None" value={""} />
+              <option aria-label="None" value={''} />
               {activeGame.players.map((value, index) => {
                 return (
                   <option key={`agp_${index}`} value={value.nickname}>
                     {value.nickname}
                   </option>
-                );
+                )
               })}
             </NativeSelect>
           </FormControl>
@@ -155,17 +151,17 @@ const DialogSelect: React.FC<Props> = (props) => {
               onChange={handleChangeAmount}
               input={<Input />}
               inputProps={{
-                id: "amount-select",
-                name: "amount",
+                id: 'amount-select',
+                name: 'amount',
               }}
             >
-              <option aria-label="None" value={""} />
+              <option aria-label="None" value={''} />
               {scoreOptions.map((value, index) => {
                 return (
                   <option key={`so_${index}`} value={value.value}>
                     {value.label}
                   </option>
-                );
+                )
               })}
             </NativeSelect>
           </FormControl>
@@ -176,17 +172,17 @@ const DialogSelect: React.FC<Props> = (props) => {
               onChange={handleChangeSuit}
               input={<Input />}
               inputProps={{
-                id: "suit-select",
-                name: "suit",
+                id: 'suit-select',
+                name: 'suit',
               }}
             >
-              <option aria-label="None" value={""} />
+              <option aria-label="None" value={''} />
               {suits.map((value: Suit, index: number) => {
                 return (
                   <option key={`si_${index}`} value={value.value}>
                     {value.label} {value.value}
                   </option>
-                );
+                )
               })}
             </NativeSelect>
           </FormControl>
@@ -201,10 +197,10 @@ const DialogSelect: React.FC<Props> = (props) => {
         </Button>
       </DialogActions>
     </Dialog>
-  );
-};
+  )
+}
 
-export default DialogSelect;
+export default DialogSelect
 // <FormControl variant="outlined" className={classes.formControl}>
 //               <InputLabel htmlFor="dialog-native">Amount</InputLabel>
 //               <Select native value={amount} onChange={handleChange} input={<Input id="dialog-native" />}>

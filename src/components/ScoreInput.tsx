@@ -1,44 +1,38 @@
-import FormControl from "@material-ui/core/FormControl";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import MenuItem from "@material-ui/core/MenuItem";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import PersonPinCircleIcon from "@material-ui/icons/PersonPinCircle";
-import React from "react";
-import { CTX, Player, scoreOptions } from "../ContextStore";
+import FormControl from '@material-ui/core/FormControl'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import MenuItem from '@material-ui/core/MenuItem'
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
+import PersonPinCircleIcon from '@material-ui/icons/PersonPinCircle'
+import React from 'react'
+import {CTX, Player, scoreOptions} from '../ContextStore'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      minWidth: "100%",
+      minWidth: '100%',
       // height: "calc(10vh - 5px)",
-      placeItems: "stretch",
-      placeContent: "stretch",
+      placeItems: 'stretch',
+      placeContent: 'stretch',
       // paddingTop: theme.spacing(1),
     },
   })
-);
+)
 
 interface Props {
-  player: Player;
-  rowIndex: number;
-  colIndex: number;
-  scoreProp: string | number;
-  onScoreChange: (value?: any) => void;
+  player: Player
+  rowIndex: number
+  colIndex: number
+  scoreProp: string | number
+  onScoreChange: (value?: any) => void
 }
 
-const ScoreInput: React.FC<Props> = ({
-  player,
-  rowIndex,
-  colIndex,
-  scoreProp,
-  onScoreChange,
-}) => {
-  const classes = useStyles();
-  const [score, setScore] = React.useState<string | number>(scoreProp);
+const ScoreInput: React.FC<Props> = ({player, rowIndex, colIndex, scoreProp, onScoreChange}) => {
+  const classes = useStyles()
+  const [score, setScore] = React.useState<string | number>(scoreProp)
   // const inputRef = React.useRef<HTMLInputElement>(null);
-  const { activeGame } = React.useContext(CTX);
-  const dealing = activeGame.dealers[rowIndex] === player.nickname;
+  const {activeGame} = React.useContext(CTX)
+  const dealing = activeGame.dealers[rowIndex] === player.nickname
 
   // React.useEffect(() => {
   //   console.log("activeGame.dealers[rowIndex] : ", activeGame.dealers[rowIndex]);
@@ -46,14 +40,14 @@ const ScoreInput: React.FC<Props> = ({
   //   console.log("dealing : ", dealing);
   // }, []);
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    let changed = Number(event.target.value);
+  const handleChange = (event: React.ChangeEvent<{value: unknown}>) => {
+    let changed = Number(event.target.value)
     if (changed !== Number(score)) {
-      setScore(changed);
-      onScoreChange({ rowIdx: rowIndex, score: changed, colIdx: colIndex });
+      setScore(changed)
+      onScoreChange({rowIdx: rowIndex, score: changed, colIdx: colIndex})
     }
-    setScore(changed);
-  };
+    setScore(changed)
+  }
 
   return (
     // <div className={classes.root}>
@@ -87,9 +81,9 @@ const ScoreInput: React.FC<Props> = ({
     </FormControl>
     // </form>
     // </div>
-  );
-};
-export default ScoreInput;
+  )
+}
+export default ScoreInput
 
 // React.useEffect(() => {
 //   let index = activeGame.players.indexOf(player);
