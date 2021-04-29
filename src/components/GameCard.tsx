@@ -3,14 +3,14 @@ import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
-import {red} from '@material-ui/core/colors'
+import { red } from '@material-ui/core/colors'
 import IconButton from '@material-ui/core/IconButton'
-import {createStyles, makeStyles, Theme, withStyles} from '@material-ui/core/styles'
+import { createStyles, makeStyles, Theme, withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import React from 'react'
-import {Link} from 'react-router-dom'
-import {CTX, Game} from '../ContextStore'
+import { Link } from 'react-router-dom'
+import { CTX, Game } from '../ContextStore'
 
 const StyledIconButton = withStyles((theme: Theme) => ({
   root: {
@@ -77,7 +77,7 @@ const GameCard: React.FC<Props> = ({game}) => {
         </Typography>
       </CardContent>
       <CardActions className={classes.actions}>
-        <Button onClick={handleLoad} size="medium" component={Link} to={`/active/?id=${game.id}`} variant="outlined" color="primary">
+        <Button onClick={handleLoad} size="medium" component={Link} to={`/game/?id=${game.id}`} variant="outlined" color="primary">
           Load Game
         </Button>
         <StyledIconButton aria-label="delete" onClick={handleRemoveGame}>

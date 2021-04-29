@@ -1,7 +1,7 @@
-import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles'
-import React from 'react'
-import {v4 as uuidv4} from 'uuid'
-import {formatDateTime, getDealingOrder, getRandomInitialDealer} from './utils'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { createContext, useEffect, useState } from 'react'
+import { v4 as uuidV4 } from 'uuid'
+import { formatDateTime, getDealingOrder, getRandomInitialDealer } from './utils'
 
 export const appTheme = createMuiTheme({
   palette: {
@@ -71,7 +71,7 @@ export interface ScoreOption {
   value: number
   label: string
 }
-//"♠ ♥ ♦ ♣ ☯"
+//"♠ ♥ ♦ ♣ ⚖"
 export const suits: Suit[] = [
   {
     value: 'Spades',
@@ -136,7 +136,7 @@ export const defaultDealer: number = getRandomInitialDealer(defaultPlayers.lengt
 export const defaultDealers: string[] = getDealingOrder(defaultHands, defaultPlayers, defaultDealer)
 const defaultGames: Array<Game> = [
   {
-    id: uuidv4(),
+    id: uuidV4(),
     dateTime: formatDateTime(),
     players: defaultPlayers,
     winner: null,
@@ -149,7 +149,7 @@ const defaultGames: Array<Game> = [
   },
 ]
 export const defaultActiveGame: Game = {
-  id: uuidv4(),
+  id: uuidV4(),
   dateTime: formatDateTime(),
   players: defaultPlayers,
   winner: null,
@@ -170,14 +170,14 @@ interface ContextProps {
   setActiveGame: (v: any) => void
 }
 
-export const CTX = React.createContext<ContextProps>(undefined!)
+export const CTX = createContext<ContextProps>(undefined!)
 
 const ContextStore: React.FC<Props> = props => {
-  const [players, setPlayers] = React.useState(defaultPlayers)
-  const [savedGames, setSavedGames] = React.useState(defaultGames)
-  const [activeGame, setActiveGame] = React.useState(defaultActiveGame)
+  const [players, setPlayers] = useState(defaultPlayers)
+  const [savedGames, setSavedGames] = useState(defaultGames)
+  const [activeGame, setActiveGame] = useState(defaultActiveGame)
 
-  React.useEffect(() => {
+  useEffect(() => {
     const pData = localStorage.getItem('players')
     const sgData = localStorage.getItem('saved-games')
     const agData = localStorage.getItem('active-game')
@@ -192,7 +192,7 @@ const ContextStore: React.FC<Props> = props => {
     // console.log({ savedGames }, "saved games, from ContextStore");
   }, [])
 
-  React.useEffect(() => {
+  useEffect(() => {
     // console.log("context: setting values to localStorage: ");
     localStorage.setItem('players', JSON.stringify(players))
     localStorage.setItem('saved-games', JSON.stringify(savedGames))

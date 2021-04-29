@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import PlusOneIcon from '@material-ui/icons/PlusOne'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { CTX, Game, Player } from '../ContextStore'
+import { createRows } from '../utils'
 import DialogSelect from './DialogSelect'
 import ScoreInput from './ScoreInput'
 // import Fab from "@material-ui/core/Fab";
@@ -57,42 +58,17 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-function createData(numPlayers: number) {
-  if (numPlayers <= 2) {
-    return ['0', '0']
-  } else {
-    return ['0', '0', '0']
-  }
-}
-
-function createRows(numPlayers: number) {
-  // let scoreIterator;
-  return [
-    createData(numPlayers),
-    createData(numPlayers),
-    createData(numPlayers),
-    createData(numPlayers),
-    createData(numPlayers),
-    createData(numPlayers),
-    createData(numPlayers),
-    createData(numPlayers),
-  ]
-}
-
 const GameGrid: React.FC = () => {
   const classes = useStyles()
   const {activeGame, setActiveGame} = useContext(CTX)
-  const memoizedData = useMemo(() => createRows(activeGame.players?.length), [])
+  const len = activeGame.players.length
+  const memoizedData = useMemo(() => createRows(len), [])
   const [open, setOpen] = useState<boolean>(false)
   const [rows, setRows] = useState(memoizedData)
   const [bidRow, setBidRow] = useState<number | null>(0)
-  // const len = activeGame.players.length;
 
   useEffect(() => {
-    // console.table(activeGame.dealers);
     // let a = 0 ?? null
-    // console.log({ a })
-    // console.log("a: ", a)
     setActiveGame((prev: Game) => {
       return {
         ...prev,

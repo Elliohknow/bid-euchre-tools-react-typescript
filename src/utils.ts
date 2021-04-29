@@ -1,4 +1,31 @@
-import {Player} from './ContextStore'
+import { Player } from './ContextStore'
+
+function createData(numPlayers: number) {
+  const arr: Array<string> = []
+  for (let i = 0; i < numPlayers; i++) {
+    // arr.push('0')
+    arr[i] = '0'
+  }
+  return arr
+}
+  // if (numPlayers < 3) {
+  //   return ['0', '0']
+  // } else {
+  //   return ['0', '0', '0']
+  // }
+
+export function createRows(numPlayers: number) {
+  return [
+    createData(numPlayers),
+    createData(numPlayers),
+    createData(numPlayers),
+    createData(numPlayers),
+    createData(numPlayers),
+    createData(numPlayers),
+    createData(numPlayers),
+    createData(numPlayers),
+  ]
+}
 
 export function formatDateTime(date?: Date): string {
   const rightNow = date ?? new Date(Date.now())

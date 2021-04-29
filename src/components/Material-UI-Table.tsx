@@ -4,9 +4,10 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import React from 'react'
-import {useTable} from 'react-table'
-import makeData from '../makeData'
+import { useMemo } from 'react'
+import { useTable } from 'react-table'
+// import makeData from '../makeData'
+import { createRows } from '../utils'
 
 interface ITable {
   columns: any
@@ -24,9 +25,9 @@ const Table: React.FC<ITable> = ({columns, data}) => {
   return (
     <MaUTable {...getTableProps()}>
       <TableHead>
-        {headerGroups.map(headerGroup => (
+        {headerGroups.map((headerGroup: any) => (
           <TableRow {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
+            {headerGroup.headers.map((column: any) => (
               <TableCell {...column.getHeaderProps()}>{column.render('Header')}</TableCell>
             ))}
           </TableRow>
@@ -49,18 +50,30 @@ const Table: React.FC<ITable> = ({columns, data}) => {
 }
 
 function GameTable() {
-  const columns = React.useMemo(
+  const columns = useMemo(
     () => [
       {
-        Header: 'Name',
+        Header: 'Game',
         columns: [
           {
-            Header: 'First Name',
-            accessor: 'firstName',
+            Header: 'Hand',
+            accessor: 'hand',
           },
           {
-            Header: 'Last Name',
-            accessor: 'lastName',
+            Header: 'Player_1 Name',
+            accessor: 'nickname',
+          },
+          {
+            Header: 'Player_2 Name',
+            accessor: 'nickname',
+          },
+          {
+            Header: 'Player_3 Name',
+            accessor: 'nickname',
+          },
+          {
+            Header: 'Bid',
+            accessor: 'bid',
           },
         ],
       },
@@ -68,7 +81,7 @@ function GameTable() {
     []
   )
 
-  const data = React.useMemo(() => makeData(20), [])
+  const data = useMemo(() => createRows(3), [])
 
   return (
     <div>

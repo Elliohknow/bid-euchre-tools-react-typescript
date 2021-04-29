@@ -1,7 +1,7 @@
-import {useMemo} from 'react'
-import {useTable} from 'react-table'
+import { useMemo } from 'react'
+import { useTable } from 'react-table'
 import styled from 'styled-components'
-import makeData from '../makeData'
+import { createRows } from '../utils'
 
 const Styles = styled.div`
   padding: 1rem;
@@ -31,12 +31,12 @@ const Styles = styled.div`
     }
   }
 `
-interface ITable {
-  columns: any
-  data: any
-}
+// interface ITable {
+//   columns: any
+//   data: any
+// }
 
-function Table({columns, data}: ITable) {
+function Table({columns, data}) {
   // Use the state and functions returned from useTable to build your UI
   const {getTableProps, getTableBodyProps, headerGroups, rows, prepareRow} = useTable({
     columns,
@@ -75,36 +75,27 @@ function GameTable() {
   const columns = useMemo(
     () => [
       {
-        Header: 'Name',
+        Header: 'Game',
         columns: [
           {
-            Header: 'First Name',
-            accessor: 'firstName',
+            Header: 'Hand',
+            accessor: 'hand',
           },
           {
-            Header: 'Last Name',
-            accessor: 'lastName',
-          },
-        ],
-      },
-      {
-        Header: 'Info',
-        columns: [
-          {
-            Header: 'Age',
-            accessor: 'age',
+            Header: 'Player_1 Name',
+            accessor: 'nickname',
           },
           {
-            Header: 'Visits',
-            accessor: 'visits',
+            Header: 'Player_2 Name',
+            accessor: 'nickname',
           },
           {
-            Header: 'Status',
-            accessor: 'status',
+            Header: 'Player_3 Name',
+            accessor: 'nickname',
           },
           {
-            Header: 'Profile Progress',
-            accessor: 'progress',
+            Header: 'Bid',
+            accessor: 'bid',
           },
         ],
       },
@@ -112,7 +103,7 @@ function GameTable() {
     []
   )
 
-  const data = useMemo(() => makeData(20), [])
+  const data = useMemo(() => createRows(2), [])
 
   return (
     <Styles>

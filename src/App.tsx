@@ -1,14 +1,14 @@
-import {createStyles, makeStyles, Theme} from '@material-ui/core'
+import { createStyles, makeStyles, Theme } from '@material-ui/core'
 import Button from '@material-ui/core/Button'
 import DoubleArrowIcon from '@material-ui/icons/DoubleArrow'
 import React from 'react'
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom'
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import BasicAppBar from './components/BasicAppBar'
 import GameCard from './components/GameCard'
 import PlayerCard from './components/PlayerCard'
 import GameGrid from './components/TableGrid'
-import {CTX, defaultActiveGame, Game, Player} from './ContextStore'
-import {getDateTimeElements, getDealingOrder, getRandomInitialDealer} from './utils'
+import { CTX, defaultActiveGame, Game, Player } from './ContextStore'
+import { getDateTimeElements, getDealingOrder, getRandomInitialDealer } from './utils'
 // import GameTable from "./components/Table";
 // import HelpOutlinedIcon from "@material-ui/icons/HelpOutlined";
 // import RecentActorsIcon from "@material-ui/icons/RecentActors";
@@ -98,7 +98,7 @@ const NewGameSetup: React.FC = () => {
         color="secondary"
         component={Link}
         onClick={handleStart}
-        to={`/active/?id=${newGameState.id}`}
+        to={`/game/?id=${newGameState.id}`}
         variant="contained"
         endIcon={<DoubleArrowIcon fontSize="large" />}
         style={{marginTop: '1rem'}}
@@ -162,9 +162,18 @@ const App: React.FC = () => {
       <BasicAppBar />
       <Router>
         <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/newgame" exact component={NewGameSetup} />
-          <Route path="/active" component={ActiveGame} />
+          <Route path="/" exact>
+            <Home />
+          </Route>
+          <Route path="/newgame">
+            <NewGameSetup />
+          </Route>
+          {/* <Route path="/game">
+            <Redirect to={`/game/${uuidv4}`} />
+          </Route> */}
+          <Route path="/game/:id">
+            <ActiveGame />
+          </Route>
           <Route
             path="/"
             render={() => (
