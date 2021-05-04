@@ -1,6 +1,6 @@
 import { Player } from './ContextStore'
 
-function createData(numPlayers: number) {
+function createRows(numPlayers: number) {
   const arr: Array<string> = []
   for (let i = 0; i < numPlayers; i++) {
     // arr.push('0')
@@ -8,22 +8,22 @@ function createData(numPlayers: number) {
   }
   return arr
 }
-  // if (numPlayers < 3) {
-  //   return ['0', '0']
-  // } else {
-  //   return ['0', '0', '0']
-  // }
+// if (numPlayers < 3) {
+//   return ['0', '0']
+// } else {
+//   return ['0', '0', '0']
+// }
 
-export function createRows(numPlayers: number) {
+export function createData(numPlayers: number) {
   return [
-    createData(numPlayers),
-    createData(numPlayers),
-    createData(numPlayers),
-    createData(numPlayers),
-    createData(numPlayers),
-    createData(numPlayers),
-    createData(numPlayers),
-    createData(numPlayers),
+    createRows(numPlayers),
+    createRows(numPlayers),
+    createRows(numPlayers),
+    createRows(numPlayers),
+    createRows(numPlayers),
+    createRows(numPlayers),
+    createRows(numPlayers),
+    createRows(numPlayers),
   ]
 }
 
@@ -41,7 +41,7 @@ export function formatDateTime(date?: Date): string {
 }
 export function getDateTimeElements(date: string) {
   let strArr = date.slice().split(',')
-  return {day: strArr[0], date: strArr[1], time: strArr[2]}
+  return { day: strArr[0], date: strArr[1], time: strArr[2] }
 }
 export function getRandomInitialDealer(max: number): number {
   let dealer = Math.floor(Math.random() * max)

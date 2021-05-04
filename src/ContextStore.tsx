@@ -27,7 +27,7 @@ export interface Game {
   id: string
   dateTime: string
   players: Array<Player>
-  winner: any
+  winner?: any
   numHands: number
   hands: number[]
   dealers: string[]
@@ -36,12 +36,12 @@ export interface Game {
   currentLeader?: any
   currentBid?: Bid
   bids: Bid[]
-  rows?: any
+  data?: any
 }
 export interface Player {
   id: string
   nickname: string
-  currentScore: number
+  currentScore?: number
   hands?: any
   stats?: PlayerStats
 }
@@ -96,37 +96,34 @@ export const suits: Suit[] = [
 ]
 
 export const scoreOptions: ScoreOption[] = [
-  {value: 0, label: '-'},
-  {value: 1, label: '1'},
-  {value: 2, label: '2'},
-  {value: 3, label: '3'},
-  {value: 4, label: '4'},
-  {value: 5, label: '5'},
-  {value: 6, label: '6'},
-  {value: 7, label: '7'},
-  {value: 8, label: '8'},
-  {value: 12, label: 'Call (12)'},
-  {value: 18, label: 'Call (18)'},
-  {value: 24, label: 'ShM (24)'},
+  { value: 0, label: '-' },
+  { value: 1, label: '1' },
+  { value: 2, label: '2' },
+  { value: 3, label: '3' },
+  { value: 4, label: '4' },
+  { value: 5, label: '5' },
+  { value: 6, label: '6' },
+  { value: 7, label: '7' },
+  { value: 8, label: '8' },
+  { value: 12, label: 'Call (12)' },
+  { value: 18, label: 'Call (18)' },
+  { value: 24, label: 'ShM (24)' },
 ]
 
 export const defaultPlayers: Array<Player> = [
   {
     id: 'player_1',
     nickname: 'Pat',
-    currentScore: 0,
     hands: [],
   },
   {
     id: 'player_2',
     nickname: 'Elliott',
-    currentScore: 0,
     hands: [],
   },
   {
     id: 'player_3',
     nickname: 'Liz',
-    currentScore: 0,
     hands: [],
   },
 ]
@@ -139,7 +136,6 @@ const defaultGames: Array<Game> = [
     id: uuidV4(),
     dateTime: formatDateTime(),
     players: defaultPlayers,
-    winner: null,
     numHands: 8,
     hands: defaultHands,
     currentHand: 1,
@@ -152,7 +148,6 @@ export const defaultActiveGame: Game = {
   id: uuidV4(),
   dateTime: formatDateTime(),
   players: defaultPlayers,
-  winner: null,
   numHands: 8,
   hands: defaultHands,
   currentHand: 1,
@@ -160,7 +155,7 @@ export const defaultActiveGame: Game = {
   dealers: defaultDealers,
   bids: [],
 }
-// const defaultOldGames: any = [{ winner: "Estelle" }];
+
 interface ContextProps {
   players: Player[]
   setPlayers: (v: any) => void

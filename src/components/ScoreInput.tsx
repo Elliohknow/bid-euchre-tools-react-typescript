@@ -1,11 +1,11 @@
 import FormControl from '@material-ui/core/FormControl'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import MenuItem from '@material-ui/core/MenuItem'
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import PersonPinCircleIcon from '@material-ui/icons/PersonPinCircle'
 import React from 'react'
-import {CTX, Player, scoreOptions} from '../ContextStore'
+import { CTX, scoreOptions } from '../ContextStore'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,34 +20,32 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 interface Props {
-  player: Player
+  playerName: string
   rowIndex: number
   colIndex: number
   scoreProp: string | number
-  onScoreChange: (value?: any) => void
+  updateScore: (r: number, c: number, v:number|string) => void
 }
 
-const ScoreInput: React.FC<Props> = ({player, rowIndex, colIndex, scoreProp, onScoreChange}) => {
+const ScoreInput: React.FC<Props> = ({ playerName, rowIndex, colIndex, scoreProp, updateScore }) => {
   const classes = useStyles()
-  const [score, setScore] = React.useState<string | number>(scoreProp)
+  const [value, setValue] = React.useState<string | number>(scoreProp)
   // const inputRef = React.useRef<HTMLInputElement>(null);
-  const {activeGame} = React.useContext(CTX)
-  const dealing = activeGame.dealers[rowIndex] === player.nickname
+  const { activeGame } = React.useContext(CTX)
+  const dealing = activeGame.dealers[rowIndex] === playerName
 
-  // React.useEffect(() => {
-  //   console.log("activeGame.dealers[rowIndex] : ", activeGame.dealers[rowIndex]);
-  //   console.log("player.nickname : ", player.nickname);
-  //   console.log("dealing : ", dealing);
-  // }, []);
-
-  const handleChange = (event: React.ChangeEvent<{value: unknown}>) => {
+  const onChange = (event: React.ChangeEvent<{ value: unknown }>): void => {
     let changed = Number(event.target.value)
-    if (changed !== Number(score)) {
-      setScore(changed)
-      onScoreChange({rowIdx: rowIndex, score: changed, colIdx: colIndex})
+    if (changed !== Number(value)) {
+      setValue(changed)
+      updateScore(rowIndex, colIndex, changed)
     }
-    setScore(changed)
+    // setValue(Number(event.target.value))
   }
+
+  // const onBlur = (): void => {
+  //   updateScore({ rowIndex, colIndex, value })
+  // }
 
   return (
     // <div className={classes.root}>
@@ -58,8 +56,9 @@ const ScoreInput: React.FC<Props> = ({player, rowIndex, colIndex, scoreProp, onS
         // id="select"
         label="score"
         variant="filled"
-        value={score}
-        onChange={handleChange}
+        value={value}
+        onChange={onChange}
+        // onBlur={onBlur}
         color="primary"
         SelectProps={{
           startAdornment: dealing && (

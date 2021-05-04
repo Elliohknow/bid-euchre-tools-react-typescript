@@ -5,17 +5,16 @@ import React from 'react'
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import BasicAppBar from './components/BasicAppBar'
 import GameCard from './components/GameCard'
+import GameTable from './components/GameTable'
 import PlayerCard from './components/PlayerCard'
-import GameGrid from './components/TableGrid'
 import { CTX, defaultActiveGame, Game, Player } from './ContextStore'
 import { getDateTimeElements, getDealingOrder, getRandomInitialDealer } from './utils'
-// import GameTable from "./components/Table";
 // import HelpOutlinedIcon from "@material-ui/icons/HelpOutlined";
 // import RecentActorsIcon from "@material-ui/icons/RecentActors";
 
 const ActiveGame: React.FC = () => {
-  const {activeGame} = React.useContext(CTX)
-  const {day, date, time} = getDateTimeElements(activeGame?.dateTime)
+  const { activeGame } = React.useContext(CTX)
+  const { day, date, time } = getDateTimeElements(activeGame?.dateTime)
   // const numDummies = activeGame?.players.length <= 3 ? 4 - activeGame?.players.length : 0
 
   return (
@@ -26,8 +25,7 @@ const ActiveGame: React.FC = () => {
       </div>
       <div className="numPlayers">number of players: {activeGame?.players.length}</div>
       {/* <div className="numDummies">number of dummy players: {numDummies}</div> */}
-      {/* <GameTable /> */}
-      <GameGrid />
+      <GameTable />
     </div>
   )
 }
@@ -45,23 +43,12 @@ const useNewGameStyles = makeStyles((theme: Theme) =>
 )
 const NewGameSetup: React.FC = () => {
   const classes = useNewGameStyles()
-  const {setActiveGame, savedGames, setSavedGames, players} = React.useContext(CTX)
+  const { setActiveGame, setSavedGames, players } = React.useContext(CTX)
   const [newGameState, setNewGameState] = React.useState<Game>(defaultActiveGame)
-  // const [newGameState, setNewGameState] = React.useState<Game>({
-  //   id: UUID(),
-  //   dateTime: formatDateTime(),
-  //   players: players,
-  //   winner: null,
-  //   numHands: 8,
-  //   hands: [1, 2, 3, 4, 5, 6, 7, 8],
-  //   dealers: ,
-  //   currentHand: 1,
-  //   currentDealer: getRandomInitialDealer(players.length),
-  // });
 
   const handleStart = () => {
     setActiveGame(newGameState)
-    setSavedGames([...savedGames, newGameState])
+    setSavedGames((prev: Game[]) => [...prev, newGameState])
   }
 
   const onToggle = (playerToToggle: Player) => {
@@ -101,7 +88,7 @@ const NewGameSetup: React.FC = () => {
         to={`/game/?id=${newGameState.id}`}
         variant="contained"
         endIcon={<DoubleArrowIcon fontSize="large" />}
-        style={{marginTop: '1rem'}}
+        style={{ marginTop: '1rem' }}
       >
         START
       </Button>
@@ -116,7 +103,7 @@ const NewGameSetup: React.FC = () => {
 }
 
 const SavedGamesList = () => {
-  const {savedGames} = React.useContext(CTX)
+  const { savedGames } = React.useContext(CTX)
   return (
     <ul className="saved-game-list">
       {savedGames.map((value: Game, index: number) => {
@@ -171,13 +158,13 @@ const App: React.FC = () => {
           {/* <Route path="/game">
             <Redirect to={`/game/${uuidv4}`} />
           </Route> */}
-          <Route path="/game/:id">
+          <Route path="/game">
             <ActiveGame />
           </Route>
           <Route
             path="/"
             render={() => (
-              <div style={{textAlign: 'center'}}>
+              <div style={{ textAlign: 'center' }}>
                 <h1>404</h1>
               </div>
             )}

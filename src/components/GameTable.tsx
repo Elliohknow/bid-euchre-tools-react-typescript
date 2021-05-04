@@ -1,14 +1,17 @@
 import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import MaUTable from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
 import Typography from '@material-ui/core/Typography'
-import PlusOneIcon from '@material-ui/icons/PlusOne'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { CTX, Game, Player } from '../ContextStore'
-import { createRows } from '../utils'
+import { createData } from '../utils'
 import DialogSelect from './DialogSelect'
 import ScoreInput from './ScoreInput'
 // import Fab from "@material-ui/core/Fab";
@@ -50,21 +53,16 @@ const useStyles = makeStyles((theme: Theme) =>
     divider: {
       margin: theme.spacing(2, 0),
     },
-    // fab: {
-    //   position: "absolute",
-    //   bottom: theme.spacing(2),
-    //   right: theme.spacing(2),
-    // },
   })
 )
 
-const GameGrid: React.FC = () => {
+const GameTable: React.FC = () => {
   const classes = useStyles()
-  const {activeGame, setActiveGame} = useContext(CTX)
+  const { activeGame, setActiveGame } = useContext(CTX)
   const len = activeGame.players.length
-  const memoizedData = useMemo(() => createRows(len), [])
+  const memoizedData = useMemo(() => createData(len), [len])
+  const [data, setData] = useState(memoizedData)
   const [open, setOpen] = useState<boolean>(false)
-  const [rows, setRows] = useState(memoizedData)
   const [bidRow, setBidRow] = useState<number | null>(0)
 
   useEffect(() => {
@@ -72,16 +70,16 @@ const GameGrid: React.FC = () => {
     setActiveGame((prev: Game) => {
       return {
         ...prev,
-        rows,
+        data,
       }
     })
-  }, [setActiveGame, rows])
+  }, [setActiveGame, data])
 
-  const handleOpen = (rowNum: number) => {
+  const handleOpen = (rowNum: number): void => {
     setOpen(true)
     setBidRow(rowNum)
   }
-  const handleClose = (bid?: {name: string; suit: string; amount: string | number; row: number}) => {
+  const handleClose = (bid?: { name: string; suit: string; amount: string | number; row: number }) => {
     setOpen(false)
     if (!bid) {
       setBidRow(null)
@@ -107,89 +105,74 @@ const GameGrid: React.FC = () => {
     }
     console.log(activeGame.bids)
   }
-  const onScoreChange = (inputValue: {rowIdx: number; score: number | string; colIdx: number}) => {
-    let tempRows = rows.slice()
-    let newRows = tempRows.map((value, index) => {
+  const updateScore = (rowIndex: number, colIndex: number, scoreValue: number | string) => {
+    let tempData = data.slice()
+    let newData = tempData.map((value, index) => {
       // console.log(`value: ${value}, index: ${index}`);
-      return tempRows[index] !== tempRows[inputValue.rowIdx]
+      return tempData[index] !== tempData[rowIndex]
         ? value
         : value.map((val, idx) => {
             console.log(`value[idx]: ${value[idx]}, val: ${val}, idx: ${idx}`)
-            return idx !== inputValue.colIdx ? val : String(inputValue.score)
+            return idx !== colIndex ? val : String(scoreValue)
           })
     })
-    console.log(`score changed in row-${inputValue.rowIdx}, column-${inputValue.colIdx}, score: ${inputValue.score}`)
-    // console.table(newRows)
-    setRows(newRows)
+    console.log(`score changed in row-${rowIndex}, column-${colIndex}, score: ${scoreValue}`)
+    // console.table(newData)
+    setData(newData)
   }
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Container maxWidth="xl" className={classes.container}>
-        <Grid container spacing={1}>
-          <Grid className={classes.bar} container item direction="row" justify="center" spacing={1} md={12} alignContent="stretch" alignItems="stretch">
-            <Grid item md={activeGame.players?.length < 3 ? 1 : 2}>
-              <Paper square className={classes.paper}>
-                <Typography className={classes.typography} align="center" variant="body1">
-                  Hand
-                </Typography>
-              </Paper>
-            </Grid>
-            {activeGame.players.map((value, index) => (
-              <Grid key={`pn_${index}`} item md={activeGame.players?.length < 3 ? 5 : 3}>
-                <Paper square className={classes.paper} style={{width: '100%'}}>
-                  <Typography className={classes.typography} variant="body1">
-                    {value.nickname}
-                  </Typography>
-                </Paper>
-              </Grid>
-            ))}
-            <Grid item md={1}>
-              <Paper square className={classes.paper}>
-                <Typography className={classes.typography}>BID</Typography>
-              </Paper>
-            </Grid>
-          </Grid>
-          {rows.map((row, index) => (
-            //<GridRow key={`gr_${index}`} row={value} index={index} game={activeGame} />
-            <Grid key={`ri_${index}`} style={{cursor: 'pointer'}} className={classes.bar} container item direction="row" justify="center" spacing={1} md={12}>
-              <Grid item md={1}>
-                <Paper square className={classes.paper}>
-                  <Typography className={classes.typography} align="center" variant="body1">
-                    #{index + 1}
-                  </Typography>
-                </Paper>
-              </Grid>
-              {row.map((value: number | string, idx: number) => (
-                <Grid key={`si_${idx}`} item md={activeGame.players?.length < 3 ? 5 : 3}>
-                  <Paper square className={classes.paper}>
-                    <ScoreInput player={activeGame.players[idx]} rowIndex={index + 1} colIndex={idx} scoreProp={value} onScoreChange={onScoreChange} />
-                  </Paper>
-                </Grid>
+      <Container maxWidth="xs" className={classes.container}>
+        <MaUTable>
+        <Paper className={classes.paper}>
+          <Typography className={classes.typography} >
+          <TableHead>
+            <TableRow>
+              <TableCell>Hand</TableCell>
+              {activeGame.players.map((value, index) => (
+                <TableCell key={`pn_${index}`}>{value?.nickname}</TableCell>
               ))}
-              <Grid item md={1}>
-                <Paper square className={classes.paper}>
-                  {/* <Typography className={classes.typography} align="center" variant="body1"> */}
-                  <Button color="secondary" onClick={() => handleOpen(index + 1)} aria-label="Set Current Bid" aria-haspopup="true" role="bid button">
-                    BID {index + 1}
-                  </Button>
-                  {/* BID  </Typography> */}
-                </Paper>
-              </Grid>
-            </Grid>
-          ))}
-
-          <Grid className={classes.bar} container item direction="row" alignContent="stretch" justify="center" spacing={1}>
-            <Grid item md={12}>
-              <Paper square className={classes.paper}>
-                <Typography className={classes.typography} align="center" variant="body1">
-                  <PlusOneIcon fontSize="large" />
-                </Typography>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Grid>
+              <TableCell>Bid</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map((row, index) => {
+              return (
+                <TableRow key={`tr_${index}`}>
+                  <TableCell>{index + 1}</TableCell>
+                  {row.map((value: number | string, idx: number) => {
+                    return (
+                      <TableCell key={`tc_r${index}c${idx}`}>
+                        <ScoreInput
+                          playerName={activeGame.players[idx]?.nickname}
+                          rowIndex={index}
+                          colIndex={idx}
+                          scoreProp={value}
+                          updateScore={updateScore}
+                        />
+                      </TableCell>
+                    )
+                  })}
+                  <TableCell>
+                    <Button
+                      color="secondary"
+                      onClick={() => handleOpen(index)}
+                      aria-label="Set Current Bid"
+                      aria-haspopup="true"
+                      role="bid button"
+                    >
+                      BID {index + 1}
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+          </TableBody>
+        </Typography>
+        </Paper>
+        </MaUTable>
         <DialogSelect
           open={open}
           onClose={handleClose}
@@ -201,18 +184,18 @@ const GameGrid: React.FC = () => {
     </div>
   )
 }
-export default GameGrid
+export default GameTable
 
 // function FormRow() {
 //   return (
 //     <React.Fragment>
-//       <Grid item md={4}>
+//       <Grid item xs={4}>
 //         <Paper square className={classes.paper}  className={classes.paper}>item</Paper>
 //       </Grid>
-//       <Grid item md={4}>
+//       <Grid item xs={4}>
 //         <Paper square className={classes.paper}  className={classes.paper}>item</Paper>
 //       </Grid>
-//       <Grid item md={4}>
+//       <Grid item xs={4}>
 //         <Paper square className={classes.paper}  className={classes.paper}>item</Paper>
 //       </Grid>
 //     </React.Fragment>
@@ -224,11 +207,11 @@ export default GameGrid
 //   const [hands, setHands] = React.useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8]);
 //   const { activeGame } = React.useContext(CTX);
 
-//   const rows = createRows(activeGame.players?.length);
+//   const data = createdata(activeGame.players?.length);
 
 //   return (
 //     <div className={classes.container}>
-//       {rows.map((value, index) => (
+//       {data.map((value, index) => (
 //         //<GridRow key={`gr_${index}`} row={value} index={index} game={activeGame} />
 //         <div className={classes.container}>
 //           <div style={{ gridColumnEnd: "span 2" }}>#{index + 1}</div>
@@ -266,7 +249,7 @@ export default GameGrid
 // const GameContainer: React.FC<ContainerProps> = (props) => (
 //   <React.Fragment>
 //   <CssBaseline />
-//   <Container maxWidth="md" style={{ height: "100vh" }}>
+//   <Container maxWidth="xs" style={{ height: "100vh" }}>
 //     {props.children}
 //   </Container>
 //   </React.Fragment>

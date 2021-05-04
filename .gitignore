@@ -15,6 +15,8 @@ node_modules
 # misc
 /haters
 haters
+/src/components/haters
+src/components/haters
 .DS_Store
 .env.local
 .env.development.local

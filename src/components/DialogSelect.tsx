@@ -7,9 +7,9 @@ import FormControl from '@material-ui/core/FormControl'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import NativeSelect from '@material-ui/core/NativeSelect'
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import React from 'react'
-import {CTX, scoreOptions, Suit, suits} from '../ContextStore'
+import { CTX, scoreOptions, Suit, suits } from '../ContextStore'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,7 +33,7 @@ interface Props {
 }
 
 const DialogSelect: React.FC<Props> = props => {
-  const {open, onClose, bidRow, ...other} = props
+  const { open, onClose, bidRow, ...other } = props
   const classes = useStyles()
   const [bid, setBid] = React.useState<{
     name: string
@@ -47,7 +47,7 @@ const DialogSelect: React.FC<Props> = props => {
     row: bidRow ?? null,
   })
   const selectRef = React.useRef<HTMLElement>(null)
-  const {activeGame} = React.useContext(CTX)
+  const { activeGame } = React.useContext(CTX)
 
   // React.useEffect(() => {
   //   return () => {
@@ -58,7 +58,7 @@ const DialogSelect: React.FC<Props> = props => {
     if (selectRef.current != null) {
       selectRef.current.focus()
     }
-    setBid({...bid, row: bidRow})
+    setBid({ ...bid, row: bidRow })
   }
 
   const handleExiting = () => {
@@ -70,7 +70,7 @@ const DialogSelect: React.FC<Props> = props => {
     })
   }
 
-  const handleChangePlayerName = (event: React.ChangeEvent<{value: unknown}>) => {
+  const handleChangePlayerName = (event: React.ChangeEvent<{ value: unknown }>) => {
     // setPlayerName(String(event.target.value) || "");
     setBid(prev => {
       return {
@@ -79,7 +79,7 @@ const DialogSelect: React.FC<Props> = props => {
       }
     })
   }
-  const handleChangeSuit = (event: React.ChangeEvent<{value: unknown}>) => {
+  const handleChangeSuit = (event: React.ChangeEvent<{ value: unknown }>) => {
     // setSuit(String(event.target.value) || "");
     setBid(prev => {
       return {
@@ -88,7 +88,7 @@ const DialogSelect: React.FC<Props> = props => {
       }
     })
   }
-  const handleChangeAmount = (event: React.ChangeEvent<{value: unknown}>) => {
+  const handleChangeAmount = (event: React.ChangeEvent<{ value: unknown }>) => {
     // setAmount(Number(event.target.value) || "");
     setBid(prev => {
       return {

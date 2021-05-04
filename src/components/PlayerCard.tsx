@@ -1,11 +1,11 @@
-import {Avatar, CardActionArea} from '@material-ui/core'
+import { Avatar, CardActionArea } from '@material-ui/core'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
-import {createStyles, makeStyles, Theme} from '@material-ui/core/styles'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import React from 'react'
-import {Player} from '../ContextStore'
+import { Player } from '../ContextStore'
 // import EditIcon from "@material-ui/icons/Edit";
 // import HistoryIcon from "@material-ui/icons/History";
 // import TouchAppIcon from "@material-ui/icons/TouchApp";
@@ -52,7 +52,7 @@ interface Props {
   onToggle: (v: Player) => void
 }
 
-const PlayerCard: React.FC<Props> = ({player, onToggle}) => {
+const PlayerCard: React.FC<Props> = ({ player, onToggle }) => {
   const [checkedState, setCheckedState] = React.useState<boolean>(true)
   const classes = useStyles()
   // const [count, setCount] = React.useState(0);
@@ -76,7 +76,10 @@ const PlayerCard: React.FC<Props> = ({player, onToggle}) => {
           }
           avatar={
             // !checkedState ? (
-            <Avatar className={checkedState ? classes.avatarChecked : classes.avatarUnchecked} alt={`${player.nickname}`}>
+            <Avatar
+              className={checkedState ? classes.avatarChecked : classes.avatarUnchecked}
+              alt={`${player.nickname}`}
+            >
               {player.nickname[0]}
             </Avatar>
             // ) : (

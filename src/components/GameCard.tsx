@@ -45,10 +45,10 @@ interface Props {
   game: Game
 }
 
-const GameCard: React.FC<Props> = ({game}) => {
+const GameCard: React.FC<Props> = ({ game }) => {
   const classes = useStyles()
 
-  const {setActiveGame, setSavedGames, savedGames} = React.useContext(CTX)
+  const { setActiveGame, setSavedGames, savedGames } = React.useContext(CTX)
 
   const handleLoad = () => {
     setActiveGame(game)
@@ -77,7 +77,14 @@ const GameCard: React.FC<Props> = ({game}) => {
         </Typography>
       </CardContent>
       <CardActions className={classes.actions}>
-        <Button onClick={handleLoad} size="medium" component={Link} to={`/game/?id=${game.id}`} variant="outlined" color="primary">
+        <Button
+          onClick={handleLoad}
+          size="medium"
+          component={Link}
+          to={`/game/?id=${game.id}`}
+          variant="outlined"
+          color="primary"
+        >
           Load Game
         </Button>
         <StyledIconButton aria-label="delete" onClick={handleRemoveGame}>
